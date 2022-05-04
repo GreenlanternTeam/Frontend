@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Radio+Canada:wght@400;500&family=Roboto+Mono:ital,wght@0,300;0,400;0,500;1,500;1,600;1,700&display=swap');
+@import './font/pretendard/pretendard.css';
+* {
+	box-sizing: border-box;
+	font-family: 'Pretendard', 'Radio Canada', 'Roboto Mono', sans-serif !important;
+}

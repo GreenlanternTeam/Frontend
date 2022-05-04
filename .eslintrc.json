@@ -1,0 +1,17 @@
+{
+  "extends": "next/core-web-vitals",
+  "rules": {
+		"comma-dangle": ["warn", "never"],
+		"indent": ["off", 4],
+		"quotes": ["warn", "single"],
+		"semi": ["warn", "never"]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+          "extensions": [".js", ".jsx", ".ts", ".tsx"],
+          "moduleDirectory": ["node_modules", "src/"]
+      }
+    } 
+  }
+}
