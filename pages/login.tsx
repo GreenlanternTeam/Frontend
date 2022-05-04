@@ -71,3 +71,7 @@ const SubmitButton = styled.button`
 	padding: 10px;
 	margin-top: 20px;
 `
+
+// 아이템 10
+//  전체길이 / 아이템수 = 바의 길이 (%)
+//  transform(현재 아이템의 순서)

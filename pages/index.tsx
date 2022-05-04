@@ -22,7 +22,7 @@ const Home = () => {
 					<BottomSection>
 						<MainCategory />
 						<MainBrand />
-						<div className="w-[calc(100%-2rem)] h-[200px] bg-gray-400 rounded-md mx-auto">sdfsdfsdfsdfsdf</div>
+						<div className="w-full h-[200px] bg-gray-400  mx-auto"></div>
 						<HSlider />
 					</BottomSection>
 				</div>
