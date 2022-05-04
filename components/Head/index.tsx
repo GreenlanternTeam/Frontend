@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import Burger from 'public/icons/burger.svg'
+import { ReactComponent as Burger } from 'public/icons/burger.svg'
 
 interface HeadProps {
 	handleClick?: () => void
