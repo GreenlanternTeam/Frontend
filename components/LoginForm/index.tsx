@@ -1,9 +1,7 @@
 import type { NextPage } from 'next'
-import Link from 'next/link'
 import styled from 'styled-components'
 import { ReactComponent as Kakao } from 'public/icons/kakao.svg'
 import { ReactComponent as Google } from 'public/icons/google.svg'
-import Image from 'next/image'
 
 const LoginForm: NextPage = () => {
 	return (

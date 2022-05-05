@@ -1,5 +1,5 @@
-import MainCategory from 'components/MainCategory'
 import Layout from 'layout/layout'
+import MainCategory from 'components/MainCategory'
 import HSlider from 'components/HSlider'
 import SampleImg from 'public/pngegg.png'
 import Image from 'next/image'
