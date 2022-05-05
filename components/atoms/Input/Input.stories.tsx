@@ -6,15 +6,9 @@ export default {
 	title: 'Atoms/Input',
 	component: Input,
 	argTypes: {
-		title: {
-			defaultValue: 'home',
-			description: '',
-			name: 'InputType',
-			options: ['home', 'about', 'category', 'brand', 'magazine'],
-			control: { type: 'radio' }
-		},
+		type: { description: 'input type', options: ['text', 'password', 'email', 'number'], control: { type: 'radio' } },
 		label: { type: 'string', description: '컨텐츠에 대한 간단한 설명란', name: 'Label' },
-		placeholder: { type: 'string', description: 'placeholder 가 있을경우 기입', name: 'placeholder' }
+		placeholder: { type: 'string', description: 'placeholder 가 있을경우 기입', name: 'placeholder', defaultValue: '아이디' }
 	}
 } as ComponentMeta<typeof Input>
 
