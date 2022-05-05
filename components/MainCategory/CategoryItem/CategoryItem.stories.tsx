@@ -58,6 +58,6 @@ export const Test = () => {
 		plastic: 'plastic'
 	}
 	// const type = text('type', 'recycled')
-	const value = radios('type', options, 'recycled')
+	const value = radios<typeof options>('type', options, 'recycled')
 	return <CategoryItem type={value} />
 }

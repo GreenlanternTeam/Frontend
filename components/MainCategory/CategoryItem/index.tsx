@@ -1,9 +1,9 @@
+import SubText from 'components/atoms/SubText'
 import React, { useState } from 'react'
 import * as Icons from './utils'
-interface CategoryItemProps {
+export interface CategoryItemProps {
 	type: 'recycled' | 'lowWaste' | 'water' | 'produced' | 'vegan' | 'plastic'
 }
-// svg 아이콘 이미지로 변경하여 분기처리 해야함
 
 const CategoryItem: React.FC<CategoryItemProps> = ({ type = 'lowWaste' }) => {
 	const [state, setState] = useState(false)
@@ -32,7 +32,8 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ type = 'lowWaste' }) => {
 					<image id={href} width="60" height="60" xlinkHref={blob} />
 				</defs>
 			</svg>
-			<span className="text-sm leading-4 h-[65px] w-[50px] text-center">{title}</span>
+			<SubText className="text-sm leading-4 h-[65px] w-[50px] text-center" text={title} />
+			{/* <span className="text-sm leading-4 h-[65px] w-[50px] text-center">{title}</span> */}
 		</div>
 	)
 }
