@@ -49,7 +49,15 @@ Plastic.args = {
 }
 
 export const Test = () => {
-	const type = text('type', 'recycled')
-	console.log(type)
-	return <CategoryItem type={radios('type', ['recycled', 'lowWaste', 'water', 'produced', 'vegan', 'plastic'])} />
+	const options = {
+		recycled: 'recycled',
+		lowWaste: 'lowWaste',
+		water: 'water',
+		produced: 'produced',
+		vegan: 'vegan',
+		plastic: 'plastic'
+	}
+	// const type = text('type', 'recycled')
+	const value = radios('type', options, 'recycled')
+	return <CategoryItem type={value} />
 }
