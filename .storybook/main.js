@@ -1,9 +1,11 @@
 const path = require('path')
-const addons = require('./addons')
 module.exports = {
 	stories: ['../**/*.stories.@(js|jsx|ts|tsx)'],
 	addons: [
-		...addons,
+		'@storybook/addon-links',
+		'@storybook/addon-essentials',
+		'storybook-addon-designs',
+		'storybook-addon-next-router',
 		{
 			name: '@storybook/addon-postcss',
 			options: {
@@ -22,8 +24,7 @@ module.exports = {
 			styles: path.resolve(__dirname, '../styles'),
 			pages: path.resolve(__dirname, '../pages'),
 			public: path.resolve(__dirname, '../public'),
-			layout: path.resolve(__dirname, '../layout'),
-			utils: path.resolve(__dirname, '../utils')
+			layout: path.resolve(__dirname, '../layout')
 		}),
 			config.module.rules.unshift({
 				test: /\.svg$/,

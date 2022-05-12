@@ -1,5 +1,5 @@
-import Layout from 'layout/layout'
 import MainCategory from 'components/MainCategory'
+import Layout from 'layout/layout'
 import HSlider from 'components/HSlider'
 import SampleImg from 'public/pngegg.png'
 import Image from 'next/image'
@@ -22,7 +22,7 @@ const Home = () => {
 					<BottomSection>
 						<MainCategory />
 						<MainBrand />
-						<div className="w-full h-[200px] bg-gray-400  mx-auto"></div>
+						<div className="w-[calc(100%-2rem)] h-[200px] bg-gray-400 rounded-md mx-auto">sdfsdfsdfsdfsdf</div>
 						<HSlider />
 					</BottomSection>
 				</div>

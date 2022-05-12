@@ -7,12 +7,12 @@ const MainCategory = () => {
 		<aside className="space-y-3">
 			<ContentTitle title="Category" subTitle="관심있는 환경보호 활동을 찾아보세요!" />
 			<div className="grid grid-cols-3 w-full h-max">
-				<CategoryItem type="recycled" />
-				<CategoryItem type="lowWaste" />
-				<CategoryItem type="water" />
-				<CategoryItem type="produced" />
-				<CategoryItem type="vegan" />
-				<CategoryItem type="plastic" />
+				<CategoryItem title="Recycled Materials" />
+				<CategoryItem title="Low Waste" />
+				<CategoryItem title="Saving Water" />
+				<CategoryItem title="Locally Produced" />
+				<CategoryItem title="Vegan" />
+				<CategoryItem title="Plastic Free" />
 			</div>
 		</aside>
 	)
