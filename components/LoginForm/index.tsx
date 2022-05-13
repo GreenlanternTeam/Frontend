@@ -1,26 +1,34 @@
 import type { NextPage } from 'next'
-import Link from 'next/link'
 import styled from 'styled-components'
 import Kakao from 'public/icons/kakao.svg'
 import Google from 'public/icons/google.svg'
-import Image from 'next/image'
+import { UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
+import { LoginType } from 'types/LoginType'
 
-const LoginForm: NextPage = () => {
+interface Props {
+	register: UseFormRegister<LoginType>
+	handleSubmit: UseFormHandleSubmit<LoginType>
+}
+
+const LoginForm = ({ register }: Props) => {
 	return (
 		<Wrrapper>
 			<Form>
 				<h2>로그인</h2>
-				<Input />
-				<Input type="password" />
+				<Input placeholder="아이디" {...register('userId', { required: true })} />
+				<Input placeholder="비밀번호 " type="password" {...register('password', { required: true })} />
 				<Button>로그인</Button>
 				<p>아이디 비밀번호 찾기 | 회원가입</p>
-				<Line />
+				<LineGroup>
+					<Line />
+					<span>간편 로그인 or 회원가입</span>
+					<Line />
+				</LineGroup>
 			</Form>
-			<Sns>
+			<Oauth>
 				<Kakao />
 				<Google />
-			</Sns>
-			<p>간편 로그인 or 회원가입</p>
+			</Oauth>
 		</Wrrapper>
 	)
 }
@@ -35,8 +43,6 @@ const Wrrapper = styled.div`
 
 	p {
 		margin-top: 20px;
-		font-family: 'Pretendard';
-		font-style: normal;
 		font-weight: 500;
 		font-size: 14px;
 		line-height: 17px;
@@ -48,8 +54,6 @@ const Form = styled.form`
 	align-items: center;
 	h2 {
 		display: block;
-		font-family: 'Pretendard';
-		font-style: normal;
 		font-weight: 600;
 		font-size: 20px;
 		line-height: 24px;
@@ -59,17 +63,25 @@ const Form = styled.form`
 
 	p {
 		margin-top: 20px;
-		margin-bottom: 60px;
+		margin-bottom: 40px;
 	}
 `
 const Input = styled.input`
 	width: 275px;
 	height: 50px;
 	background: #ffffff;
-	border: 1px solid #000000;
+	border: 1px solid rgba(153, 153, 153, 0.6);
 	box-sizing: border-box;
 	border-radius: 5px;
 	margin-top: 5px;
+	padding-left: 20px;
+	font-weight: 400;
+	font-size: 18px;
+	color: rgba(153, 153, 153, 0.6);
+
+	&:focus {
+		outline: 1px solid #000000;
+	}
 `
 
 const Button = styled.button`
@@ -78,8 +90,6 @@ const Button = styled.button`
 	background: #346053;
 	border-radius: 5px;
 	margin-top: 30px;
-	font-family: 'Pretendard';
-	font-style: normal;
 	font-weight: 500;
 	font-size: 18px;
 	line-height: 22px;
@@ -90,22 +100,24 @@ const Line = styled.div`
 	width: 61px;
 	border-bottom: 1px solid rgba(153, 153, 153, 0.6);
 	line-height: 0.1em;
-	margin: 10px 0 20px;
+	margin: 20px 0 20px;
 	text-align: center;
 `
 const LineGroup = styled.div`
 	display: flex;
+	align-items: center;
 
 	span {
 		margin-left: 13px;
 		margin-right: 13px;
+
 		color: rgba(153, 153, 153, 0.6);
 		font-style: medium;
 		font-size: 14px;
 	}
 `
 
-const Sns = styled.div`
+const Oauth = styled.div`
 	display: flex;
 	width: 100%;
 	justify-content: center;

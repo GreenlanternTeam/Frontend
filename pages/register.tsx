@@ -1,54 +1,75 @@
-import React, { SetStateAction, useEffect, useState } from "react";
-import RegisterForm from "components/RegisterForm";
-import Layout from "layout/layout";
-import { useForm } from 'react-hook-form';
+import React, { useEffect, useState } from 'react'
+import RegisterForm from 'components/RegisterForm'
+import Layout from 'layout/layout'
+import { useForm } from 'react-hook-form'
+import { signUp } from 'api/auth'
+import { useMutation } from 'react-query'
+import { SignUpType, SignUpResponse } from 'api/auth'
+import { AxiosError } from 'axios'
+import { CheckList, FormValue } from 'types/SignUpType'
 
-export interface FormValue {
-  id: string
-  password: string
-  email: string
-  password_confirm: string
-  nickname: string
-}
-
-export interface CheckList {
-  id: number
-  data: string
-  checked: boolean
+const fetchdata = {
+	id: 'test2',
+	password: '123456',
+	email: 'ts1234@naver.com'
 }
 
 const Register = () => {
-  const { register, handleSubmit,watch, formState: { errors }} = useForm<FormValue>({
-    mode: 'onBlur'});
-  const [checkedList, setCheckedList] = useState<[]>([]);
-  const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
-  const [dataList, setData] = useState<CheckList[]>([{id: 1, data: '[필수] 만 14세 이상', checked: false},
-  {id: 2, data: '[필수] 이용약관', checked: false},
-  {id: 3, data: '[필수] 개인정보 수집 및 이용동의', checked: false},
-  {id: 4, data: '[선택] 정보 수신 동의', checked: false}]);
-  
+	const {
+		register,
+		handleSubmit,
+		watch,
+		formState: { errors }
+	} = useForm<FormValue>({
+		mode: 'onBlur'
+	})
+	const [isAllChecked, setIsAllChecked] = useState<boolean>(false)
+	const [dataList, setData] = useState<CheckList[]>([
+		{ id: 1, data: '[필수] 만 14세 이상', checked: false },
+		{ id: 2, data: '[필수] 이용약관', checked: false },
+		{ id: 3, data: '[필수] 개인정보 수집 및 이용동의', checked: false },
+		{ id: 4, data: '[선택] 정보 수신 동의', checked: false }
+	])
+	const { mutate, data, isLoading, isError, error, isSuccess } = useMutation<SignUpResponse, AxiosError, SignUpType>(signUp)
 
-  const onAllCheckHandler = () => {
-    if (isAllChecked) {
-        setData(dataList.map(el => {
-          return {...el, checked: true}
-       }))
-    } else {
-      setData(dataList.map(el => {
-        return {...el, checked: false}
-     }))
-    }
-  }
+	const onAllCheckHandler = () => {
+		if (isAllChecked) {
+			setData(
+				dataList.map((el) => {
+					return { ...el, checked: true }
+				})
+			)
+		} else {
+			setData(
+				dataList.map((el) => {
+					return { ...el, checked: false }
+				})
+			)
+		}
+	}
 
-  useEffect(() => {
-    onAllCheckHandler()
-  },[isAllChecked])
+	const onSubmit = (data: SignUpType) => {
+		mutate(data)
+	}
 
-   return (
-     <Layout>
-       <RegisterForm  register={register} errors={errors} watch={watch} dataList={dataList} onAllCheckHandler={onAllCheckHandler} isAllChecked={isAllChecked} setIsAllChecked={setIsAllChecked}/>
-     </Layout>
-   )
+	useEffect(() => {
+		onAllCheckHandler()
+	}, [isAllChecked])
+
+	return (
+		<Layout>
+			<RegisterForm
+				register={register}
+				errors={errors}
+				watch={watch}
+				dataList={dataList}
+				isAllChecked={isAllChecked}
+				setIsAllChecked={setIsAllChecked}
+				onSubmit={onSubmit}
+				handleSubmit={handleSubmit}
+			/>
+		</Layout>
+	)
 }
 
-export default Register;
+export default Register
