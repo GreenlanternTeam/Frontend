@@ -1,5 +1,6 @@
 import '../assets/index.css'
 import { RouterContext } from 'next/dist/shared/lib/router-context'
+import * as nextImage from 'next/image'
 
 export const parameters = {
 	actions: { argTypesRegex: '^on[A-Z].*' },
@@ -7,6 +8,10 @@ export const parameters = {
 		Provider: RouterContext.Provider
 	}
 }
+Object.defineProperty(nextImage, 'default', {
+	configurable: true,
+	value: (props) => <img {...props} />
+})
 
 export const decorators = [
 	(Story) => (

@@ -1,4 +1,6 @@
-import Link from 'next/link'
+import BoldText from 'components/atoms/BoldText'
+import ChevronRight from 'components/atoms/ChevronRight'
+import SubText from 'components/atoms/SubText/index'
 import React from 'react'
 
 interface ContentTitleProps {
@@ -11,14 +13,10 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ title, subTitle, link }) =>
 	return (
 		<div className="flex w-full px-[30px] flex-col space-y-[5px] text-sm">
 			<div className="flex justify-between items-center w-1/3">
-				<h1 className="font-semibold text-lg">{title}</h1>
-				<Link href={link ?? '/'} passHref>
-					<svg className="w-4 h-4 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-						<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-					</svg>
-				</Link>
+				<BoldText text={title} />
+				<ChevronRight />
 			</div>
-			<h3 className="">{subTitle}</h3>
+			<SubText text={subTitle} />
 		</div>
 	)
 }

@@ -1,6 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import Burger from 'public/icons/burger.svg'
+import Logo from 'public/logo.png'
 
 interface HeadProps {
 	handleClick?: () => void
@@ -8,15 +10,17 @@ interface HeadProps {
 
 const Head = ({ handleClick }: HeadProps) => {
 	return (
-		<header className="w-full h-[75px] px-6 flex justify-between items-center sticky top-0 bg-white z-10">
+		<header className="w-full min-w-max h-[75px] px-6 flex justify-between items-center sticky top-0 bg-white z-10">
 			<div onClick={() => handleClick && handleClick()}>
-				<Burger className="w-7 h-7 cursor-pointer" />
+				<Burger className="w-6 h-6 cursor-pointer" />
 			</div>
 			<Link href="/">
-				<a className="text-2xl font-bold text-[#356053]">greenlantern</a>
+				<a className="w-[165px] h-[32px]">
+					<Image src={Logo} alt="logo" />
+				</a>
 			</Link>
 			<Link href="/login">
-				<a className="font-semibold">
+				<a className="font-bold text-sm leading-[17px] opacity-80" style={{ wordBreak: 'keep-all' }}>
 					로그인
 					{/* <svg className="w-7 h-7 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 					<path
