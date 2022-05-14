@@ -8,12 +8,6 @@ import { SignUpType, SignUpResponse } from 'api/auth'
 import { AxiosError } from 'axios'
 import { CheckList, FormValue } from 'types/SignUpType'
 
-const fetchdata = {
-	id: 'test2',
-	password: '123456',
-	email: 'ts1234@naver.com'
-}
-
 const Register = () => {
 	const {
 		register,
