@@ -15,7 +15,7 @@ interface Props {
 const LoginForm = ({ register, handleSubmit }: Props) => {
 	const onValid = async (data: LoginType) => {
 		const res = await customAxios.post('/login', data)
-		console.log(res)
+		console.log(res``)
 	}
 	return (
 		<Wrrapper>
