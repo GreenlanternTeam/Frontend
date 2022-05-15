@@ -119,7 +119,7 @@ const RegisterForm = ({ register, errors, watch, dataList, isAllChecked, setIsAl
 						))}
 					</AgreeCheckGroup>
 				</Agree>
-				<Button>회원가입</Button>
+				<Button type="submit">회원가입</Button>
 			</Form>
 		</Wrrapper>
 	)

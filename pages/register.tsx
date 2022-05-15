@@ -25,7 +25,7 @@ const Register = () => {
 		{ id: 4, data: '[선택] 정보 수신 동의', checked: false }
 	])
 	const { mutate, data, isLoading, isError, error, isSuccess } = useMutation<SignUpResponse, AxiosError, SignUpType>(signUp)
-
+	console.log(data, error)
 	const onAllCheckHandler = () => {
 		if (isAllChecked) {
 			setData(
@@ -42,8 +42,9 @@ const Register = () => {
 		}
 	}
 
-	const onSubmit = (data: SignUpType) => {
-		mutate(data)
+	const onSubmit = (formData: SignUpType) => {
+		mutate(formData)
+		console.log(data)
 	}
 
 	useEffect(() => {

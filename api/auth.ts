@@ -1,3 +1,4 @@
+import { LoginType } from 'types/LoginType'
 import { customAxios } from 'api'
 
 export interface SignUpType {
@@ -6,8 +7,11 @@ export interface SignUpType {
 	email: string
 }
 
-export interface SignUpResponse {
+interface AxiosResponse {
 	success: boolean
+}
+
+export interface SignUpResponse extends AxiosResponse {
 	User?: {
 		id: number
 		userId: string
@@ -25,6 +29,20 @@ export const signUp = async (data: SignUpType): Promise<SignUpResponse> => {
 			userId,
 			password,
 			email
+		},
+		{
+			withCredentials: true
+		}
+	)
+}
+
+export const signin = async (data: LoginType): Promise<SignUpResponse> => {
+	const { userId, password } = data
+	return await customAxios.post(
+		'/login',
+		{
+			userId,
+			password
 		},
 		{
 			withCredentials: true

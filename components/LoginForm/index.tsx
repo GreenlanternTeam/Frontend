@@ -4,21 +4,29 @@ import Kakao from 'public/icons/kakao.svg'
 import Google from 'public/icons/google.svg'
 import { UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
 import { LoginType } from 'types/LoginType'
+import Link from 'next/link'
+import { customAxios } from 'api'
 
 interface Props {
 	register: UseFormRegister<LoginType>
 	handleSubmit: UseFormHandleSubmit<LoginType>
 }
 
-const LoginForm = ({ register }: Props) => {
+const LoginForm = ({ register, handleSubmit }: Props) => {
+	const onValid = async (data: LoginType) => {
+		const res = await customAxios.post('/login', data)
+		console.log(res)
+	}
 	return (
 		<Wrrapper>
-			<Form>
+			<Form onSubmit={handleSubmit(onValid)}>
 				<h2>로그인</h2>
 				<Input placeholder="아이디" {...register('userId', { required: true })} />
 				<Input placeholder="비밀번호 " type="password" {...register('password', { required: true })} />
 				<Button>로그인</Button>
-				<p>아이디 비밀번호 찾기 | 회원가입</p>
+				<p>
+					아이디 비밀번호 찾기 | <Link href="register">회원가입</Link>
+				</p>
 				<LineGroup>
 					<Line />
 					<span>간편 로그인 or 회원가입</span>
