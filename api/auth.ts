@@ -1,5 +1,6 @@
 import { LoginType } from 'types/LoginType'
 import { customAxios } from 'api'
+import axios from 'axios'
 
 export interface SignUpType {
 	userId: string

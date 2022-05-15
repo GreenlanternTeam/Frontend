@@ -1,7 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
 import Burger from 'public/icons/burger.svg'
-
+import Image from 'next/image'
+import Logo from 'public/icons/logo.png'
 interface HeadProps {
 	handleClick?: () => void
 }
@@ -13,7 +14,9 @@ const Head = ({ handleClick }: HeadProps) => {
 				<Burger className="w-7 h-7 cursor-pointer" />
 			</div>
 			<Link href="/">
-				<a className="text-2xl font-bold text-[#356053]">greenlantern</a>
+				<a className="w-[165px] h-[32px]">
+					<Image src={Logo} alt="logo" />
+				</a>
 			</Link>
 			<Link href="/login">
 				<a className="font-semibold">
