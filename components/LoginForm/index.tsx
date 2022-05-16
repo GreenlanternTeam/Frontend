@@ -84,7 +84,6 @@ const Input = styled.input`
 	padding-left: 20px;
 	font-weight: 400;
 	font-size: 18px;
-	color: rgba(153, 153, 153, 0.6);
 
 	&:focus {
 		outline: 1px solid #000000;
