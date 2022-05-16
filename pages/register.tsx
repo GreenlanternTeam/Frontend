@@ -26,10 +26,10 @@ const Register = () => {
 		nickname: false
 	})
 	const [dataList, setData] = useState<CheckList[]>([
-		{ id: 1, data: '[필수] 만 14세 이상', checked: false },
-		{ id: 2, data: '[필수] 이용약관', checked: false },
-		{ id: 3, data: '[필수] 개인정보 수집 및 이용동의', checked: false },
-		{ id: 4, data: '[선택] 정보 수신 동의', checked: false }
+		{ id: 1, key: 'agree_14plus', data: '[필수] 만 14세 이상', checked: false },
+		{ id: 2, key: 'agree_terms', data: '[필수] 이용약관', checked: false },
+		{ id: 3, key: 'agree_info', data: '[필수] 개인정보 수집 및 이용동의', checked: false },
+		{ id: 4, key: 'agree_recinfo', data: '[선택] 정보 수신 동의', checked: false }
 	])
 	const { mutate, data, isLoading, isError, error, isSuccess } = useMutation<SignUpResponse, AxiosError, SignUpType>(signUp)
 	const onAllCheckHandler = () => {
@@ -49,6 +49,7 @@ const Register = () => {
 	}
 
 	const onSubmit = (formData: SignUpType) => {
+		console.log(formData)
 		mutate(formData)
 	}
 

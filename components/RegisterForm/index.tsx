@@ -47,9 +47,7 @@ const RegisterForm = ({
 		<Wrrapper>
 			<h2>회원가입</h2>
 			<Form onSubmit={handleSubmit(onSubmit)}>
-				<label>
-					아이디<p>*</p>
-				</label>
+				<label>아이디</label>
 				<Input
 					placeholder="6자 이상의 영문 혹은 영문과 숫자를 조합"
 					error={errors.userId}
@@ -58,13 +56,11 @@ const RegisterForm = ({
 						required: { value: true, message: '필수항목 입니다' },
 						minLength: { value: 6, message: '6자 이상 입력해주세요' },
 						pattern: { value: /^[a-zA-Z0-9]*$/, message: '올바른 아이디 형식이 아닙니다' },
-						onBlur: (e) => onFormValid('userId', errors.userId)
+						onBlur: () => onFormValid('userId', errors.userId)
 					})}
 				/>
 				{errors.userId && <ErrorMsg>{errors.userId.message}</ErrorMsg>}
-				<label>
-					비밀번호<p>*</p>
-				</label>
+				<label>비밀번호</label>
 				<Input
 					type="password"
 					placeholder="10자 이상의 영문/숫자/특수문자를 조합"
@@ -76,21 +72,21 @@ const RegisterForm = ({
 						pattern: {
 							value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{10,}$/,
 							message: '올바른 비밀번호 형식이 아닙니다'
-						}
+						},
+						onBlur: () => onFormValid('password', errors.password)
 					})}
 				/>
 				{errors.password && <ErrorMsg>{errors.password.message}</ErrorMsg>}
-				<label>
-					비밀번호 확인<p>*</p>
-				</label>
+				<label>비밀번호 확인</label>
 				<Input
 					type="password"
 					placeholder="비밀번호 재입력"
 					error={errors.password_confirm}
-					isValid={isVali.userId}
+					isValid={isVali.password_confirm}
 					{...register('password_confirm', {
 						required: { value: true, message: '필수항목 입니다' },
-						validate: (value) => value === passWordRef.current
+						validate: (value) => value === passWordRef.current,
+						onBlur: () => onFormValid('password_confirm', errors.password_confirm)
 					})}
 				/>
 				{errors.password_confirm &&
@@ -103,13 +99,14 @@ const RegisterForm = ({
 				<Input
 					placeholder="이메일 입력"
 					error={errors.email}
-					isValid={isVali.userId}
+					isValid={isVali.email}
 					{...register('email', {
 						required: { value: true, message: '필수항목 입니다' },
 						pattern: {
 							value: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
 							message: '올바른 이메일 형식이 아닙니다'
-						}
+						},
+						onBlur: () => onFormValid('email', errors.email)
 					})}
 				/>
 				{errors.email && <ErrorMsg>{errors.email.message}</ErrorMsg>}
@@ -118,7 +115,10 @@ const RegisterForm = ({
 					placeholder="닉네임 입력"
 					error={errors.nickname}
 					isValid={isVali.nickname}
-					{...register('nickname', { required: { value: true, message: '필수항목 입니다' } })}
+					{...register('nickname', {
+						required: { value: true, message: '필수항목 입니다' },
+						onBlur: () => onFormValid('nickname', errors.nickname)
+					})}
 				/>
 				{errors.nickname && <ErrorMsg>{errors.nickname.message}</ErrorMsg>}
 				<Line />
@@ -127,13 +127,25 @@ const RegisterForm = ({
 						약관동의<p>*</p>
 					</h3>
 					<AllCheckLabel>
-						<AgreeCheck type="checkbox" checked={isAllChecked} onChange={() => checkHandler()} />
+						<AgreeCheck
+							type="checkbox"
+							{...register('allcheck', {
+								required: { value: true, message: '필수항목 입니다' }
+							})}
+							onChange={() => checkHandler()}
+						/>
 						<span>전체 동의</span>
 					</AllCheckLabel>
 					<AgreeCheckGroup>
 						{dataList.map((el) => (
 							<AgreeCheckLabel key={el.id}>
-								<AgreeCheck type="checkbox" checked={el.checked} />
+								<AgreeCheck
+									type="checkbox"
+									checked={el.checked}
+									{...register(`allcheck`, {
+										required: { value: true, message: '필수항목 입니다' }
+									})}
+								/>
 								{el.data}
 							</AgreeCheckLabel>
 						))}
@@ -187,7 +199,7 @@ const Input = styled.input<{ error: FieldError | undefined; isValid: boolean }>`
 	font-size: 14px;
 	font-weight: 400;
 	padding-left: 10px;
-	outline: ${(props) => (props.isValid ? '1px solid #000000' : '')};
+	outline: ${(props) => (!props.error && props.isValid ? '1px solid #000000' : 'none')};
 
 	&:focus {
 		outline: ${(props) => (props.error ? '1px solid #FF0000' : '1px solid #000000')};

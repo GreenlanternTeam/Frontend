@@ -4,12 +4,14 @@ export interface FormValue {
 	email: string
 	password_confirm: string
 	nickname: string
+	allcheck: boolean
 }
 
 export interface CheckList {
 	id: number
 	data: string
 	checked: boolean
+	key: string
 }
 
 export interface FormIsValid {
