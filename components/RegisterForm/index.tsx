@@ -1,7 +1,7 @@
-import React, { useRef } from 'react'
+import React, { isValidElement, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { FieldError, UseFormHandleSubmit, UseFormRegister, UseFormWatch } from 'react-hook-form'
-import { CheckList, FormValue } from 'types/SignUpType'
+import { CheckList, FormValue, FormIsValid } from 'types/SignUpType'
 import { SignUpType } from 'api/auth'
 
 interface Props {
@@ -19,9 +19,23 @@ interface Props {
 	setIsAllChecked: React.Dispatch<React.SetStateAction<boolean>>
 	onSubmit: (data: SignUpType) => void
 	handleSubmit: UseFormHandleSubmit<FormValue>
+	setIsValid: React.Dispatch<React.SetStateAction<FormIsValid>>
+	isVali: FormIsValid
+	onFormValid: (inputName: string, error: FieldError | undefined) => void
 }
 
-const RegisterForm = ({ register, errors, watch, dataList, isAllChecked, setIsAllChecked, onSubmit, handleSubmit }: Props) => {
+const RegisterForm = ({
+	register,
+	errors,
+	watch,
+	dataList,
+	isAllChecked,
+	setIsAllChecked,
+	onSubmit,
+	handleSubmit,
+	isVali,
+	onFormValid
+}: Props) => {
 	const passWordRef = useRef<string | null>(null)
 	passWordRef.current = watch('password')
 
@@ -39,10 +53,12 @@ const RegisterForm = ({ register, errors, watch, dataList, isAllChecked, setIsAl
 				<Input
 					placeholder="6자 이상의 영문 혹은 영문과 숫자를 조합"
 					error={errors.userId}
+					isValid={isVali.userId}
 					{...register('userId', {
 						required: { value: true, message: '필수항목 입니다' },
 						minLength: { value: 6, message: '6자 이상 입력해주세요' },
-						pattern: { value: /^[a-zA-Z0-9]*$/, message: '올바른 아이디 형식이 아닙니다' }
+						pattern: { value: /^[a-zA-Z0-9]*$/, message: '올바른 아이디 형식이 아닙니다' },
+						onBlur: (e) => onFormValid('userId', errors.userId)
 					})}
 				/>
 				{errors.userId && <ErrorMsg>{errors.userId.message}</ErrorMsg>}
@@ -53,6 +69,7 @@ const RegisterForm = ({ register, errors, watch, dataList, isAllChecked, setIsAl
 					type="password"
 					placeholder="10자 이상의 영문/숫자/특수문자를 조합"
 					error={errors.password}
+					isValid={isVali.password}
 					{...register('password', {
 						required: { value: true, message: '필수항목 입니다' },
 						minLength: { value: 10, message: '10자 이상 입력해주세요' },
@@ -70,6 +87,7 @@ const RegisterForm = ({ register, errors, watch, dataList, isAllChecked, setIsAl
 					type="password"
 					placeholder="비밀번호 재입력"
 					error={errors.password_confirm}
+					isValid={isVali.userId}
 					{...register('password_confirm', {
 						required: { value: true, message: '필수항목 입니다' },
 						validate: (value) => value === passWordRef.current
@@ -85,6 +103,7 @@ const RegisterForm = ({ register, errors, watch, dataList, isAllChecked, setIsAl
 				<Input
 					placeholder="이메일 입력"
 					error={errors.email}
+					isValid={isVali.userId}
 					{...register('email', {
 						required: { value: true, message: '필수항목 입니다' },
 						pattern: {
@@ -98,6 +117,7 @@ const RegisterForm = ({ register, errors, watch, dataList, isAllChecked, setIsAl
 				<Input
 					placeholder="닉네임 입력"
 					error={errors.nickname}
+					isValid={isVali.nickname}
 					{...register('nickname', { required: { value: true, message: '필수항목 입니다' } })}
 				/>
 				{errors.nickname && <ErrorMsg>{errors.nickname.message}</ErrorMsg>}
@@ -156,7 +176,7 @@ const Form = styled.form`
 		}
 	}
 `
-const Input = styled.input<{ error: FieldError | undefined }>`
+const Input = styled.input<{ error: FieldError | undefined; isValid: boolean }>`
 	width: 275px;
 	height: 50px;
 	background: #ffffff;
@@ -167,6 +187,7 @@ const Input = styled.input<{ error: FieldError | undefined }>`
 	font-size: 14px;
 	font-weight: 400;
 	padding-left: 10px;
+	outline: ${(props) => (props.isValid ? '1px solid #000000' : '')};
 
 	&:focus {
 		outline: ${(props) => (props.error ? '1px solid #FF0000' : '1px solid #000000')};

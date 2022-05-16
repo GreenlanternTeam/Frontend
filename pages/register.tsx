@@ -1,23 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import RegisterForm from 'components/RegisterForm'
 import Layout from 'layout/layout'
-import { useForm } from 'react-hook-form'
+import { FieldError, useForm } from 'react-hook-form'
 import { signUp } from 'api/auth'
 import { useMutation } from 'react-query'
 import { SignUpType, SignUpResponse } from 'api/auth'
 import { AxiosError } from 'axios'
-import { CheckList, FormValue } from 'types/SignUpType'
+import { CheckList, FormValue, FormIsValid } from 'types/SignUpType'
 
 const Register = () => {
 	const {
 		register,
 		handleSubmit,
 		watch,
-		formState: { errors }
+		formState: { errors, isValidating, isValid }
 	} = useForm<FormValue>({
-		mode: 'onBlur'
+		mode: 'onChange'
 	})
 	const [isAllChecked, setIsAllChecked] = useState<boolean>(false)
+	const [isVali, setIsValid] = useState<FormIsValid>({
+		userId: false,
+		password: false,
+		email: false,
+		password_confirm: false,
+		nickname: false
+	})
 	const [dataList, setData] = useState<CheckList[]>([
 		{ id: 1, data: '[필수] 만 14세 이상', checked: false },
 		{ id: 2, data: '[필수] 이용약관', checked: false },
@@ -25,7 +32,6 @@ const Register = () => {
 		{ id: 4, data: '[선택] 정보 수신 동의', checked: false }
 	])
 	const { mutate, data, isLoading, isError, error, isSuccess } = useMutation<SignUpResponse, AxiosError, SignUpType>(signUp)
-	console.log(data, error)
 	const onAllCheckHandler = () => {
 		if (isAllChecked) {
 			setData(
@@ -44,7 +50,19 @@ const Register = () => {
 
 	const onSubmit = (formData: SignUpType) => {
 		mutate(formData)
-		console.log(data)
+	}
+
+	const onFormValid = (inputName: string, error: FieldError | undefined) => {
+		if (!error) {
+			setIsValid({
+				...isVali,
+				[inputName]: true
+			})
+		} else
+			setIsValid({
+				...isVali,
+				[inputName]: false
+			})
 	}
 
 	useEffect(() => {
@@ -62,6 +80,9 @@ const Register = () => {
 				setIsAllChecked={setIsAllChecked}
 				onSubmit={onSubmit}
 				handleSubmit={handleSubmit}
+				isVali={isVali}
+				setIsValid={setIsValid}
+				onFormValid={onFormValid}
 			/>
 		</Layout>
 	)

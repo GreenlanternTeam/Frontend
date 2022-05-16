@@ -11,3 +11,11 @@ export interface CheckList {
 	data: string
 	checked: boolean
 }
+
+export interface FormIsValid {
+	userId: boolean
+	password: boolean
+	email: boolean
+	password_confirm: boolean
+	nickname: boolean
+}
