@@ -1,11 +1,11 @@
-import type { NextPage } from 'next'
 import styled from 'styled-components'
 import Kakao from 'public/icons/kakao.svg'
 import Google from 'public/icons/google.svg'
 import { UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
 import { LoginType } from 'types/LoginType'
 import Link from 'next/link'
-import { customAxios } from 'api'
+
+
 
 interface Props {
 	register: UseFormRegister<LoginType>
