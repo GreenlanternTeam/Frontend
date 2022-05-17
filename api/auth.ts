@@ -7,6 +7,10 @@ export interface SignUpType {
 	email: string
 	password_confirm: string
 	allcheck: boolean
+	agree_14plus: boolean
+	agree_terms: boolean
+	agree_info: boolean
+	agree_recinfo: boolean
 }
 
 interface AxiosResponse {
@@ -24,16 +28,16 @@ export interface SignUpResponse extends AxiosResponse {
 }
 
 export const signUp = async (data: SignUpType): Promise<SignUpResponse> => {
-	const { password, email, nickname, password_confirm } = data
+	const { password, email, nickname, password_confirm, agree_14plus, agree_terms, agree_info, agree_recinfo } = data
 	return await customAxios.post('/signup', {
 		password,
 		password2: password_confirm,
 		email,
 		nickname,
-		agree_14plus: true,
-		agree_terms: true,
-		agree_info: true,
-		agree_recinfo: true
+		agree_14plus,
+		agree_terms,
+		agree_info,
+		agree_recinfo
 	})
 }
 

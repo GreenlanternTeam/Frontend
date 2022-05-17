@@ -1,7 +1,7 @@
 import React, { isValidElement, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { FieldError, UseFormHandleSubmit, UseFormRegister, UseFormWatch } from 'react-hook-form'
-import { CheckList, FormValue, FormIsValid } from 'types/SignUpType'
+import { FormValue, FormIsValid } from 'types/SignUpType'
 import { SignUpType } from 'api/auth'
 
 interface Props {
@@ -14,58 +14,43 @@ interface Props {
 		nickname?: FieldError | undefined
 	}
 	watch: UseFormWatch<FormValue>
-	dataList: CheckList[]
-	isAllChecked: boolean
-	setIsAllChecked: React.Dispatch<React.SetStateAction<boolean>>
 	onSubmit: (data: SignUpType) => void
 	handleSubmit: UseFormHandleSubmit<FormValue>
 	setIsValid: React.Dispatch<React.SetStateAction<FormIsValid>>
-	isVali: FormIsValid
+	isValid: FormIsValid
 	onFormValid: (inputName: string, error: FieldError | undefined) => void
 }
 
-const RegisterForm = ({
-	register,
-	errors,
-	watch,
-	dataList,
-	isAllChecked,
-	setIsAllChecked,
-	onSubmit,
-	handleSubmit,
-	isVali,
-	onFormValid
-}: Props) => {
+const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid, onFormValid }: Props) => {
 	const passWordRef = useRef<string | null>(null)
 	passWordRef.current = watch('password')
-
-	const checkHandler = () => {
-		setIsAllChecked(!isAllChecked)
-	}
+	const allCheck = watch('allcheck', false)
 
 	return (
 		<Wrrapper>
 			<h2>회원가입</h2>
 			<Form onSubmit={handleSubmit(onSubmit)}>
-				<label>아이디</label>
+				<label>이메일</label>
 				<Input
-					placeholder="6자 이상의 영문 혹은 영문과 숫자를 조합"
-					error={errors.userId}
-					isValid={isVali.userId}
-					{...register('userId', {
+					placeholder="이메일 입력"
+					error={errors.email}
+					isValid={isValid.email}
+					{...register('email', {
 						required: { value: true, message: '필수항목 입니다' },
-						minLength: { value: 6, message: '6자 이상 입력해주세요' },
-						pattern: { value: /^[a-zA-Z0-9]*$/, message: '올바른 아이디 형식이 아닙니다' },
-						onBlur: () => onFormValid('userId', errors.userId)
+						pattern: {
+							value: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
+							message: '올바른 이메일 형식이 아닙니다'
+						},
+						onBlur: () => onFormValid('email', errors.email)
 					})}
 				/>
-				{errors.userId && <ErrorMsg>{errors.userId.message}</ErrorMsg>}
+				{errors.email && <ErrorMsg>{errors.email.message}</ErrorMsg>}
 				<label>비밀번호</label>
 				<Input
 					type="password"
 					placeholder="10자 이상의 영문/숫자/특수문자를 조합"
 					error={errors.password}
-					isValid={isVali.password}
+					isValid={isValid.password}
 					{...register('password', {
 						required: { value: true, message: '필수항목 입니다' },
 						minLength: { value: 10, message: '10자 이상 입력해주세요' },
@@ -82,7 +67,7 @@ const RegisterForm = ({
 					type="password"
 					placeholder="비밀번호 재입력"
 					error={errors.password_confirm}
-					isValid={isVali.password_confirm}
+					isValid={isValid.password_confirm}
 					{...register('password_confirm', {
 						required: { value: true, message: '필수항목 입니다' },
 						validate: (value) => value === passWordRef.current,
@@ -95,26 +80,11 @@ const RegisterForm = ({
 					) : (
 						<ErrorMsg>비밀번호가 다릅니다</ErrorMsg>
 					))}
-				<label>이메일</label>
-				<Input
-					placeholder="이메일 입력"
-					error={errors.email}
-					isValid={isVali.email}
-					{...register('email', {
-						required: { value: true, message: '필수항목 입니다' },
-						pattern: {
-							value: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
-							message: '올바른 이메일 형식이 아닙니다'
-						},
-						onBlur: () => onFormValid('email', errors.email)
-					})}
-				/>
-				{errors.email && <ErrorMsg>{errors.email.message}</ErrorMsg>}
 				<label>닉네임</label>
 				<Input
 					placeholder="닉네임 입력"
 					error={errors.nickname}
-					isValid={isVali.nickname}
+					isValid={isValid.nickname}
 					{...register('nickname', {
 						required: { value: true, message: '필수항목 입니다' },
 						onBlur: () => onFormValid('nickname', errors.nickname)
@@ -127,28 +97,44 @@ const RegisterForm = ({
 						약관동의<p>*</p>
 					</h3>
 					<AllCheckLabel>
-						<AgreeCheck
-							type="checkbox"
-							{...register('allcheck', {
-								required: { value: true, message: '필수항목 입니다' }
-							})}
-							onChange={() => checkHandler()}
-						/>
+						<AgreeCheck type="checkbox" {...register('allcheck')} />
 						<span>전체 동의</span>
 					</AllCheckLabel>
 					<AgreeCheckGroup>
-						{dataList.map((el) => (
-							<AgreeCheckLabel key={el.id}>
-								<AgreeCheck
-									type="checkbox"
-									checked={el.checked}
-									{...register(`allcheck`, {
-										required: { value: true, message: '필수항목 입니다' }
-									})}
-								/>
-								{el.data}
-							</AgreeCheckLabel>
-						))}
+						<AgreeCheckLabel>
+							<AgreeCheck
+								type="checkbox"
+								checked={allCheck || watch('agree_14plus')}
+								{...register('agree_14plus', {
+									required: { value: true, message: '필수항목 입니다' }
+								})}
+							/>
+							[필수] 만 14세 이상
+						</AgreeCheckLabel>
+						<AgreeCheckLabel>
+							<AgreeCheck
+								type="checkbox"
+								checked={allCheck || watch('agree_terms')}
+								{...register('agree_terms', {
+									required: { value: true, message: '필수항목 입니다' }
+								})}
+							/>
+							<span>[필수] 이용약관</span>
+						</AgreeCheckLabel>
+						<AgreeCheckLabel>
+							<AgreeCheck
+								type="checkbox"
+								checked={allCheck || watch('agree_info')}
+								{...register('agree_info', {
+									required: { value: true, message: '필수항목 입니다' }
+								})}
+							/>
+							<span>[필수] 개인정보 수집 및 이용동의</span>
+						</AgreeCheckLabel>
+						<AgreeCheckLabel>
+							<AgreeCheck type="checkbox" checked={allCheck || watch('agree_recinfo')} {...register('agree_recinfo')} />
+							[선택] 정보 수신 동의
+						</AgreeCheckLabel>
 					</AgreeCheckGroup>
 				</Agree>
 				<Button type="submit">회원가입</Button>
@@ -267,6 +253,10 @@ const AgreeCheckLabel = styled.label`
 	display: flex;
 	align-items: center;
 	margin-top: 20px;
+
+	span {
+		text-decoration: underline;
+	}
 `
 const AllCheckLabel = styled.label`
 	font-size: 16px;

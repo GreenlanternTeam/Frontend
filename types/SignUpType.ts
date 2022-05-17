@@ -1,17 +1,13 @@
 export interface FormValue {
-	userId: string
 	password: string
 	email: string
 	password_confirm: string
 	nickname: string
 	allcheck: boolean
-}
-
-export interface CheckList {
-	id: number
-	data: string
-	checked: boolean
-	key: string
+	agree_14plus: boolean
+	agree_terms: boolean
+	agree_info: boolean
+	agree_recinfo: boolean
 }
 
 export interface FormIsValid {
