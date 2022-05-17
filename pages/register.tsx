@@ -27,6 +27,7 @@ const Register = () => {
 	const { mutate, data, isLoading, isError, error, isSuccess } = useMutation<SignUpResponse, AxiosError, SignUpType>(signUp)
 
 	const onSubmit = (formData: SignUpType) => {
+		console.log('handle')
 		mutate(formData)
 	}
 

@@ -28,11 +28,12 @@ export interface SignUpResponse extends AxiosResponse {
 }
 
 export const signUp = async (data: SignUpType): Promise<SignUpResponse> => {
+	console.log('안녕')
 	const { password, email, nickname, password_confirm, agree_14plus, agree_terms, agree_info, agree_recinfo } = data
-	return await customAxios.post('/signup', {
-		password,
+	return await customAxios.post('/signup/', {
+		password1: password,
 		password2: password_confirm,
-		email,
+		email: email,
 		nickname,
 		agree_14plus,
 		agree_terms,
@@ -41,16 +42,10 @@ export const signUp = async (data: SignUpType): Promise<SignUpResponse> => {
 	})
 }
 
-export const signin = async (data: LoginType): Promise<SignUpResponse> => {
-	const { userId, password } = data
-	return await customAxios.post(
-		'/login',
-		{
-			userId,
-			password
-		},
-		{
-			withCredentials: true
-		}
-	)
+export const login = async (data: LoginType): Promise<SignUpResponse> => {
+	const { email, password } = data
+	return await customAxios.post('/login/', {
+		email,
+		password
+	})
 }
