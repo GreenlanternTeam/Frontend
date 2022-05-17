@@ -10,17 +10,15 @@ import { customAxios } from 'api'
 interface Props {
 	register: UseFormRegister<LoginType>
 	handleSubmit: UseFormHandleSubmit<LoginType>
+	onSubmit: (data: LoginType) => void
 }
 
-const LoginForm = ({ register, handleSubmit }: Props) => {
-	const onValid = async (data: LoginType) => {
-		const res = await customAxios.post('/login', data)
-	}
+const LoginForm = ({ register, handleSubmit, onSubmit }: Props) => {
 	return (
 		<Wrrapper>
-			<Form onSubmit={handleSubmit(onValid)}>
+			<Form onSubmit={handleSubmit(onSubmit)}>
 				<h2>로그인</h2>
-				<Input placeholder="아이디" {...register('userId', { required: true })} />
+				<Input placeholder="이메일" {...register('email', { required: true })} />
 				<Input placeholder="비밀번호 " type="password" {...register('password', { required: true })} />
 				<Button>로그인</Button>
 				<p>

@@ -10,9 +10,13 @@ const Login = () => {
 		formState: { errors }
 	} = useForm<LoginType>()
 
+	const onSubmit = (data: LoginType) => {
+		console.log(data)
+	}
+
 	return (
 		<Layout>
-			<LoginForm register={register} handleSubmit={handleSubmit} />
+			<LoginForm register={register} handleSubmit={handleSubmit} onSubmit={onSubmit} />
 		</Layout>
 	)
 }
