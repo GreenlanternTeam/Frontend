@@ -1,10 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
 import slices from './slices/rootState'
+import reducer from './reducer'
 
 export const store = configureStore({
-	reducer: {
-		root: slices
-	},
+	reducer,
 	middleware:
 		process.env.NODE_ENV !== 'production'
 			? (getDefaultMiddleware) => getDefaultMiddleware()
