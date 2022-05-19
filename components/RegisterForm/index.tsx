@@ -1,8 +1,11 @@
 import React, { isValidElement, useEffect, useRef } from 'react'
 import styled from 'styled-components'
-import { FieldError, UseFormHandleSubmit, UseFormRegister, UseFormWatch } from 'react-hook-form'
+import { FieldError, UseFormHandleSubmit, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
 import { FormValue, FormIsValid } from 'types/SignUpType'
 import { SignUpType } from 'api/auth'
+import InputContainer from './Input'
+import { debounce } from 'utils/fn'
+import { customAxios } from 'api'
 
 interface Props {
 	register: UseFormRegister<FormValue>
@@ -19,30 +22,55 @@ interface Props {
 	setIsValid: React.Dispatch<React.SetStateAction<FormIsValid>>
 	isValid: FormIsValid
 	onFormValid: (inputName: string, error: FieldError | undefined) => void
+	setValue: UseFormSetValue<FormValue>
+	onAllCheck: () => void
+	inputState: {
+		password: string
+		email: string
+		password_confirm: string
+		nickname: string
+		allcheck: boolean
+		agree_14plus: boolean
+		agree_terms: boolean
+		agree_info: boolean
+		agree_recinfo: boolean
+	}
 }
 
-const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid, onFormValid }: Props) => {
+const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid, onFormValid, onAllCheck }: Props) => {
+	// const [state, setState] = useState(null)
+	// const emailCheck = async (value: any) => {
+	// 	const res = (await customAxios.post('/api/check/email', value)) || '이미 존재하는 이메일 입니다.'
+	// 	setState(res)
+	// }
+
+	const ok = () => console.log('OK')
 	const passWordRef = useRef<string | null>(null)
 	passWordRef.current = watch('password')
 	const allCheck = watch('allcheck', false)
-
 	return (
 		<Wrrapper>
 			<h2>회원가입</h2>
 			<Form onSubmit={handleSubmit(onSubmit)}>
-				<label>이메일</label>
-				<Input
+				<InputContainer
+					label="이메일"
 					placeholder="이메일 입력"
 					error={errors.email}
 					isValid={isValid.email}
-					{...register('email', {
+					register={register}
+					name="email"
+					options={{
 						required: { value: true, message: '필수항목 입니다' },
 						pattern: {
 							value: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
 							message: '올바른 이메일 형식이 아닙니다'
 						},
+						validate: (value) => {
+							debounce(ok, 5000)
+							return true
+						},
 						onBlur: () => onFormValid('email', errors.email)
-					})}
+					}}
 				/>
 				{errors.email && <ErrorMsg>{errors.email.message}</ErrorMsg>}
 				<label>비밀번호</label>
@@ -97,14 +125,19 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 						약관동의<p>*</p>
 					</h3>
 					<AllCheckLabel>
-						<AgreeCheck type="checkbox" {...register('allcheck')} />
+						<AgreeCheck
+							type="checkbox"
+							{...(register('allcheck'),
+							{
+								onChange: () => onAllCheck()
+							})}
+						/>
 						<span>전체 동의</span>
 					</AllCheckLabel>
 					<AgreeCheckGroup>
 						<AgreeCheckLabel>
 							<AgreeCheck
 								type="checkbox"
-								checked={allCheck || watch('agree_14plus')}
 								{...register('agree_14plus', {
 									required: { value: true, message: '필수항목 입니다' }
 								})}
@@ -114,7 +147,6 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 						<AgreeCheckLabel>
 							<AgreeCheck
 								type="checkbox"
-								checked={allCheck || watch('agree_terms')}
 								{...register('agree_terms', {
 									required: { value: true, message: '필수항목 입니다' }
 								})}
@@ -124,7 +156,6 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 						<AgreeCheckLabel>
 							<AgreeCheck
 								type="checkbox"
-								checked={allCheck || watch('agree_info')}
 								{...register('agree_info', {
 									required: { value: true, message: '필수항목 입니다' }
 								})}
