@@ -4,6 +4,7 @@ import Google from 'public/icons/google.svg'
 import { UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
 import { LoginType } from 'types/LoginType'
 import Link from 'next/link'
+import Timer from 'components/Timer/Timer'
 // import { KAKAO_AUTH_URL } from '../../utils/kakao'
 export const CLIENT_ID = '1c9f7260e6aa88b6760dc86efb880690'
 export const REDIRECT_URI = 'http://localhost:3000/oauth'
@@ -28,11 +29,12 @@ const LoginForm = ({ register, handleSubmit, onSubmit }: Props) => {
 				<LineGroup>
 					<Line />
 					<span>간편 로그인 or 회원가입</span>
+					<Timer time={180} />
 					<Line />
 				</LineGroup>
 			</Form>
 			<Oauth>
-				<Link href={KAKAO_AUTH_URL}>
+				<Link href={KAKAO_AUTH_URL} passHref>
 					<Kakao />
 				</Link>
 				<Google />
