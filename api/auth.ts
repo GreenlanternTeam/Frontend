@@ -18,12 +18,16 @@ interface AxiosResponse {
 }
 
 export interface SignUpResponse extends AxiosResponse {
-	User?: {
-		id: number
-		userId: string
-		password: string
-		email: string
-		nickname?: string
+	data: {
+		User?: {
+			id: number
+			userId: string
+			password: string
+			email: string
+			nickname?: string
+		}
+		access_token: string
+		refresh_token: string
 	}
 }
 

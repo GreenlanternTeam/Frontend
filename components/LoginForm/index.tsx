@@ -4,7 +4,7 @@ import Google from 'public/icons/google.svg'
 import { UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
 import { LoginType } from 'types/LoginType'
 import Link from 'next/link'
-import { KAKAO_AUTH_URL } from '../../utils/kakao'
+// import { KAKAO_AUTH_URL } from '../../utils/kakao'
 
 interface Props {
 	register: UseFormRegister<LoginType>
@@ -19,7 +19,7 @@ const LoginForm = ({ register, handleSubmit, onSubmit }: Props) => {
 				<h2>로그인</h2>
 				<Input placeholder="이메일" {...register('email', { required: true })} />
 				<Input placeholder="비밀번호 " type="password" {...register('password', { required: true })} />
-				<Button>로그인</Button>
+				<Button type="submit">로그인</Button>
 				<p>
 					아이디 비밀번호 찾기 | <Link href="register">회원가입</Link>
 				</p>
@@ -30,9 +30,9 @@ const LoginForm = ({ register, handleSubmit, onSubmit }: Props) => {
 				</LineGroup>
 			</Form>
 			<Oauth>
-				<Link href={KAKAO_AUTH_URL}>
-					<Kakao />
-				</Link>
+				{/* <Link href={KAKAO_AUTH_URL}> */}
+				<Kakao />
+				{/* </Link> */}
 				<Google />
 			</Oauth>
 		</Wrrapper>
