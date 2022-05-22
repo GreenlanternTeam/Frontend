@@ -49,3 +49,11 @@ export const login = async (data: LoginType): Promise<SignUpResponse> => {
 		password
 	})
 }
+
+export const kakaoLogin = async (code: string): Promise<SignUpResponse> => {
+	return await customAxios.get('/oauthkakao/login/', {
+		headers: {
+			Params: code
+		}
+	})
+}

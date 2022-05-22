@@ -5,7 +5,6 @@ import { FormValue, FormIsValid } from 'types/SignUpType'
 import { SignUpType } from 'api/auth'
 import InputContainer from './Input'
 import { debounce } from 'utils/fn'
-import { customAxios } from 'api'
 
 interface Props {
 	register: UseFormRegister<FormValue>
@@ -48,6 +47,7 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 	const passWordRef = useRef<string | null>(null)
 	passWordRef.current = watch('password')
 	const allCheck = watch('allcheck', false)
+	
 	return (
 		<Wrrapper>
 			<h2>회원가입</h2>
