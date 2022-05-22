@@ -7,24 +7,14 @@ import { LoginType } from 'types/LoginType'
 import { kakaoLogin } from 'api/auth'
 import { customAxios } from 'api'
 import axios from 'axios'
-import { CLIENT_ID, REDIRECT_URI } from '../utils/kakao'
+
+export const CLIENT_ID = '1c9f7260e6aa88b6760dc86efb880690'
+export const REDIRECT_URI = 'http://localhost:3000/oauth'
+export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`
 
 const Oauth = () => {
 	const router = useRouter()
-	const code = router.query.code
-
-	useEffect(() => {
-		if (code) {
-			axios
-				.post(`https://kauth.kakao.com/oauth/token`, {
-					grant_type: 'authorization_code',
-					client_id: CLIENT_ID,
-					redirect_uri: REDIRECT_URI,
-					code
-				})
-				.then((res) => console.log(res))
-		}
-	}, [router])
+	const code = router.query
 
 	return <div></div>
 }

@@ -5,7 +5,9 @@ import { UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
 import { LoginType } from 'types/LoginType'
 import Link from 'next/link'
 // import { KAKAO_AUTH_URL } from '../../utils/kakao'
-
+export const CLIENT_ID = '1c9f7260e6aa88b6760dc86efb880690'
+export const REDIRECT_URI = 'http://localhost:3000/oauth'
+export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`
 interface Props {
 	register: UseFormRegister<LoginType>
 	handleSubmit: UseFormHandleSubmit<LoginType>
@@ -30,9 +32,9 @@ const LoginForm = ({ register, handleSubmit, onSubmit }: Props) => {
 				</LineGroup>
 			</Form>
 			<Oauth>
-				{/* <Link href={KAKAO_AUTH_URL}> */}
-				<Kakao />
-				{/* </Link> */}
+				<Link href={KAKAO_AUTH_URL}>
+					<Kakao />
+				</Link>
 				<Google />
 			</Oauth>
 		</Wrrapper>
