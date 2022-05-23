@@ -5,10 +5,12 @@ import { UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
 import { LoginType } from 'types/LoginType'
 import Link from 'next/link'
 import Timer from 'components/Timer/Timer'
+import { customAxios } from 'api'
 // import { KAKAO_AUTH_URL } from '../../utils/kakao'
 export const CLIENT_ID = '1c9f7260e6aa88b6760dc86efb880690'
 export const REDIRECT_URI = 'http://localhost:3000/oauth'
-export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`
+// export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`
+export const KAKAO_AUTH_URL = 'https://greenb.site/api/oauth/kakao/login/'
 interface Props {
 	register: UseFormRegister<LoginType>
 	handleSubmit: UseFormHandleSubmit<LoginType>
@@ -16,6 +18,10 @@ interface Props {
 }
 
 const LoginForm = ({ register, handleSubmit, onSubmit }: Props) => {
+	const getSocial = async () => {
+		const res = await customAxios.get('/oauth/kakao/login/')
+		console.log(res)
+	}
 	return (
 		<Wrrapper>
 			<Form onSubmit={handleSubmit(onSubmit)}>
@@ -34,9 +40,11 @@ const LoginForm = ({ register, handleSubmit, onSubmit }: Props) => {
 				</LineGroup>
 			</Form>
 			<Oauth>
-				<Link href={KAKAO_AUTH_URL} passHref>
+				{/* <Link href={KAKAO_AUTH_URL} passHref> */}
+				<div style={{ cursor: 'pointer' }} onClick={getSocial}>
 					<Kakao />
-				</Link>
+				</div>
+				{/* </Link> */}
 				<Google />
 			</Oauth>
 		</Wrrapper>
