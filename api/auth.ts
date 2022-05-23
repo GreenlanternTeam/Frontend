@@ -18,21 +18,16 @@ interface AxiosResponse {
 }
 
 export interface SignUpResponse extends AxiosResponse {
-	data: {
-		User?: {
-			id: number
-			userId: string
-			password: string
-			email: string
-			nickname?: string
-		}
-		access_token: string
-		refresh_token: string
+	User?: {
+		id: number
+		userId: string
+		password: string
+		email: string
+		nickname?: string
 	}
 }
 
 export const signUp = async (data: SignUpType): Promise<SignUpResponse> => {
-	console.log('안녕')
 	const { password, email, nickname, password_confirm, agree_14plus, agree_terms, agree_info, agree_recinfo } = data
 	return await customAxios.post('/signup/', {
 		password1: password,
@@ -54,7 +49,7 @@ export const login = async (data: LoginType): Promise<SignUpResponse> => {
 	})
 }
 
-export const kakaoLogin = async (code: string): Promise<SignUpResponse> => {
+export const kakaoLogin = async (code: string | string[] | undefined): Promise<string> => {
 	return await customAxios.get('/oauthkakao/login/', {
 		headers: {
 			Params: code

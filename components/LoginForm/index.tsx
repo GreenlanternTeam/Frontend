@@ -4,7 +4,7 @@ import Google from 'public/icons/google.svg'
 import { UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
 import { LoginType } from 'types/LoginType'
 import Link from 'next/link'
-// import { KAKAO_AUTH_URL } from '../../utils/kakao'
+import { KAKAO_AUTH_URL } from '../../utils/kakao'
 
 interface Props {
 	register: UseFormRegister<LoginType>
@@ -30,9 +30,9 @@ const LoginForm = ({ register, handleSubmit, onSubmit }: Props) => {
 				</LineGroup>
 			</Form>
 			<Oauth>
-				{/* <Link href={KAKAO_AUTH_URL}> */}
-				<Kakao />
-				{/* </Link> */}
+				<Link href={KAKAO_AUTH_URL}>
+					<Kakao />
+				</Link>
 				<Google />
 			</Oauth>
 		</Wrrapper>
