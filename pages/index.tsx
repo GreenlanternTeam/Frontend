@@ -12,9 +12,6 @@ export interface IUserResponse {
 }
 
 const Home = () => {
-	fetch('http://localhost:3000/api')
-		.then((res) => res.json())
-		.then((res) => console.log(res))
 	return (
 		<Layout>
 			<section className="flex flex-col">
