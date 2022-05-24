@@ -76,7 +76,6 @@ const Wrrapper = styled.div`
 	align-items: center;
 	flex-direction: column;
 	height: 100vh;
-
 	p {
 		margin-top: 20px;
 		font-weight: 500;
@@ -96,7 +95,6 @@ const Form = styled.form`
 		margin-top: 60px;
 		margin-bottom: 50px;
 	}
-
 	p {
 		margin-top: 20px;
 		margin-bottom: 40px;
@@ -113,7 +111,6 @@ const Input = styled.input`
 	padding-left: 20px;
 	font-weight: 400;
 	font-size: 18px;
-
 	&:focus {
 		outline: 1px solid #000000;
 	}
@@ -141,11 +138,9 @@ const Line = styled.div`
 const LineGroup = styled.div`
 	display: flex;
 	align-items: center;
-
 	span {
 		margin-left: 13px;
 		margin-right: 13px;
-
 		color: rgba(153, 153, 153, 0.6);
 		font-style: medium;
 		font-size: 14px;
@@ -157,7 +152,6 @@ const Oauth = styled.div`
 	width: 100%;
 	justify-content: center;
 	margin-top: 40px;
-
 	svg {
 		margin: 0px 20px 0px 20px;
 	}

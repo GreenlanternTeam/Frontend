@@ -1,5 +1,6 @@
 import { LoginType } from 'types/LoginType'
 import { customAxios } from 'api'
+import { LoginResponse } from 'types/SignUpType'
 
 export interface SignUpType {
 	nickname: string
@@ -18,21 +19,16 @@ interface AxiosResponse {
 }
 
 export interface SignUpResponse extends AxiosResponse {
-	data: {
-		User?: {
-			id: number
-			userId: string
-			password: string
-			email: string
-			nickname?: string
-		}
-		access_token: string
-		refresh_token: string
+	User?: {
+		id: number
+		userId: string
+		password: string
+		email: string
+		nickname?: string
 	}
 }
 
 export const signUp = async (data: SignUpType): Promise<SignUpResponse> => {
-	console.log('안녕')
 	const { password, email, nickname, password_confirm, agree_14plus, agree_terms, agree_info, agree_recinfo } = data
 	return await customAxios.post('/signup/', {
 		password1: password,
@@ -46,18 +42,10 @@ export const signUp = async (data: SignUpType): Promise<SignUpResponse> => {
 	})
 }
 
-export const login = async (data: LoginType): Promise<SignUpResponse> => {
+export const login = async (data: LoginType): Promise<LoginResponse> => {
 	const { email, password } = data
 	return await customAxios.post('/login/', {
 		email,
 		password
-	})
-}
-
-export const kakaoLogin = async (code: string): Promise<SignUpResponse> => {
-	return await customAxios.get('/oauthkakao/login/', {
-		headers: {
-			Params: code
-		}
 	})
 }

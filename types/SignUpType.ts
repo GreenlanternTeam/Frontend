@@ -17,3 +17,12 @@ export interface FormIsValid {
 	password_confirm: boolean
 	nickname: boolean
 }
+
+export interface LoginResponse {
+	data: {
+		success: boolean
+		access_token: string
+		refresh_token: string
+		user: object
+	}
+}
