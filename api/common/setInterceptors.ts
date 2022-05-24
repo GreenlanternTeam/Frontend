@@ -1,18 +1,21 @@
-import axios, { AxiosInstance } from 'axios'
-import { getAcessToekn } from 'utils/gettoken'
+import { AxiosInstance, AxiosError, AxiosRequestConfig } from 'axios'
+import { getAcessToekn } from 'utils/getToken'
 
-const setInterceptors = (instance: AxiosInstance) => {
+const setInterceptors = (instance: AxiosInstance): AxiosInstance => {
 	const token = getAcessToekn()
 	instance.interceptors.request.use(
-		function (config: any) {
-			config.headers['Authorizaion'] = `Bearer ${token}`
-			return config
+		function (config: AxiosRequestConfig): AxiosRequestConfig | void {
+			if (config.headers) {
+				config.headers['Authorization'] = `Bearer ${token}`
+				return config
+			} else return
 		},
 
-		function (error: any) {
+		function (error: AxiosError) {
 			return Promise.reject(error)
 		}
 	)
+	return instance
 }
 
 export default setInterceptors

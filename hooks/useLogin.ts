@@ -6,15 +6,20 @@ import { useDispatch } from 'react-redux'
 import { getUsers } from 'redux/slices/login'
 import { LoginResponse } from 'types/SignUpType'
 import { LoginType } from 'types/LoginType'
+import { checkLogin } from 'api/auth'
 
 const useLogin = () => {
-	const { mutate, data, isLoading, isError, error, isSuccess } = useMutation<LoginResponse, AxiosError, LoginType>(login, {
-		onSuccess: () => {
-			console.log('안녕')
+	const { mutate } = useMutation<LoginResponse, AxiosError, LoginType>(login, {
+		onSuccess: (data) => {
+			localStorage.setItem('access_token', data.data.access_token)
+			localStorage.setItem('refresh_token', data.data.refresh_token)
+			dispatch(getUsers(data.data.user))
+			checkLogin()
+			router.push('/')
 		},
 
-		onError: (data) => {
-			console.log(data)
+		onError: (error) => {
+			console.log(error)
 		}
 	})
 	const router = useRouter()

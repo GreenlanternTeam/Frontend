@@ -1,6 +1,7 @@
 import { LoginType } from 'types/LoginType'
-import { customAxios } from 'api'
+import { customAxios, authAxios } from 'api'
 import { LoginResponse } from 'types/SignUpType'
+import setInterceptors from './common/setInterceptors'
 
 export interface SignUpType {
 	nickname: string
@@ -48,4 +49,12 @@ export const login = async (data: LoginType): Promise<LoginResponse> => {
 		email,
 		password
 	})
+}
+
+export const checkLogin = async () => {
+	await setInterceptors(customAxios)
+		.get('/users/')
+		.then((res) => {
+			console.log(res)
+		})
 }

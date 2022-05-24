@@ -1,4 +1,5 @@
 import axios from 'axios'
+import setInterceptors from './common/setInterceptors'
 
 const customAxios = axios.create({
 	baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -7,6 +8,16 @@ const customAxios = axios.create({
 	}
 })
 
-/*customAxios.defaults.withCredentials = true*/
+function createAxios() {
+	const ins = axios.create({
+		baseURL: `${process.env.NEXT_PUBLIC_API_URL}`,
+		headers: {
+			'Content-type': 'application/json'
+		}
+	})
+	return setInterceptors(ins)
+}
 
-export { customAxios }
+const authAxios = createAxios()
+
+export { customAxios, authAxios }
