@@ -1,5 +1,6 @@
 import { LoginType } from 'types/LoginType'
 import { customAxios } from 'api'
+import { LoginResponse } from 'types/SignUpType'
 
 export interface SignUpType {
 	nickname: string
@@ -41,18 +42,10 @@ export const signUp = async (data: SignUpType): Promise<SignUpResponse> => {
 	})
 }
 
-export const login = async (data: LoginType): Promise<SignUpResponse> => {
+export const login = async (data: LoginType): Promise<LoginResponse> => {
 	const { email, password } = data
 	return await customAxios.post('/login/', {
 		email,
 		password
-	})
-}
-
-export const kakaoLogin = async (code: string | string[] | undefined): Promise<string> => {
-	return await customAxios.get('/oauthkakao/login/', {
-		headers: {
-			Params: code
-		}
 	})
 }

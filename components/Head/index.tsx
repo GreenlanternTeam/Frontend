@@ -11,7 +11,6 @@ interface HeadProps {
 
 const Head = ({ handleClick }: HeadProps) => {
 	const user = useAppSelector((state) => state.user.user)
-	console.log(user)
 	return (
 		<header className="w-full h-[75px] px-6 flex justify-between items-center sticky top-0 bg-white z-10">
 			<div onClick={() => handleClick && handleClick()}>
