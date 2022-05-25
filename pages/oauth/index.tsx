@@ -8,11 +8,6 @@ import { LoginType } from 'types/LoginType'
 import { customAxios } from 'api'
 import axios from 'axios'
 
-// export const CLIENT_ID = '1c9f7260e6aa88b6760dc86efb880690'
-export const CLIENT_ID = '401749361c5856efc19d33d0c28284a6'
-export const REDIRECT_URI = 'http://localhost:3000/oauth'
-export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`
-
 const Oauth = () => {
 	const router = useRouter()
 	const code = router.query
@@ -20,7 +15,9 @@ const Oauth = () => {
 		if (code?.code) {
 			customAxios
 				.get(
-					`https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&code=${code.code}`
+					`https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${process.env.NEXT_KAKAO_CLIENT_ID}&redirect_uri=${
+						process.env.NODE_ENV === 'production' ? process.env.NEXT_KAKAO_REDIRECT_URI : process.env.NEXT_KAKAO_REDIRECT_URI_DEV
+					}&code=${code.code}`
 				)
 				.then((res) => {
 					console.log(res)
