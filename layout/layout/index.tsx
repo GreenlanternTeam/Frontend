@@ -24,12 +24,7 @@ export default function Layout({ title, children }: LayoutProps) {
 			<div className="relative">
 				<Head handleClick={() => setToggle((prev) => true)} />
 				{children}
-				{toggle && (
-					<div className="fixed top-0 h-full w-full z-50">
-						<div className={`h-full transition ${!toggle ? 'w-0' : 'w-[120px]'} bg-white rounded-tr-[25px] rounded-br-[25px]`}></div>
-						<div onClick={() => setToggle((prev) => false)} className="fixed top-0 w-[32rem] h-full opacity-70 bg-black -z-10" />
-					</div>
-				)}
+				{toggle && <Navigation toggle={toggle} setToggle={setToggle} />}
 			</div>
 		</>
 	)

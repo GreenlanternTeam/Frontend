@@ -12,9 +12,7 @@ const Kakao = () => {
 	const code = router.query
 	useEffect(() => {
 		if (code?.code) {
-			console.log(process.env.NEXT_PUBLIC_KAKAO_TOKEN_URL)
 			axios.get(`${process.env.NEXT_PUBLIC_KAKAO_TOKEN_URL}${code.code}`).then((res) => {
-				console.log(res)
 				customAxios.post('/oauth/kakao/login/finish/', res.data).then((res: IAuthResponse) => {
 					localStorage.setItem('access_token', res.data.access_token)
 					localStorage.setItem('refresh_token', res.data.refresh_token)

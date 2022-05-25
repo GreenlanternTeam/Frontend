@@ -1,3 +1,4 @@
+import { useDispatch } from 'react-redux'
 import { LoginType } from 'types/LoginType'
 import { customAxios } from 'api'
 import { LoginResponse } from 'types/SignUpType'
@@ -54,9 +55,31 @@ export const login = async (data: LoginType): Promise<LoginResponse> => {
 }
 
 export const checkLogin = async () => {
-	await setInterceptors(customAxios)
-		.get('/users/')
-		.then((res) => {
-			console.log(res)
-		})
+	if (typeof window !== 'undefined') {
+		const token = localStorage.getItem('access_token')
+		if (token) {
+			const buff = Buffer.from(token!.split('.')[1], 'base64').toString()
+			const payload = JSON.parse(buff)
+			const id = payload.user_id
+
+			return await setInterceptors(customAxios)
+				.get(`/users/${id}`)
+				.then((res) => {
+					return res.data
+				})
+				.catch((err) => {
+					if (err.response.status === 401) {
+						if (typeof window !== 'undefined') {
+							const refresh_token = localStorage.getItem('refresh_token')
+							customAxios
+								.post('/token/refresh', { refresh_token })
+								.then((res) => console.log(res))
+								.catch((err) => {
+									localStorage.clear()
+								})
+						}
+					}
+				})
+		}
+	}
 }
