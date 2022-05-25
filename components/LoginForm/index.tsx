@@ -18,9 +18,6 @@ interface Props {
 }
 
 const LoginForm = ({ register, handleSubmit, onSubmit }: Props) => {
-	// const getSocial = async () => {
-	// 	const res = await customAxios.get('/oauth/kakao/login/')
-	// }
 	return (
 		<Wrrapper>
 			<Form onSubmit={handleSubmit(onSubmit)}>
