@@ -7,23 +7,10 @@ import Link from 'next/link'
 import Timer from 'components/Timer/Timer'
 import { customAxios } from 'api'
 
-// import { KAKAO_AUTH_URL } from '../../utils/kakao'
-// export const CLIENT_ID = '1c9f7260e6aa88b6760dc86efb880690'
-export const CLIENT_ID = '401749361c5856efc19d33d0c28284a6'
-export const REDIRECT_URI = 'http://localhost:3000/oauth'
-export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`
-// export const KAKAO_AUTH_URL = 'https://greenb.site/api/oauth/kakao/login/'
-
-const scope = 'https://www.googleapis.com/auth/userinfo.email'
-const state = 'random_string'
-const client_id = '95902930814-omvf1l7lpapl4m3i783a1527iloljfih.apps.googleusercontent.com'
-const client_secret = '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'
-export const GOOGLE_ID = '95902930814-omvf1l7lpapl4m3i783a1527iloljfih.apps.googleusercontent.com'
-export const REDIRECT_GOOGLE = ''
-export const GOOGLE_URL = ''
-const info = 'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token={access_token}'
-const LOGIN_GOOGLE = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${client_id}&response_type=code&redirect_uri=http://localhost:3000/oauth/google&scope=${scope}`
-const url = `https://oauth2.googleapis.com/token?client_id={client_id}&client_secret=${client_secret}&code={code}&grant_type=authorization_code&redirect_uri={GOOGLE_CALLBACK_URI}&state={state}`
+export const REDIRECT_URI =
+	process.env.NODE_ENV === 'production' ? process.env.NEXT_KAKAO_REDIRECT_URI : process.env.NEXT_KAKAO_REDIRECT_URI_DEV
+export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_KAKAO_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`
+const LOGIN_GOOGLE = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.NEXT_GOOGLE_ID}&response_type=code&redirect_uri=${REDIRECT_URI}/google&scope=${process.env.NEXT_GOOGLE_SCOPE}`
 interface Props {
 	register: UseFormRegister<LoginType>
 	handleSubmit: UseFormHandleSubmit<LoginType>
