@@ -9,6 +9,7 @@ const loginUser = createAsyncThunk('users/login', async (user: LoginType) => {
 
 const initialState = {
 	loading: false,
+	isLoggedIn: false,
 	user: null
 }
 
@@ -18,10 +19,14 @@ const userSlice = createSlice({
 	reducers: {
 		getUsers: (state, action) => {
 			state.user = action.payload
+		},
+		setUsers: (state, action) => {
+			state.user = action.payload
+			state.isLoggedIn = true
 		}
 	}
 })
 
 export { loginUser }
-export const { getUsers } = userSlice.actions
+export const { getUsers, setUsers } = userSlice.actions
 export default userSlice.reducer
