@@ -5,7 +5,6 @@ import { UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
 import { LoginType } from 'types/LoginType'
 import Link from 'next/link'
 import Timer from 'components/Timer/Timer'
-import { customAxios } from 'api'
 
 export const REDIRECT_URI =
 	process.env.NODE_ENV === 'production' ? process.env.NEXT_KAKAO_REDIRECT_URI : process.env.NEXT_KAKAO_REDIRECT_URI_DEV

@@ -7,7 +7,6 @@ const customAxios = axios.create({
 		'Content-type': 'application/json'
 	}
 })
-
 function createAxios() {
 	const ins = axios.create({
 		baseURL: `${process.env.NEXT_PUBLIC_API_URL}`,
