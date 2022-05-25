@@ -4,7 +4,7 @@ import { useMutation } from 'react-query'
 import { SignUpResponse } from 'api/auth'
 import { AxiosError } from 'axios'
 import { LoginType } from 'types/LoginType'
-import { kakaoLogin } from 'api/auth'
+// import { kakaoLogin } from 'api/auth'
 import { customAxios } from 'api'
 import axios from 'axios'
 
