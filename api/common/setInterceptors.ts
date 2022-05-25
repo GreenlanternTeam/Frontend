@@ -8,9 +8,8 @@ const setInterceptors = (instance: AxiosInstance): AxiosInstance => {
 			if (token && config.headers) {
 				config.headers['Authorization'] = `Bearer ${token}`
 				return config
-			} else return
+			} else return config
 		},
-
 		function (error: AxiosError) {
 			return Promise.reject(error)
 		}

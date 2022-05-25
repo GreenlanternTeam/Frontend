@@ -6,10 +6,6 @@ import { LoginType } from 'types/LoginType'
 import Link from 'next/link'
 import Timer from 'components/Timer/Timer'
 
-export const REDIRECT_URI =
-	process.env.NODE_ENV === 'production' ? process.env.NEXT_KAKAO_REDIRECT_URI : process.env.NEXT_KAKAO_REDIRECT_URI_DEV
-export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_KAKAO_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`
-const LOGIN_GOOGLE = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.NEXT_GOOGLE_ID}&response_type=code&redirect_uri=${REDIRECT_URI}/google&scope=${process.env.NEXT_GOOGLE_SCOPE}`
 interface Props {
 	register: UseFormRegister<LoginType>
 	handleSubmit: UseFormHandleSubmit<LoginType>
@@ -17,6 +13,7 @@ interface Props {
 }
 
 const LoginForm = ({ register, handleSubmit, onSubmit }: Props) => {
+	console.log(process.env.NEXT_PUBLIC_KAKAO_AUTH_URL)
 	return (
 		<Wrrapper>
 			<Form onSubmit={handleSubmit(onSubmit)}>
@@ -30,19 +27,19 @@ const LoginForm = ({ register, handleSubmit, onSubmit }: Props) => {
 				<LineGroup>
 					<Line />
 					<span>간편 로그인 or 회원가입</span>
-					<Timer time={180} />
+					{/* <Timer time={180} /> */}
 					<Line />
 				</LineGroup>
 			</Form>
 			<Oauth>
-				<Link href={KAKAO_AUTH_URL} passHref>
+				<Link href={process.env.NEXT_PUBLIC_KAKAO_AUTH_URL!} passHref>
 					<a>
 						{/* <div style={{ cursor: 'pointer' }} onClick={getSocial}> */}
 						<Kakao />
 					</a>
 					{/* </div> */}
 				</Link>
-				<Link href={LOGIN_GOOGLE} passHref>
+				<Link href={process.env.NEXT_PUBLIC_GOOGLE_AUTH_URL!} passHref>
 					<a>
 						<Google />
 					</a>
