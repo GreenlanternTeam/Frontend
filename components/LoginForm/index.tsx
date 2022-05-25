@@ -4,7 +4,6 @@ import Google from 'public/icons/google.svg'
 import { UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
 import { LoginType } from 'types/LoginType'
 import Link from 'next/link'
-import Timer from 'components/Timer/Timer'
 
 interface Props {
 	register: UseFormRegister<LoginType>
@@ -13,7 +12,6 @@ interface Props {
 }
 
 const LoginForm = ({ register, handleSubmit, onSubmit }: Props) => {
-	console.log(process.env.NEXT_PUBLIC_KAKAO_AUTH_URL)
 	return (
 		<Wrrapper>
 			<Form onSubmit={handleSubmit(onSubmit)}>
@@ -27,19 +25,16 @@ const LoginForm = ({ register, handleSubmit, onSubmit }: Props) => {
 				<LineGroup>
 					<Line />
 					<span>간편 로그인 or 회원가입</span>
-					{/* <Timer time={180} /> */}
 					<Line />
 				</LineGroup>
 			</Form>
 			<Oauth>
-				<Link href={process.env.NEXT_PUBLIC_KAKAO_AUTH_URL!} passHref>
+				<Link href={process.env.NEXT_PUBLIC_KAKAO_AUTH_URL!}>
 					<a>
-						{/* <div style={{ cursor: 'pointer' }} onClick={getSocial}> */}
 						<Kakao />
 					</a>
-					{/* </div> */}
 				</Link>
-				<Link href={process.env.NEXT_PUBLIC_GOOGLE_AUTH_URL!} passHref>
+				<Link href={process.env.NEXT_PUBLIC_GOOGLE_AUTH_URL!}>
 					<a>
 						<Google />
 					</a>
