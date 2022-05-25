@@ -13,16 +13,11 @@ const Oauth = () => {
 	const code = router.query
 	useEffect(() => {
 		if (code?.code) {
-			customAxios
-				.get(
-					`https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${process.env.NEXT_KAKAO_CLIENT_ID}&redirect_uri=${
-						process.env.NODE_ENV === 'production' ? process.env.NEXT_KAKAO_REDIRECT_URI : process.env.NEXT_KAKAO_REDIRECT_URI_DEV
-					}&code=${code.code}`
-				)
-				.then((res) => {
-					console.log(res)
-					customAxios.post('/oauth/kakao/login/finish/', res.data).then((res) => console.log(res))
-				})
+			console.log(process.env.NEXT_PUBLIC_KAKAO_TOKEN_URL)
+			axios.get(`${process.env.NEXT_PUBLIC_KAKAO_TOKEN_URL}${code.code}`).then((res) => {
+				console.log(res)
+				customAxios.post('/oauth/kakao/login/finish/', res.data).then((res) => console.log(res))
+			})
 		}
 	}, [code])
 
