@@ -33,7 +33,7 @@ const Google = () => {
 					})
 			})
 		}
-	}, [code])
+	}, [code, dispatch, router])
 	return <div></div>
 }
 
