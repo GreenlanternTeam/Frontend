@@ -1,5 +1,5 @@
 import { LoginType } from 'types/LoginType'
-import { customAxios, authAxios } from 'api'
+import { customAxios } from 'api'
 import { LoginResponse } from 'types/SignUpType'
 import setInterceptors from './common/setInterceptors'
 
