@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import styled from 'styled-components'
-import React, { useState, Dispatch, SetStateAction } from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 
 interface props {
 	setOnSlide: Dispatch<SetStateAction<boolean>>

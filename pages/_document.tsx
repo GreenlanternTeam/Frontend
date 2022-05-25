@@ -1,20 +1,15 @@
-import Document, { Html, Head, Main, NextScript, DocumentContext, DocumentInitialProps } from 'next/document'
-
-class GreenDocs extends Document {
-	static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
-		return await Document.getInitialProps(ctx)
-	}
-	render() {
-		return (
-			<Html>
-				<Head />
-				<body>
-					<Main />
-					<NextScript />
-				</body>
-			</Html>
-		)
-	}
+import { Html, NextScript, Head, Main } from 'next/document'
+import React from 'react'
+const GreenDocs = () => {
+	return (
+		<Html>
+			<Head />
+			<body>
+				<Main />
+				<NextScript />
+			</body>
+		</Html>
+	)
 }
 
 export default GreenDocs

@@ -8,9 +8,12 @@ import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
 import { useState } from 'react'
 import GlobalStyle from 'styles/globalStyle'
 import 'assets/index.css'
+import { checkLogin } from 'api/auth'
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
 	const [queryClient] = useState(() => new QueryClient())
+	checkLogin()
+
 	return (
 		<Provider store={store}>
 			<ThemeProvider theme={theme}>

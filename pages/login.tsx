@@ -1,14 +1,25 @@
-import type { NextPage } from 'next'
 import Layout from 'layout/layout'
-import FormO from 'components/organisms/FormO'
+import LoginForm from 'components/LoginForm'
+import { useForm } from 'react-hook-form'
+import { LoginType } from 'types/LoginType'
+import useLogin from 'hooks/useLogin'
 
-const LoginForm: NextPage = () => {
+const Login = () => {
+	const {
+		register,
+		handleSubmit,
+		formState: { errors }
+	} = useForm<LoginType>()
+	const { mutate } = useLogin()
+
+	const onSubmit = (loginFormData: LoginType) => {
+		mutate(loginFormData)
+	}
+
 	return (
 		<Layout>
-			<div className="h-[calc(100vh-75px)] min-h-full w-full bg-[rgba(196,196,196,0.15)] px-[50px] flex flex-col items-center">
-				<FormO />
-			</div>
+			<LoginForm register={register} handleSubmit={handleSubmit} onSubmit={onSubmit} />
 		</Layout>
 	)
 }
-export default LoginForm
+export default Login
