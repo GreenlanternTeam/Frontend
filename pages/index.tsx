@@ -5,6 +5,12 @@ import SampleImg from 'public/pngegg.png'
 import Image from 'next/image'
 import BottomSection from 'layout/MainPage/BottomSection'
 import MainBrand from 'components/MainBrand'
+import { usePopup } from 'hooks/usePopup'
+import GreenPopUp from 'components/GreenPopUp'
+import Input from 'components/atoms/Input'
+
+import BButton from 'components/atoms/BButton'
+import Timer from 'components/Timer/Timer'
 
 export interface IUserResponse {
 	name: string
@@ -12,6 +18,8 @@ export interface IUserResponse {
 }
 
 const Home = () => {
+	const { setPopupShow, closePopup } = usePopup()
+
 	return (
 		<Layout>
 			<section className="flex flex-col">

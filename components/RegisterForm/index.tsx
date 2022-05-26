@@ -5,7 +5,10 @@ import { FormValue, FormIsValid } from 'types/SignUpType'
 import { SignUpType } from 'api/auth'
 import InputContainer from './Input'
 import { debounce } from 'utils/fn'
-
+import GreenPopUp from 'components/GreenPopUp'
+import Timer from 'components/Timer/Timer'
+import BButton from 'components/atoms/BButton'
+import InputPopup from 'components/atoms/Input'
 interface Props {
 	register: UseFormRegister<FormValue>
 	errors: {
@@ -50,6 +53,23 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 
 	return (
 		<Wrrapper>
+			<GreenPopUp>
+				<div className="font-medium text-[16px] opacity-80">
+					<h1>이메일에 전송된</h1>
+					<h1>인증번호를 입력해주세요.</h1>
+				</div>
+				<div className="relative flex items-center">
+					<InputPopup maxLength={4} placeholder="인증번호" size="sm" cls="pr-[60px]" />
+					<Timer time={180} cls="right-[20px] absolute" />
+				</div>
+				<div className="font-normal text-[11px] text-center">
+					<h3>3분 이내로 인증번호(4자리)를 입력하세요.</h3>
+					<h3>
+						전송되지 않을경우 <u>재전송</u> 버튼을 눌러주세요.
+					</h3>
+					<BButton text="확인" />
+				</div>
+			</GreenPopUp>
 			<h2>회원가입</h2>
 			<Form onSubmit={handleSubmit(onSubmit)}>
 				<InputContainer

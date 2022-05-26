@@ -4,7 +4,7 @@ import Google from 'public/icons/google.svg'
 import { UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
 import { LoginType } from 'types/LoginType'
 import Link from 'next/link'
-
+import InputAtom from 'components/atoms/Input'
 interface Props {
 	register: UseFormRegister<LoginType>
 	handleSubmit: UseFormHandleSubmit<LoginType>
@@ -16,11 +16,13 @@ const LoginForm = ({ register, handleSubmit, onSubmit }: Props) => {
 		<Wrrapper>
 			<Form onSubmit={handleSubmit(onSubmit)}>
 				<h2>로그인</h2>
-				<Input placeholder="이메일" {...register('email', { required: true })} />
-				<Input placeholder="비밀번호 " type="password" {...register('password', { required: true })} />
+				<div className="space-y-[5px] w-[275px]">
+					<Input placeholder="이메일" {...register('email', { required: true })} />
+					<Input placeholder="비밀번호 " type="password" {...register('password', { required: true })} />
+				</div>
 				<Button type="submit">로그인</Button>
 				<p>
-					아이디 비밀번호 찾기 | <Link href="register">회원가입</Link>
+					비밀번호 찾기 | <Link href="register">회원가입</Link>
 				</p>
 				<LineGroup>
 					<Line />
@@ -75,21 +77,7 @@ const Form = styled.form`
 		margin-bottom: 40px;
 	}
 `
-const Input = styled.input`
-	width: 275px;
-	height: 50px;
-	background: #ffffff;
-	border: 1px solid rgba(153, 153, 153, 0.6);
-	box-sizing: border-box;
-	border-radius: 5px;
-	margin-top: 5px;
-	padding-left: 20px;
-	font-weight: 400;
-	font-size: 18px;
-	&:focus {
-		outline: 1px solid #000000;
-	}
-`
+const Input = styled(InputAtom)``
 
 const Button = styled.button`
 	width: 275px;
