@@ -1,8 +1,10 @@
+import { setAcessToekn } from './../utils/getToken'
 import { useDispatch } from 'react-redux'
 import { LoginType } from 'types/LoginType'
 import { customAxios } from 'api'
 import { LoginResponse } from 'types/SignUpType'
 import setInterceptors from './common/setInterceptors'
+import AuthError from './common/customAuthError'
 
 export interface SignUpType {
 	nickname: string
@@ -61,7 +63,6 @@ export const checkLogin = async () => {
 			const buff = Buffer.from(token!.split('.')[1], 'base64').toString()
 			const payload = JSON.parse(buff)
 			const id = payload.user_id
-
 			return await setInterceptors(customAxios)
 				.get(`/users/${id}`)
 				.then((res) => {
@@ -70,12 +71,16 @@ export const checkLogin = async () => {
 				.catch((err) => {
 					if (err.response.status === 401) {
 						if (typeof window !== 'undefined') {
+							console.log(err)
 							const refresh_token = localStorage.getItem('refresh_token')
 							customAxios
-								.post('/token/refresh', { refresh_token })
-								.then((res) => console.log(res))
+								.post('/token/refresh/', { refresh_token })
+								.then((res) => {
+									setAcessToekn(res.data.access_token)
+								})
 								.catch((err) => {
 									localStorage.clear()
+									throw new AuthError('세션이 만료되었습니다.', 401, err)
 								})
 						}
 					}
