@@ -23,11 +23,11 @@ const GreenPopUp = ({ children }: GreenPopUpProps) => {
 		return () => setMount(false)
 	}, [])
 
-	return !toggle && mount && ref.current
+	return toggle && mount && ref.current
 		? createPortal(
 				<div
 					className="absolute top-0 h-full w-full transition bg-[rgba(0,0,0,0.68)] z-40 flex justify-center items-center px-[50px]"
-					onClick={onToggleClick}
+					// onClick={onToggleClick}
 				>
 					<div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-[#F6F6F6] px-[40px] py-[15px] flex flex-col items-center justify-center space-y-[15px]">
 						<PopupChild>{children}</PopupChild>

@@ -1,4 +1,4 @@
-import React, { isValidElement, useEffect, useRef } from 'react'
+import React, { isValidElement, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { FieldError, UseFormHandleSubmit, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
 import { FormValue, FormIsValid } from 'types/SignUpType'
@@ -9,6 +9,7 @@ import GreenPopUp from 'components/GreenPopUp'
 import Timer from 'components/Timer/Timer'
 import BButton from 'components/atoms/BButton'
 import InputPopup from 'components/atoms/Input'
+import { usePopup } from 'hooks/usePopup'
 interface Props {
 	register: UseFormRegister<FormValue>
 	errors: {
@@ -46,7 +47,10 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 	// 	setState(res)
 	// }
 
-	const ok = () => console.log('OK')
+	const { setPopupShow } = usePopup()
+	const [emailCheck, setEmailCheck] = useState(false)
+
+	// const ok = () => console.log('OK')
 	const passWordRef = useRef<string | null>(null)
 	passWordRef.current = watch('password')
 	const allCheck = watch('allcheck', false)
@@ -67,7 +71,13 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 					<h3>
 						전송되지 않을경우 <u>재전송</u> 버튼을 눌러주세요.
 					</h3>
-					<BButton text="확인" />
+					<BButton
+						handleClick={() => {
+							setPopupShow(false)
+							setEmailCheck(true)
+						}}
+						text="확인"
+					/>
 				</div>
 			</GreenPopUp>
 			<h2>회원가입</h2>
@@ -86,10 +96,15 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 							message: '올바른 이메일 형식이 아닙니다'
 						},
 						validate: (value) => {
-							debounce(ok, 5000)
+							// debounce(ok, 5000)
+							onFormValid('email', errors.email)
 							return true
 						},
-						onBlur: () => onFormValid('email', errors.email)
+						onBlur: () => {
+							if (isValid.email && !emailCheck) {
+								setPopupShow(true)
+							}
+						}
 					}}
 				/>
 				{errors.email && <ErrorMsg>{errors.email.message}</ErrorMsg>}

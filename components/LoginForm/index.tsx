@@ -77,7 +77,21 @@ const Form = styled.form`
 		margin-bottom: 40px;
 	}
 `
-const Input = styled(InputAtom)``
+const Input = styled(InputAtom)`
+	width: 275px;
+	height: 50px;
+	background: #ffffff;
+	border: 1px solid rgba(153, 153, 153, 0.6);
+	box-sizing: border-box;
+	border-radius: 5px;
+	margin-top: 5px;
+	padding-left: 20px;
+	font-weight: 400;
+	font-size: 18px;
+	&:focus {
+		outline: 1px solid #000000;
+	}
+`
 
 const Button = styled.button`
 	width: 275px;
