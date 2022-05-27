@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { login } from 'api/auth'
 import { LoginType } from 'types/LoginType'
 
-const loginUser = createAsyncThunk('users/login', async (user: LoginType) => {
+const loginUser = createAsyncThunk('users/check', async (user: LoginType) => {
 	const response = await login(user)
 	return response
 })

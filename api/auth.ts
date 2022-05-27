@@ -1,5 +1,5 @@
 import { LoginType } from 'types/LoginType'
-import { customAxios, authAxios } from 'api'
+import { customAxios } from 'api'
 import { LoginResponse } from 'types/SignUpType'
 import setInterceptors from './common/setInterceptors'
 
@@ -52,9 +52,13 @@ export const login = async (data: LoginType): Promise<LoginResponse> => {
 }
 
 export const checkLogin = async () => {
-	await setInterceptors(customAxios)
-		.get('/users/')
-		.then((res) => {
-			console.log(res)
-		})
+	try {
+		await setInterceptors(customAxios)
+			.get('/users/')
+			.then((res) => {
+				console.log(res)
+			})
+	} catch (e) {
+		console.log(e)
+	}
 }
