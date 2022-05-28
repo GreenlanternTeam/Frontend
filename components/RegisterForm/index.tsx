@@ -1,14 +1,18 @@
-import React, { isValidElement, useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import { FieldError, UseFormHandleSubmit, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
+import {
+	FieldError,
+	UseFormGetValues,
+	UseFormHandleSubmit,
+	UseFormRegister,
+	UseFormSetError,
+	UseFormSetValue,
+	UseFormWatch
+} from 'react-hook-form'
 import { FormValue, FormIsValid } from 'types/SignUpType'
 import { SignUpType } from 'api/auth'
 import InputContainer from './Input'
-import { debounce } from 'utils/fn'
 import GreenPopUp from 'components/GreenPopUp'
-import Timer from 'components/Timer/Timer'
-import BButton from 'components/atoms/BButton'
-import InputPopup from 'components/atoms/Input'
 import { usePopup } from 'hooks/usePopup'
 import SendEmailPopup from './SendEmailPopup'
 interface Props {
@@ -39,27 +43,26 @@ interface Props {
 		agree_info: boolean
 		agree_recinfo: boolean
 	}
+	setError: UseFormSetError<FormValue>
+	getValues: UseFormGetValues<FormValue>
 }
 
-const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid, onFormValid, onAllCheck }: Props) => {
+const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid, onFormValid, onAllCheck, getValues }: Props) => {
 	// const [state, setState] = useState(null)
 	// const emailCheck = async (value: any) => {
 	// 	const res = (await customAxios.post('/api/check/email', value)) || '이미 존재하는 이메일 입니다.'
 	// 	setState(res)
 	// }
 
-	const [emailCheck, setEmailCheck] = useState(false)
-	const { setPopupShow } = usePopup()
-	const passWordRef = useRef<string | null>(null)
-	const emailRef = useRef<string | null>(null)
-	passWordRef.current = watch('password')
-	emailRef.current = watch('email')
+	const { setPopupShow, isSuccess } = usePopup()
 	const allCheck = watch('allcheck', false)
+
+	const [valid, setValid] = useState(false)
 
 	return (
 		<Wrrapper>
 			<GreenPopUp>
-				<SendEmailPopup email={emailRef.current} />
+				<SendEmailPopup email={getValues().email} />
 			</GreenPopUp>
 			<h2>회원가입</h2>
 			<Form onSubmit={handleSubmit(onSubmit)}>
@@ -77,14 +80,17 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 							message: '올바른 이메일 형식이 아닙니다'
 						},
 						validate: (value) => {
+							console.log(value)
 							// debounce(ok, 5000)
 							onFormValid('email', errors.email)
+							if (!errors.email) {
+								console.log('123')
+								setValid(true)
+							}
 							return true
 						},
 						onBlur: () => {
-							if (isValid.email && !emailCheck) {
-								setPopupShow(true)
-							}
+							valid && setPopupShow(true)
 						}
 					}}
 				/>
@@ -92,11 +98,11 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 				<InputContainer
 					label="비밀번호"
 					placeholder="10자 이상의 영문/숫자/특수문자를 조합"
-					register={register}
 					type="password"
+					name="password"
+					register={register}
 					error={errors.password}
 					isValid={isValid.password}
-					name="password"
 					options={{
 						required: { value: true, message: '필수항목 입니다' },
 						minLength: { value: 10, message: '10자 이상 입력해주세요' },
@@ -124,7 +130,7 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 						required: { value: true, message: '필수항목 입니다' },
 						validate: (value) => {
 							onFormValid('password_confirm', errors.password_confirm)
-							return value === passWordRef.current
+							return value === getValues().password
 						}
 						// onBlur: () => onFormValid('password_confirm', errors.password_confirm)
 					}}

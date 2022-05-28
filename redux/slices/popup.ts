@@ -15,7 +15,7 @@ const initialState: Popupstate = {
 	content: null,
 	result: false,
 	timer: null,
-	isTimerDone: true
+	isTimerDone: false
 }
 
 const popup = createSlice({
@@ -31,18 +31,13 @@ const popup = createSlice({
 		setResult: (state, { payload }) => {
 			state.result = payload
 		},
-		setTime: (state, { payload }) => {
-			if (payload >= 0) {
-				state.timer = payload
-				state.isTimerDone = false
-			} else {
-				state.isTimerDone = true
-			}
+		setisTimerDone: (state, { payload }) => {
+			state.isTimerDone = payload
 		}
 	}
 })
 
-export const { togglePopup, setContent, setResult, setTime } = popup.actions
+export const { togglePopup, setContent, setResult, setisTimerDone } = popup.actions
 export const popUpSelector = (state: RootState) => state.popup.showPopUp
 export const popupContentSelector = (state: RootState) => state.popup.showPopUp
 export const popupResultSelector = (state: RootState) => state.popup.result

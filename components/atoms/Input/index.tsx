@@ -5,19 +5,19 @@ interface InputProps {
 	type?: 'text' | 'password' | 'email' | 'number'
 	placeholder?: string
 	label?: string
-	size?: 'sm' | 'md' | 'lg'
+	size?: 'sm' | 'md' | 'lg' | 'full'
 	cls?: string
 	[key: string]: any
 }
 
-const Input: React.FC<InputProps> = ({ type = 'text', placeholder, label, size = 'md', cls, ...props }) => {
+const Input: React.FC<InputProps> = ({ type = 'text', placeholder, label, size = 'full', cls, ...props }) => {
 	const sizes = {
 		sm: 200,
 		md: 275,
-		lg: 325
+		lg: 325,
+		full: '100%'
 	}
 	const w = sizes[size]
-	console.log(props)
 	const cl =
 		`placeholder-shown:border-[rgba(153,153,153,0.6)] placeholder:text-[#999999] placeholder:font-light placeholder:opacity-60  w-[${w}] h-[50px] px-[20px] focus:outline-none focus:border-[1px] focus:border-[#000000] rounded-[5px] border-[1px] border-[#000000] transition-all ` +
 		cls

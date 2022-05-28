@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import RegisterForm from 'components/RegisterForm'
 import Layout from 'layout/layout'
 import { FieldError, useForm } from 'react-hook-form'
@@ -8,6 +8,7 @@ import { SignUpType, SignUpResponse } from 'api/auth'
 import { AxiosError } from 'axios'
 import { FormValue, FormIsValid } from 'types/SignUpType'
 import { useRouter } from 'next/router'
+import { usePopup } from 'hooks/usePopup'
 
 const Register = () => {
 	const {
@@ -16,9 +17,11 @@ const Register = () => {
 		watch,
 		formState: { errors, isValid: testValid, isValidating },
 		setValue,
-		getValues
+		getValues,
+		setError
 	} = useForm<FormValue>({
-		mode: 'onChange'
+		mode: 'onBlur',
+		reValidateMode: 'onChange'
 	})
 	const [isValid, setIsValid] = useState<FormIsValid>({
 		userId: false,
@@ -36,9 +39,15 @@ const Register = () => {
 	const inputState = getValues()
 
 	const router = useRouter()
+	const { isSuccess: isEmailCheck, setSuccess } = usePopup()
 
 	const onSubmit = (formData: SignUpType) => {
-		mutate(formData)
+		if (isEmailCheck) {
+			// mutate(formData)
+			router.push('/login')
+		} else {
+			setError('email', { message: '이메일 미인증' })
+		}
 	}
 
 	const onFormValid = (inputName: string, error: FieldError | undefined) => {
@@ -54,6 +63,11 @@ const Register = () => {
 			})
 	}
 
+	useEffect(() => {
+		return () => {
+			setSuccess(false)
+		}
+	}, [])
 	const onAllCheck = () => {
 		const { agree_14plus, agree_terms, agree_info, agree_recinfo } = getValues()
 		setValue('agree_14plus', !agree_14plus)
@@ -73,9 +87,11 @@ const Register = () => {
 				isValid={isValid}
 				setIsValid={setIsValid}
 				setValue={setValue}
+				setError={setError}
 				onFormValid={onFormValid}
 				inputState={inputState}
 				onAllCheck={onAllCheck}
+				getValues={getValues}
 			/>
 		</Layout>
 	)

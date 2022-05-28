@@ -16,13 +16,14 @@ interface FormKey {
 }
 
 const SendEmailPopup: React.FC<SendEmailPopupProps> = ({ email }) => {
-	const { setPopupShow, isSuccess, setSuccess } = usePopup()
+	const { setPopupShow, setSuccess } = usePopup()
 
 	const { isTimerDone } = useTimer()
 	const mailKey = 1234
 	const {
 		register,
 		handleSubmit,
+		setError,
 		formState: { errors }
 	} = useForm<FormKey>()
 	const sendEmail = useCallback(() => {
@@ -37,17 +38,20 @@ const SendEmailPopup: React.FC<SendEmailPopupProps> = ({ email }) => {
 	}, [email])
 
 	const onValid = (data: FormKey) => {
-		console.log(isTimerDone)
 		if (+data.key === mailKey && !isTimerDone) {
-			setPopupShow(false)
+			setSuccess(true)
+			setError('key', { message: '인증완료' })
+			setTimeout(() => setPopupShow(false), 1500)
+		} else if (isTimerDone) {
+			setError('key', { message: '시간초과' })
 		} else {
 			console.log(data)
-			console.log('Not Currect')
+			setError('key', { message: '인증번호 불일치' })
 		}
 	}
-	console.log(isTimerDone)
+	console.log(email)
 	useEffect(() => {
-		sendEmail()
+		// sendEmail()
 	}, [sendEmail])
 
 	return (
@@ -74,6 +78,7 @@ const SendEmailPopup: React.FC<SendEmailPopupProps> = ({ email }) => {
 					<h3>
 						전송되지 않을경우 <u>재전송</u> 버튼을 눌러주세요.
 					</h3>
+					{errors.key && <div className="pt-4 text-red-400 font-extrabold text-md">{errors.key.message}</div>}
 					<BButton text="확인" type="submit" />
 				</div>
 			</form>

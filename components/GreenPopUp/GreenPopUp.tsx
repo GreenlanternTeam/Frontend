@@ -47,17 +47,21 @@ const GreenPopUp = ({ children }: GreenPopUpProps) => {
 		createPortal(
 			<AnimatePresence>
 				{toggle && mount && (
-					<div className="absolute top-0 h-full w-full transition bg-[rgba(0,0,0,0.68)] z-40 flex justify-center items-center px-[50px]">
+					<>
+						<div
+							onClick={onToggleClick}
+							className="absolute top-0 h-full w-full transition bg-[rgba(0,0,0,0.68)] z-40 flex justify-center items-center px-[50px]"
+						/>
 						<motion.div
 							variants={popupVariants}
 							initial="initial"
 							animate="start"
 							exit="exit"
-							className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-[#F6F6F6] px-[40px] py-[15px] flex flex-col items-center justify-center space-y-[15px]"
+							className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-[#F6F6F6] px-[40px] py-[15px] flex flex-col items-center justify-center space-y-[15px] z-50"
 						>
 							<PopupChild>{children}</PopupChild>
 						</motion.div>
-					</div>
+					</>
 				)}
 			</AnimatePresence>,
 			document.getElementById('pop-up') as HTMLElement
