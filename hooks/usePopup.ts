@@ -1,6 +1,6 @@
-import { ReactNode } from 'react'
+import { popupResultSelector, setResult } from './../redux/slices/popup'
 
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { togglePopup } from 'redux/slices/popup'
 
 const usePopup = () => {
@@ -14,9 +14,15 @@ const usePopup = () => {
 		dispatch(togglePopup(false))
 	}
 
+	const isSuccess = useSelector(popupResultSelector)
+	const setSuccess = (payload: any) => {
+		dispatch(setResult(payload))
+	}
 	return {
 		setPopupShow,
-		closePopup
+		closePopup,
+		isSuccess,
+		setSuccess
 	}
 }
 

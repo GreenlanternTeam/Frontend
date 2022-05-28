@@ -1,3 +1,4 @@
+import { AnimatePresence, motion, Variants } from 'framer-motion'
 import React, { ReactNode, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -23,19 +24,45 @@ const GreenPopUp = ({ children }: GreenPopUpProps) => {
 		return () => setMount(false)
 	}, [])
 
-	return toggle && mount && ref.current
-		? createPortal(
-				<div
-					className="absolute top-0 h-full w-full transition bg-[rgba(0,0,0,0.68)] z-40 flex justify-center items-center px-[50px]"
-					// onClick={onToggleClick}
-				>
-					<div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-[#F6F6F6] px-[40px] py-[15px] flex flex-col items-center justify-center space-y-[15px]">
-						<PopupChild>{children}</PopupChild>
+	const popupVariants: Variants = {
+		initial: {
+			opacity: 0
+		},
+		start: {
+			opacity: 1,
+			transition: {
+				type: 'tween'
+			}
+		},
+		exit: {
+			opacity: 0,
+			transition: {
+				type: 'tween'
+			}
+		}
+	}
+
+	return (
+		ref.current &&
+		createPortal(
+			<AnimatePresence>
+				{toggle && mount && (
+					<div className="absolute top-0 h-full w-full transition bg-[rgba(0,0,0,0.68)] z-40 flex justify-center items-center px-[50px]">
+						<motion.div
+							variants={popupVariants}
+							initial="initial"
+							animate="start"
+							exit="exit"
+							className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-[#F6F6F6] px-[40px] py-[15px] flex flex-col items-center justify-center space-y-[15px]"
+						>
+							<PopupChild>{children}</PopupChild>
+						</motion.div>
 					</div>
-				</div>,
-				document.getElementById('pop-up') as HTMLElement
-		  )
-		: null
+				)}
+			</AnimatePresence>,
+			document.getElementById('pop-up') as HTMLElement
+		)
+	)
 }
 
 export default GreenPopUp

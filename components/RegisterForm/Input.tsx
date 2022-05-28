@@ -13,6 +13,7 @@ interface Props {
 	name: FieldPath<FormValue>
 	options?: RegisterOptions
 	validateTarget?: any
+	[key: string]: any
 }
 
 const InputContainer: React.FC<Props> = ({ label, register, error, isValid, placeholder, validateTarget, name, options, ...rest }) => {

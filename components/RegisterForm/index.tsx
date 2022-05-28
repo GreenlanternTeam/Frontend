@@ -10,6 +10,7 @@ import Timer from 'components/Timer/Timer'
 import BButton from 'components/atoms/BButton'
 import InputPopup from 'components/atoms/Input'
 import { usePopup } from 'hooks/usePopup'
+import SendEmailPopup from './SendEmailPopup'
 interface Props {
 	register: UseFormRegister<FormValue>
 	errors: {
@@ -47,38 +48,18 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 	// 	setState(res)
 	// }
 
-	const { setPopupShow } = usePopup()
 	const [emailCheck, setEmailCheck] = useState(false)
-
-	// const ok = () => console.log('OK')
+	const { setPopupShow } = usePopup()
 	const passWordRef = useRef<string | null>(null)
+	const emailRef = useRef<string | null>(null)
 	passWordRef.current = watch('password')
+	emailRef.current = watch('email')
 	const allCheck = watch('allcheck', false)
 
 	return (
 		<Wrrapper>
 			<GreenPopUp>
-				<div className="font-medium text-[16px] opacity-80">
-					<h1>이메일에 전송된</h1>
-					<h1>인증번호를 입력해주세요.</h1>
-				</div>
-				<div className="relative flex items-center">
-					<InputPopup maxLength={4} placeholder="인증번호" size="sm" cls="pr-[60px]" />
-					<Timer time={180} cls="right-[20px] absolute" />
-				</div>
-				<div className="font-normal text-[11px] text-center">
-					<h3>3분 이내로 인증번호(4자리)를 입력하세요.</h3>
-					<h3>
-						전송되지 않을경우 <u>재전송</u> 버튼을 눌러주세요.
-					</h3>
-					<BButton
-						handleClick={() => {
-							setPopupShow(false)
-							setEmailCheck(true)
-						}}
-						text="확인"
-					/>
-				</div>
+				<SendEmailPopup email={emailRef.current} />
 			</GreenPopUp>
 			<h2>회원가입</h2>
 			<Form onSubmit={handleSubmit(onSubmit)}>
@@ -108,34 +89,45 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 					}}
 				/>
 				{errors.email && <ErrorMsg>{errors.email.message}</ErrorMsg>}
-				<label>비밀번호</label>
-				<Input
-					type="password"
+				<InputContainer
+					label="비밀번호"
 					placeholder="10자 이상의 영문/숫자/특수문자를 조합"
+					register={register}
+					type="password"
 					error={errors.password}
 					isValid={isValid.password}
-					{...register('password', {
+					name="password"
+					options={{
 						required: { value: true, message: '필수항목 입니다' },
 						minLength: { value: 10, message: '10자 이상 입력해주세요' },
 						pattern: {
 							value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{10,}$/,
 							message: '올바른 비밀번호 형식이 아닙니다'
 						},
-						onBlur: () => onFormValid('password', errors.password)
-					})}
+						validate: (value) => {
+							onFormValid('password', errors.password)
+							return true
+						}
+						// onBlur: () => onFormValid('password', errors.password)
+					}}
 				/>
 				{errors.password && <ErrorMsg>{errors.password.message}</ErrorMsg>}
-				<label>비밀번호 확인</label>
-				<Input
-					type="password"
+				<InputContainer
+					label="비밀번호 확인"
 					placeholder="비밀번호 재입력"
+					type="password"
+					name="password_confirm"
+					register={register}
 					error={errors.password_confirm}
 					isValid={isValid.password_confirm}
-					{...register('password_confirm', {
+					options={{
 						required: { value: true, message: '필수항목 입니다' },
-						validate: (value) => value === passWordRef.current,
-						onBlur: () => onFormValid('password_confirm', errors.password_confirm)
-					})}
+						validate: (value) => {
+							onFormValid('password_confirm', errors.password_confirm)
+							return value === passWordRef.current
+						}
+						// onBlur: () => onFormValid('password_confirm', errors.password_confirm)
+					}}
 				/>
 				{errors.password_confirm &&
 					(errors.password_confirm.type === 'required' ? (
@@ -143,15 +135,21 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 					) : (
 						<ErrorMsg>비밀번호가 다릅니다</ErrorMsg>
 					))}
-				<label>닉네임</label>
-				<Input
+				<InputContainer
+					label="닉네임"
+					name="nickname"
+					register={register}
 					placeholder="닉네임 입력"
 					error={errors.nickname}
 					isValid={isValid.nickname}
-					{...register('nickname', {
+					options={{
 						required: { value: true, message: '필수항목 입니다' },
-						onBlur: () => onFormValid('nickname', errors.nickname)
-					})}
+						validate: (value) => {
+							onFormValid('nickname', errors.nickname)
+							return true
+						}
+						// onBlur: () => onFormValid('nickname', errors.nickname)
+					}}
 				/>
 				{errors.nickname && <ErrorMsg>{errors.nickname.message}</ErrorMsg>}
 				<Line />
