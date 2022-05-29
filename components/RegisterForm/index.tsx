@@ -80,11 +80,9 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 							message: '올바른 이메일 형식이 아닙니다'
 						},
 						validate: (value) => {
-							console.log(value)
 							// debounce(ok, 5000)
 							onFormValid('email', errors.email)
 							if (!errors.email) {
-								console.log('123')
 								setValid(true)
 							}
 							return true

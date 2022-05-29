@@ -2,10 +2,13 @@ import { popupResultSelector, setResult } from './../redux/slices/popup'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { togglePopup } from 'redux/slices/popup'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
-const usePopup = () => {
+type stateType<T> = T | null
+
+function usePopup<T>(initialKey: stateType<T> = null) {
 	const dispatch = useDispatch()
+	const [key, setKey] = useState<T>(initialKey!)
 
 	const setPopupShow = (isShow: boolean) => {
 		dispatch(togglePopup(isShow))
@@ -24,7 +27,9 @@ const usePopup = () => {
 		setPopupShow,
 		closePopup,
 		isSuccess,
-		setSuccess
+		setSuccess,
+		valid: key,
+		setValid: setKey
 	}
 }
 
