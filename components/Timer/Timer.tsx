@@ -1,7 +1,6 @@
-import { useTimer } from 'hooks/useTimer'
 import React, { useCallback, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { setisTimerDone } from 'redux/slices/popup'
+import { useDispatch, useSelector } from 'react-redux'
+import { popupIsResetSelector, setIsReset, setisTimerDone } from 'redux/slices/popup'
 
 interface ITimerProps {
 	time: number
@@ -10,27 +9,16 @@ interface ITimerProps {
 
 const Timer: React.FC<ITimerProps> = ({ time, cls }) => {
 	const dispatch = useDispatch()
+	const isReset = useSelector(popupIsResetSelector)
 	const [currentTime, setCurrentTime] = useState(time)
-	const [text, setText] = useState(() => {
-		if (currentTime) {
-			const minute = Math.floor(currentTime / 60).toFixed()
-			const second = currentTime % 60
-			return `${minute} : ${second ? (second < 10 ? '0' + second : second) : '00'}`
-		}
-	})
 	const style = 'text-red-400 text-[14px] ' + cls
 	const decreaseTime = useCallback(() => {
 		if (currentTime) {
-			const minute = Math.floor(currentTime / 60).toFixed()
-			const second = currentTime % 60
-			setText(`${minute} : ${second ? (second < 10 ? '0' + second : second) : '00'}`)
 			setCurrentTime(currentTime - 1)
 		} else {
-			setText('0 : 00')
-			setCurrentTime(0)
 			dispatch(setisTimerDone(true))
 		}
-	}, [currentTime, setCurrentTime, dispatch])
+	}, [currentTime, dispatch])
 
 	useEffect(() => {
 		const index = setInterval(decreaseTime, 1000)
@@ -38,8 +26,21 @@ const Timer: React.FC<ITimerProps> = ({ time, cls }) => {
 			clearInterval(index)
 			dispatch(setisTimerDone(false))
 		}
-	}, [decreaseTime, dispatch])
-	return <span className={style}>{text}</span>
+	}, [decreaseTime, dispatch, currentTime])
+
+	useEffect(() => {
+		if (isReset) {
+			setCurrentTime(time)
+			dispatch(setIsReset(false))
+		}
+	}, [isReset, dispatch, time])
+
+	const timerText = () => {
+		const minute = Math.floor(currentTime / 60).toFixed()
+		const second = currentTime % 60
+		return `${minute} : ${second ? (second < 10 ? '0' + second : second) : '00'}`
+	}
+	return <span className={style}>{timerText()}</span>
 }
 
 export default Timer

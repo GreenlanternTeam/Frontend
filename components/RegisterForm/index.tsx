@@ -54,7 +54,7 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 	// 	setState(res)
 	// }
 
-	const { setPopupShow, isSuccess } = usePopup()
+	const { setPopupShow } = usePopup()
 	const allCheck = watch('allcheck', false)
 
 	const [valid, setValid] = useState(false)
@@ -88,10 +88,11 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 							return true
 						},
 						onBlur: () => {
-							valid && setPopupShow(true)
+							// !errors.email && setPopupShow(true)
 						}
 					}}
 				/>
+				{valid && <button>SEND</button>}
 				{errors.email && <ErrorMsg>{errors.email.message}</ErrorMsg>}
 				<InputContainer
 					label="비밀번호"
