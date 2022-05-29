@@ -1,6 +1,6 @@
 import { LoginType } from 'types/LoginType'
 import { customAxios } from 'api'
-import { LoginResponse } from 'types/SignUpType'
+import { LoginResponse } from 'types/LoginType'
 import setInterceptors from './common/setInterceptors'
 
 export interface SignUpType {
@@ -45,10 +45,12 @@ export const signUp = async (data: SignUpType): Promise<SignUpResponse> => {
 
 export const login = async (data: LoginType): Promise<LoginResponse> => {
 	const { email, password } = data
-	return await customAxios.post('/login/', {
-		email,
-		password
-	})
+	return await customAxios
+		.post('/login/', {
+			email,
+			password
+		})
+		.then((res) => res.data)
 }
 
 export const checkLogin = async () => {

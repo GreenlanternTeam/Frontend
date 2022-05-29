@@ -10,6 +10,7 @@
       "libs/*" : ["libs/*"],
       "utils/*" : ["utils/*"]
     },
+    "useUnknownInCatchVariables": false,
     "target": "esnext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,

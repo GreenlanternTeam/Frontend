@@ -1,45 +1,54 @@
 import styled from 'styled-components'
 import Kakao from 'public/icons/kakao.svg'
 import Google from 'public/icons/google.svg'
-import { UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
+import { FieldError, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
 import { LoginType } from 'types/LoginType'
 import Link from 'next/link'
-import Timer from 'components/Timer/Timer'
-import { customAxios } from 'api'
+import { Dispatch, SetStateAction } from 'react'
 
-// import { KAKAO_AUTH_URL } from '../../utils/kakao'
-// export const CLIENT_ID = '1c9f7260e6aa88b6760dc86efb880690'
-export const CLIENT_ID = '401749361c5856efc19d33d0c28284a6'
-export const REDIRECT_URI = 'http://localhost:3000/oauth'
-export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`
-// export const KAKAO_AUTH_URL = 'https://greenb.site/api/oauth/kakao/login/'
-
-const scope = 'https://www.googleapis.com/auth/userinfo.email'
-const state = 'random_string'
-const client_id = '95902930814-omvf1l7lpapl4m3i783a1527iloljfih.apps.googleusercontent.com'
-const client_secret = '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'
-export const GOOGLE_ID = '95902930814-omvf1l7lpapl4m3i783a1527iloljfih.apps.googleusercontent.com'
-export const REDIRECT_GOOGLE = ''
-export const GOOGLE_URL = ''
-const info = 'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token={access_token}'
-const LOGIN_GOOGLE = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${client_id}&response_type=code&redirect_uri=http://localhost:3000/oauth/google&scope=${scope}`
-const url = `https://oauth2.googleapis.com/token?client_id={client_id}&client_secret=${client_secret}&code={code}&grant_type=authorization_code&redirect_uri={GOOGLE_CALLBACK_URI}&state={state}`
 interface Props {
 	register: UseFormRegister<LoginType>
 	handleSubmit: UseFormHandleSubmit<LoginType>
 	onSubmit: (data: LoginType) => void
+	onFormValid: (inputName: string, error: FieldError | undefined) => void
+	loginError: LoginType
+	setLoginError: Dispatch<SetStateAction<LoginType>>
 }
 
-const LoginForm = ({ register, handleSubmit, onSubmit }: Props) => {
-	// const getSocial = async () => {
-	// 	const res = await customAxios.get('/oauth/kakao/login/')
-	// }
+const LoginForm = ({ register, handleSubmit, onSubmit, onFormValid, loginError, setLoginError }: Props) => {
 	return (
 		<Wrrapper>
 			<Form onSubmit={handleSubmit(onSubmit)}>
 				<h2>로그인</h2>
-				<Input placeholder="이메일" {...register('email', { required: true })} />
-				<Input placeholder="비밀번호 " type="password" {...register('password', { required: true })} />
+				<Input
+					error={loginError.email}
+					placeholder="이메일"
+					{...register('email', {
+						required: true,
+						onChange: () => {
+							if (loginError.email)
+								setLoginError({
+									...loginError,
+									email: ''
+								})
+						}
+					})}
+				/>
+				<Input
+					placeholder="비밀번호 "
+					error={loginError.password}
+					type="password"
+					{...register('password', {
+						required: true,
+						onChange: () => {
+							if (loginError.password)
+								setLoginError({
+									...loginError,
+									password: ''
+								})
+						}
+					})}
+				/>
 				<Button type="submit">로그인</Button>
 				<p>
 					아이디 비밀번호 찾기 | <Link href="register">회원가입</Link>
@@ -47,19 +56,16 @@ const LoginForm = ({ register, handleSubmit, onSubmit }: Props) => {
 				<LineGroup>
 					<Line />
 					<span>간편 로그인 or 회원가입</span>
-					<Timer time={180} />
 					<Line />
 				</LineGroup>
 			</Form>
 			<Oauth>
-				<Link href={KAKAO_AUTH_URL} passHref>
+				<Link href={process.env.NEXT_PUBLIC_KAKAO_AUTH_URL!}>
 					<a>
-						{/* <div style={{ cursor: 'pointer' }} onClick={getSocial}> */}
 						<Kakao />
 					</a>
-					{/* </div> */}
 				</Link>
-				<Link href={LOGIN_GOOGLE} passHref>
+				<Link href={process.env.NEXT_PUBLIC_GOOGLE_AUTH_URL!}>
 					<a>
 						<Google />
 					</a>
@@ -100,11 +106,12 @@ const Form = styled.form`
 		margin-bottom: 40px;
 	}
 `
-const Input = styled.input`
+const Input = styled.input<{ error: string | undefined }>`
 	width: 275px;
 	height: 50px;
 	background: #ffffff;
-	border: 1px solid rgba(153, 153, 153, 0.6);
+	border: ${(props) => (props.error ? '1px solid #FF0000' : '1px solid rgba(153, 153, 153, 0.6)')};
+	color: ${(props) => (props.error ? '#FF0000' : '')};
 	box-sizing: border-box;
 	border-radius: 5px;
 	margin-top: 5px;
@@ -112,7 +119,7 @@ const Input = styled.input`
 	font-weight: 400;
 	font-size: 18px;
 	&:focus {
-		outline: 1px solid #000000;
+		outline: ${(props) => (props.error ? '1px solid #FF0000' : '1px solid #000000')};
 	}
 `
 

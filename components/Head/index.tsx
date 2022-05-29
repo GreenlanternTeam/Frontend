@@ -4,7 +4,7 @@ import Burger from 'public/icons/burger.svg'
 import Image from 'next/image'
 import Logo from 'public/icons/logo.png'
 import { useSelector } from 'react-redux'
-import { useAppSelector } from 'hooks/reduxHooks'
+import { useAppSelector } from '../../hooks/reduxHooks'
 interface HeadProps {
 	handleClick?: () => void
 }
