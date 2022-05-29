@@ -86,7 +86,7 @@ const SendEmailPopup: React.FC<SendEmailPopupProps> = ({ email }) => {
 						cls="pr-[60px]"
 						props={register('key', { required: '필수임' })}
 					/>
-					<Timer time={10} cls="right-[20px] absolute" />
+					<Timer time={180} cls="right-[20px] absolute" />
 				</div>
 				<div className="font-normal text-[11px] text-center">
 					<h3>3분 이내로 인증번호(4자리)를 입력하세요.</h3>

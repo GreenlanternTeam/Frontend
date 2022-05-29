@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import RegisterForm from 'components/RegisterForm'
+import RegisterForm from 'components/Auth/RegisterForm'
 import Layout from 'layout/layout'
 import { FieldError, useForm } from 'react-hook-form'
 import { signUp } from 'api/auth'
@@ -15,7 +15,7 @@ const Register = () => {
 		register,
 		handleSubmit,
 		watch,
-		formState: { errors, isValid: testValid, isValidating },
+		formState: { errors },
 		setValue,
 		getValues,
 		setError
@@ -24,19 +24,16 @@ const Register = () => {
 		reValidateMode: 'onChange'
 	})
 	const [isValid, setIsValid] = useState<FormIsValid>({
-		userId: false,
 		password: false,
 		email: false,
 		password_confirm: false,
 		nickname: false
 	})
-	const { mutate, data, isLoading, isError, error, isSuccess } = useMutation<SignUpResponse, AxiosError, SignUpType>(signUp, {
+	const { mutate } = useMutation<SignUpResponse, AxiosError, SignUpType>(signUp, {
 		onSuccess: () => {
 			router.push('/login')
 		}
 	})
-
-	const inputState = getValues()
 
 	const router = useRouter()
 	const { isSuccess: isEmailCheck, setSuccess } = usePopup()
@@ -89,7 +86,6 @@ const Register = () => {
 				setValue={setValue}
 				setError={setError}
 				onFormValid={onFormValid}
-				inputState={inputState}
 				onAllCheck={onAllCheck}
 				getValues={getValues}
 			/>

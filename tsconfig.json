@@ -11,6 +11,7 @@
       "utils/*" : ["utils/*"],
       "public/*" : ["public/*"]
     },
+    "useUnknownInCatchVariables": false,
     "target": "esnext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,

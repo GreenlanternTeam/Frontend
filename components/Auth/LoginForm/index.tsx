@@ -1,25 +1,54 @@
 import styled from 'styled-components'
 import Kakao from 'public/icons/kakao.svg'
 import Google from 'public/icons/google.svg'
-import { UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
+import { FieldError, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
 import { LoginType } from 'types/LoginType'
 import Link from 'next/link'
-import InputAtom from 'components/atoms/Input'
+import { Dispatch, SetStateAction } from 'react'
+
 interface Props {
 	register: UseFormRegister<LoginType>
 	handleSubmit: UseFormHandleSubmit<LoginType>
 	onSubmit: (data: LoginType) => void
+	onFormValid: (inputName: string, error: FieldError | undefined) => void
+	loginError: LoginType
+	setLoginError: Dispatch<SetStateAction<LoginType>>
 }
 
-const LoginForm = ({ register, handleSubmit, onSubmit }: Props) => {
+const LoginForm = ({ register, handleSubmit, onSubmit, onFormValid, loginError, setLoginError }: Props) => {
 	return (
 		<Wrrapper>
 			<Form onSubmit={handleSubmit(onSubmit)}>
 				<h2>로그인</h2>
-				<div className="space-y-[5px] w-[275px]">
-					<Input placeholder="이메일" {...register('email', { required: true })} />
-					<Input placeholder="비밀번호 " type="password" {...register('password', { required: true })} />
-				</div>
+				<Input
+					error={loginError.email}
+					placeholder="이메일"
+					{...register('email', {
+						required: true,
+						onChange: () => {
+							if (loginError.email)
+								setLoginError({
+									...loginError,
+									email: ''
+								})
+						}
+					})}
+				/>
+				<Input
+					placeholder="비밀번호 "
+					error={loginError.password}
+					type="password"
+					{...register('password', {
+						required: true,
+						onChange: () => {
+							if (loginError.password)
+								setLoginError({
+									...loginError,
+									password: ''
+								})
+						}
+					})}
+				/>
 				<Button type="submit">로그인</Button>
 				<p>
 					비밀번호 찾기 | <Link href="register">회원가입</Link>
@@ -77,11 +106,12 @@ const Form = styled.form`
 		margin-bottom: 40px;
 	}
 `
-const Input = styled(InputAtom)`
+const Input = styled.input<{ error: string | undefined }>`
 	width: 275px;
 	height: 50px;
 	background: #ffffff;
-	border: 1px solid rgba(153, 153, 153, 0.6);
+	border: ${(props) => (props.error ? '1px solid #FF0000' : '1px solid rgba(153, 153, 153, 0.6)')};
+	color: ${(props) => (props.error ? '#FF0000' : '')};
 	box-sizing: border-box;
 	border-radius: 5px;
 	margin-top: 5px;
@@ -89,7 +119,7 @@ const Input = styled(InputAtom)`
 	font-weight: 400;
 	font-size: 18px;
 	&:focus {
-		outline: 1px solid #000000;
+		outline: ${(props) => (props.error ? '1px solid #FF0000' : '1px solid #000000')};
 	}
 `
 
