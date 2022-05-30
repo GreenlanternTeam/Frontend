@@ -22,13 +22,11 @@ const Register = () => {
 		password_confirm: false,
 		nickname: false
 	})
-	const { mutate, data, isLoading, isError, error, isSuccess } = useMutation<SignUpResponse, AxiosError, SignUpType>(signUp, {
+	const { mutate } = useMutation<SignUpResponse, AxiosError, SignUpType>(signUp, {
 		onSuccess: () => {
 			router.push('/login')
 		}
 	})
-
-	const inputState = formState.getValues()
 
 	const router = useRouter()
 	const { isSuccess: isEmailCheck, setSuccess } = usePopup()

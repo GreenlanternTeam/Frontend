@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import Input from 'components/atoms/Input'
 import Timer from 'components/Timer/Timer'
 import BButton from 'components/atoms/BButton'

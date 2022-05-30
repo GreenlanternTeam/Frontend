@@ -16,11 +16,6 @@ interface Props extends UseFormReturn<FormValue> {
 }
 
 const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props) => {
-	// const [state, setState] = useState(null)
-	// const emailCheck = async (value: any) => {
-	// 	const res = (await customAxios.post('/api/check/email', value)) || '이미 존재하는 이메일 입니다.'
-	// 	setState(res)
-	// }
 	const {
 		register,
 		formState: { errors, isValidating },
