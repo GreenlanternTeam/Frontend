@@ -11,15 +11,7 @@ import { useRouter } from 'next/router'
 import { usePopup } from 'hooks/usePopup'
 
 const Register = () => {
-	const {
-		register,
-		handleSubmit,
-		watch,
-		formState: { errors, isValid: testValid, isValidating },
-		setValue,
-		getValues,
-		setError
-	} = useForm<FormValue>({
+	const formState = useForm<FormValue>({
 		mode: 'onBlur',
 		reValidateMode: 'onChange'
 	})
@@ -36,17 +28,17 @@ const Register = () => {
 		}
 	})
 
-	const inputState = getValues()
+	const inputState = formState.getValues()
 
 	const router = useRouter()
 	const { isSuccess: isEmailCheck, setSuccess } = usePopup()
 
 	const onSubmit = (formData: SignUpType) => {
 		if (isEmailCheck) {
-			// mutate(formData)
+			mutate(formData)
 			router.push('/login')
 		} else {
-			setError('email', { message: '이메일 미인증' })
+			formState.setError('email', { message: '이메일 미인증' })
 		}
 	}
 
@@ -67,31 +59,24 @@ const Register = () => {
 		return () => {
 			setSuccess(false)
 		}
-	}, [])
+	}, [setSuccess])
 	const onAllCheck = () => {
-		const { agree_14plus, agree_terms, agree_info, agree_recinfo } = getValues()
-		setValue('agree_14plus', !agree_14plus)
-		setValue('agree_terms', !agree_terms)
-		setValue('agree_info', !agree_info)
-		setValue('agree_recinfo', !agree_recinfo)
+		const { agree_14plus, agree_terms, agree_info, agree_recinfo } = formState.getValues()
+		formState.setValue('agree_14plus', !agree_14plus)
+		formState.setValue('agree_terms', !agree_terms)
+		formState.setValue('agree_info', !agree_info)
+		formState.setValue('agree_recinfo', !agree_recinfo)
 	}
 
 	return (
 		<Layout>
 			<RegisterForm
-				register={register}
-				errors={errors}
-				watch={watch}
 				onSubmit={onSubmit}
-				handleSubmit={handleSubmit}
 				isValid={isValid}
 				setIsValid={setIsValid}
-				setValue={setValue}
-				setError={setError}
 				onFormValid={onFormValid}
-				inputState={inputState}
 				onAllCheck={onAllCheck}
-				getValues={getValues}
+				{...formState}
 			/>
 		</Layout>
 	)

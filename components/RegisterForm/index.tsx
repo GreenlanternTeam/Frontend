@@ -1,64 +1,38 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import {
-	FieldError,
-	UseFormGetValues,
-	UseFormHandleSubmit,
-	UseFormRegister,
-	UseFormSetError,
-	UseFormSetValue,
-	UseFormWatch
-} from 'react-hook-form'
+import { FieldError, UseFormReturn } from 'react-hook-form'
 import { FormValue, FormIsValid } from 'types/SignUpType'
 import { SignUpType } from 'api/auth'
 import InputContainer from './Input'
 import GreenPopUp from 'components/GreenPopUp'
 import { usePopup } from 'hooks/usePopup'
 import SendEmailPopup from './SendEmailPopup'
-interface Props {
-	register: UseFormRegister<FormValue>
-	errors: {
-		userId?: FieldError | undefined
-		password?: FieldError | undefined
-		email?: FieldError | undefined
-		password_confirm?: FieldError | undefined
-		nickname?: FieldError | undefined
-	}
-	watch: UseFormWatch<FormValue>
+interface Props extends UseFormReturn<FormValue> {
 	onSubmit: (data: SignUpType) => void
-	handleSubmit: UseFormHandleSubmit<FormValue>
 	setIsValid: React.Dispatch<React.SetStateAction<FormIsValid>>
 	isValid: FormIsValid
 	onFormValid: (inputName: string, error: FieldError | undefined) => void
-	setValue: UseFormSetValue<FormValue>
 	onAllCheck: () => void
-	inputState: {
-		password: string
-		email: string
-		password_confirm: string
-		nickname: string
-		allcheck: boolean
-		agree_14plus: boolean
-		agree_terms: boolean
-		agree_info: boolean
-		agree_recinfo: boolean
-	}
-	setError: UseFormSetError<FormValue>
-	getValues: UseFormGetValues<FormValue>
 }
 
-const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid, onFormValid, onAllCheck, getValues }: Props) => {
+const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props) => {
 	// const [state, setState] = useState(null)
 	// const emailCheck = async (value: any) => {
 	// 	const res = (await customAxios.post('/api/check/email', value)) || '이미 존재하는 이메일 입니다.'
 	// 	setState(res)
 	// }
-
+	const {
+		register,
+		formState: { errors, isValidating },
+		watch,
+		onSubmit,
+		handleSubmit,
+		getValues
+	} = formState
 	const { setPopupShow } = usePopup()
 	const allCheck = watch('allcheck', false)
 
 	const [valid, setValid] = useState(false)
-
 	return (
 		<Wrrapper>
 			<GreenPopUp>
@@ -66,6 +40,7 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 			</GreenPopUp>
 			<h2>회원가입</h2>
 			<Form onSubmit={handleSubmit(onSubmit)}>
+				{/* 이메일 유효성 검사 로직 재구현 필요 */}
 				<InputContainer
 					label="이메일"
 					placeholder="이메일 입력"
@@ -88,6 +63,7 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 							return true
 						},
 						onBlur: () => {
+							console.log(isValidating)
 							// !errors.email && setPopupShow(true)
 						}
 					}}
