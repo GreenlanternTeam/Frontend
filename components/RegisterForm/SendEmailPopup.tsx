@@ -80,9 +80,9 @@ const SendEmailPopup: React.FC<SendEmailPopupProps> = ({ email }) => {
 						type="number"
 						maxLength={4}
 						placeholder="인증번호"
-						size="sm"
-						cls="pr-[60px]"
-						props={register('key', { required: '필수임' })}
+						sizeType="sm"
+						addClass="pr-[60px]"
+						register={register('key', { required: '필수임' })}
 					/>
 					<Timer time={180} cls="right-[20px] absolute" />
 				</div>

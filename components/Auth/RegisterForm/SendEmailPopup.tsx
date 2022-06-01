@@ -78,14 +78,7 @@ const SendEmailPopup: React.FC<SendEmailPopupProps> = ({ email }) => {
 
 			<form onSubmit={handleSubmit(onValid)}>
 				<div className="relative flex items-center">
-					<Input
-						type="number"
-						maxLength={4}
-						placeholder="인증번호"
-						size="sm"
-						cls="pr-[60px]"
-						props={register('key', { required: '필수임' })}
-					/>
+					<Input type="number" placeholder="인증번호" sizeType="sm" register={register('key', { required: '필수임' })} />
 					<Timer time={180} cls="right-[20px] absolute" />
 				</div>
 				<div className="font-normal text-[11px] text-center">

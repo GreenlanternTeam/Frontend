@@ -14,7 +14,7 @@ interface Props {
 const LoginForm = ({ register, handleSubmit, onSubmit }: Props) => {
 	return (
 		<Wrrapper>
-			<Form onSubmit={handleSubmit(onSubmit)}>
+			<Form onSubmit={handleSubmit(onSubmit)} className="peer">
 				<h2>로그인</h2>
 				<div className="space-y-[5px] w-[275px]">
 					<Input placeholder="이메일" {...register('email', { required: true })} />

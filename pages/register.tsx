@@ -57,7 +57,7 @@ const Register = () => {
 		return () => {
 			setSuccess(false)
 		}
-	}, [setSuccess])
+	}, [])
 	const onAllCheck = () => {
 		const { agree_14plus, agree_terms, agree_info, agree_recinfo } = formState.getValues()
 		formState.setValue('agree_14plus', !agree_14plus)

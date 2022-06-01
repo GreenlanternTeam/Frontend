@@ -15,3 +15,7 @@ const debounce = async (fn: any, ms = 500) => {
 }
 
 export { debounce }
+
+export function classNames(...classNames: string[]) {
+	return classNames.filter((className) => className).join(' ')
+}

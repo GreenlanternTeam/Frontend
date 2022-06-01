@@ -10,7 +10,7 @@ import GlobalStyle from 'styles/globalStyle'
 import 'assets/index.css'
 import UserValid from 'components/UserValid'
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
+function MyApp({ Component, pageProps }: AppProps) {
 	const [queryClient] = useState(() => new QueryClient())
 
 	return (
