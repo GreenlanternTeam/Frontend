@@ -36,7 +36,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<ResponseType>) 
     <div style="width:375px; padding:115px 0;">
     <div style="width:375px;">
       <div class="logoContainer" style="width: 100%; height: 160px; background-color: #F7F2DC; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-       <img src="http://drive.google.com/uc?export=view&id=1YhzIfisaqUxyPbhmctbBUqwa3NkjIrfi" />
+       <img src="https://cdn.jsdelivr.net/gh/GreenlanternTeam/Frontend/public/pngegg.png" />
       </div>
       <div class="contentContainer" style="padding: 64px 49px; font-weight: 500; font-size: 18px;">
         <span>안녕하세요. 그린랜턴입니다.<br /> 회원가입을 위한 인증번호입니다.<br /><br />아래 인증번호를 확인하여<br />이메일 주소 인증을 완료해주세요.</span>
