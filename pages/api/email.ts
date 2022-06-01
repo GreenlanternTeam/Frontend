@@ -43,7 +43,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse<ResponseType>) 
         <h1 style="width: 100%; padding: 56px 0;">${key}</h1>
         <a style="padding:20px 50px; background-color: #346053; border-radius: 5px; border: none; height: 50px; font-weight: 600; font-size: 18px; color: white; text-decoration: none;" href="https://greenlantern.shop">greenlantern 바로가기</a>
       </div>
-      
     </div>`
 	})
 
