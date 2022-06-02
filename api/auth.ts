@@ -5,6 +5,7 @@ import { customAxios } from 'api'
 import { LoginResponse } from 'types/SignUpType'
 import setInterceptors from './common/setInterceptors'
 import AuthError from './common/customAuthError'
+import { decodeJWT } from 'utils/fn'
 
 export interface SignUpType {
 	nickname: string
@@ -75,8 +76,14 @@ export const checkLogin = async () => {
 							const refresh_token = localStorage.getItem('refresh_token')
 							customAxios
 								.post('/token/refresh/', { refresh_token })
-								.then((res) => {
+								.then(async (res) => {
 									setAcessToekn(res.data.access_token)
+									const id = decodeJWT(res.data.access_token)
+									await setInterceptors(customAxios)
+										.get(`/users/${id}`)
+										.then((res) => {
+											return res.data
+										})
 								})
 								.catch((err) => {
 									localStorage.clear()

@@ -19,3 +19,10 @@ export { debounce }
 export function classNames(...classNames: string[]) {
 	return classNames.filter((className) => className).join(' ')
 }
+
+export function decodeJWT(token: string) {
+	const buff = Buffer.from(token!.split('.')[1], 'base64').toString()
+	const payload = JSON.parse(buff)
+	const id = payload.user_id
+	return id
+}
