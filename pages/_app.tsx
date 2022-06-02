@@ -20,7 +20,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 					<Hydrate state={pageProps.dehydratedState}>
 						<GlobalStyle />
 						<UserValid />
-						<div className="w-full max-w-lg mx-auto relative">
+						<div className="w-full min-w-[250px] max-w-lg mx-auto relative">
 							<Component {...pageProps} />
 							<div id="pop-up" />
 						</div>

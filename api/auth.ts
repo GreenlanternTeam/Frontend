@@ -64,34 +64,37 @@ export const checkLogin = async () => {
 			const buff = Buffer.from(token!.split('.')[1], 'base64').toString()
 			const payload = JSON.parse(buff)
 			const id = payload.user_id
-			return await setInterceptors(customAxios)
-				.get(`/users/${id}`)
-				.then((res) => {
-					return res.data
-				})
-				.catch((err) => {
-					if (err.response.status === 401) {
-						if (typeof window !== 'undefined') {
-							console.log(err)
-							const refresh_token = localStorage.getItem('refresh_token')
-							customAxios
-								.post('/token/refresh/', { refresh_token })
-								.then(async (res) => {
-									setAcessToekn(res.data.access_token)
-									const id = decodeJWT(res.data.access_token)
-									await setInterceptors(customAxios)
-										.get(`/users/${id}`)
-										.then((res) => {
-											return res.data
-										})
-								})
-								.catch((err) => {
-									localStorage.clear()
-									throw new AuthError('세션이 만료되었습니다.', 401, err)
-								})
+			if (id) {
+				return await setInterceptors(customAxios)
+					.get(`/users/${id}`)
+					.then((res) => {
+						return res.data
+					})
+					.catch((err) => {
+						if (err.response.status === 401) {
+							if (typeof window !== 'undefined') {
+								console.log(err)
+								const refresh_token = localStorage.getItem('refresh_token')
+								customAxios
+									.post('/token/refresh/', { refresh_token })
+									.then(async (res) => {
+										setAcessToekn(res.data.access_token)
+										const id = decodeJWT(res.data.access_token)
+										console.log(res.data.access_token)
+										await setInterceptors(customAxios)
+											.get(`/users/${id}`)
+											.then((res) => {
+												return res.data
+											})
+									})
+									.catch((err) => {
+										localStorage.clear()
+										throw new AuthError('세션이 만료되었습니다.', 401, err)
+									})
+							}
 						}
-					}
-				})
+					})
+			}
 		}
 	}
 }
