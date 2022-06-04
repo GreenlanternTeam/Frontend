@@ -7,9 +7,10 @@ interface ContentTitleProps {
 	title: string
 	subTitle: string
 	link?: string
+	clickEvent?: () => void
 }
 
-const ContentTitle: React.FC<ContentTitleProps> = ({ title, subTitle, link }) => {
+const ContentTitle: React.FC<ContentTitleProps> = ({ title, subTitle, clickEvent }) => {
 	return (
 		<div className="flex w-full px-[30px] flex-col space-y-[5px] text-sm">
 			<div className="flex justify-between items-center w-1/3">

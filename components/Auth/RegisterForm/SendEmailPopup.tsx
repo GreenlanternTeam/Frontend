@@ -11,7 +11,6 @@ import { generate4Code } from 'utils/globalUtils'
 interface SendEmailPopupProps {
 	email: string | null
 }
-
 interface FormKey {
 	key: number | string
 }
