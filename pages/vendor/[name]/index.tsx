@@ -60,7 +60,7 @@ const VendorDetail: React.FC<VendorDetailProps> = ({ response }) => {
 						</Link>
 					)}
 					{isMobile && (
-						<div onClick={() => shareMobile()}>
+						<div className="cursor-pointer" onClick={() => shareMobile()}>
 							<Share />
 						</div>
 					)}
