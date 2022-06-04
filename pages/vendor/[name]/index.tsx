@@ -9,7 +9,7 @@ import { useQuery } from 'react-query'
 import { Vendor } from 'types/VendorType'
 import Union from 'public/icons/union.svg'
 import Share from 'public/icons/share.svg'
-import Instagram from 'public/icons/Instagram.svg'
+import Instagram from 'public/icons/instagram.svg'
 import Facebook from 'public/icons/facebook.svg'
 import Link from 'next/link'
 interface VendorDetailProps {
