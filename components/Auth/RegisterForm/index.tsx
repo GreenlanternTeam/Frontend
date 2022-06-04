@@ -15,6 +15,7 @@ import InputContainer from './Input'
 import GreenPopUp from 'components/GreenPopUp'
 import { usePopup } from 'hooks/usePopup'
 import SendEmailPopup from './SendEmailPopup'
+import SubmitButton from '../Button/Button'
 interface Props {
 	register: UseFormRegister<FormValue>
 	errors: {
@@ -195,7 +196,7 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 						</AgreeCheckLabel>
 					</AgreeCheckGroup>
 				</Agree>
-				<Button type="submit">회원가입</Button>
+				<SubmitButton text="회원가입" />
 			</Form>
 		</Wrrapper>
 	)

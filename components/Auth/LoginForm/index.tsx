@@ -4,7 +4,9 @@ import Google from 'public/icons/google.svg'
 import { FieldError, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
 import { LoginType } from 'types/LoginType'
 import Link from 'next/link'
-import { Dispatch, SetStateAction } from 'react'
+import { useRouter } from 'next/router'
+import { Dispatch, SetStateAction, useEffect } from 'react'
+import SubmitButton from '../Button/Button'
 
 interface Props {
 	register: UseFormRegister<LoginType>
@@ -16,6 +18,11 @@ interface Props {
 }
 
 const LoginForm = ({ register, handleSubmit, onSubmit, onFormValid, loginError, setLoginError }: Props) => {
+	const router = useRouter()
+
+	useEffect(() => {
+		router.push('/')
+	}, [])
 	return (
 		<Wrrapper>
 			<Form onSubmit={handleSubmit(onSubmit)}>
@@ -49,7 +56,7 @@ const LoginForm = ({ register, handleSubmit, onSubmit, onFormValid, loginError, 
 						}
 					})}
 				/>
-				<Button type="submit">로그인</Button>
+				<SubmitButton text="로그인" />
 				<p>
 					비밀번호 찾기 | <Link href="register">회원가입</Link>
 				</p>
@@ -123,18 +130,6 @@ const Input = styled.input<{ error: string | undefined }>`
 	}
 `
 
-const Button = styled.button`
-	width: 275px;
-	height: 50px;
-	background: #346053;
-	border-radius: 5px;
-	margin-top: 30px;
-	font-weight: 500;
-	font-size: 18px;
-	line-height: 22px;
-	color: #ffffff;
-	margin-bottom: 1px;
-`
 const Line = styled.div`
 	width: 61px;
 	border-bottom: 1px solid rgba(153, 153, 153, 0.6);
