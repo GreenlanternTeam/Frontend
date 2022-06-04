@@ -28,17 +28,6 @@ const Home = () => {
 						<div className="w-[calc(100%-2rem)] h-[200px] bg-gray-400 rounded-md mx-auto">sdfsdfsdfsdfsdf</div>
 						<HSlider />
 					</BottomSection>
-					<button
-						onClick={() => {
-							navigator.share({
-								title: 'test',
-								text: 'test',
-								url: 'https://naver.com'
-							})
-						}}
-					>
-						sdfdsf
-					</button>
 				</div>
 			</section>
 		</Layout>

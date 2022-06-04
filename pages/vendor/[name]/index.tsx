@@ -22,17 +22,14 @@ interface VendorDetailProps {
 const VendorDetail: React.FC<VendorDetailProps> = ({ response }) => {
 	console.log(response.vendor)
 	const isWindow = typeof window !== 'undefined'
+	const isMobile = /iPhone|iPad|iPod|Android/i.test(window.navigator.userAgent)
 	const shareMobile = () => {
-		const isMobile = /iPhone|iPad|iPod|Android/i.test(window.navigator.userAgent)
-
 		if (isMobile && isWindow && window.navigator) {
-			window.navigator
-				.share({
-					title: `GreenLantern | ${response.vendor.brand_ko}`,
-					text: response.vendor.description,
-					url: 'https://naver.com'
-				})
-				.then((res) => console.log(res))
+			window.navigator.share({
+				title: `GreenLantern | ${response.vendor.brand_ko}`,
+				text: response.vendor.description,
+				url: ''
+			})
 		}
 	}
 	return (
@@ -62,9 +59,11 @@ const VendorDetail: React.FC<VendorDetailProps> = ({ response }) => {
 							</a>
 						</Link>
 					)}
-					<div onClick={() => shareMobile()}>
-						<Share />
-					</div>
+					{isMobile && (
+						<div onClick={() => shareMobile()}>
+							<Share />
+						</div>
+					)}
 				</div>
 			</div>
 		</Layout>
