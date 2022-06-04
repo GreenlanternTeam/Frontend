@@ -1,17 +1,18 @@
 import { vendorApi } from 'api/ajaxApi'
-import { IVendorDetailResponse } from 'api/VendorApi'
+import { isMobile } from 'react-device-detect'
 import Layout from 'layout/layout'
-import { GetServerSideProps, GetStaticProps } from 'next'
+import { GetServerSideProps, NextPage } from 'next'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
+
 import React from 'react'
-import { useQuery } from 'react-query'
+
 import { Vendor } from 'types/VendorType'
 import Union from 'public/icons/union.svg'
 import Share from 'public/icons/share.svg'
 import Instagram from 'public/icons/instagram.svg'
 import Facebook from 'public/icons/facebook.svg'
 import Link from 'next/link'
+
 interface VendorDetailProps {
 	response: {
 		vendor: Vendor
@@ -19,10 +20,11 @@ interface VendorDetailProps {
 	}
 }
 
-const VendorDetail: React.FC<VendorDetailProps> = ({ response }) => {
-	console.log(response.vendor)
+const VendorDetail: NextPage<VendorDetailProps> = ({ response }) => {
+	// console.log(response.vendor)
 	const isWindow = typeof window !== 'undefined'
-	const isMobile = /iPhone|iPad|iPod|Android/i.test(window.navigator.userAgent)
+
+	// const isMobile = /iPhone|iPad|iPod|Android/i.test(window.navigator.userAgent)
 	const shareMobile = () => {
 		if (isMobile && isWindow && window.navigator) {
 			window.navigator.share({
@@ -70,8 +72,6 @@ const VendorDetail: React.FC<VendorDetailProps> = ({ response }) => {
 	)
 }
 
-export default VendorDetail
-
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const { name } = ctx.query
 	if (!name || typeof name !== 'string') {
@@ -85,3 +85,5 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const response = (await vendorApi.getVendorDetail(encodeURI(name))).data
 	return { props: { response } }
 }
+
+export default VendorDetail
