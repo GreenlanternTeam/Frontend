@@ -10,4 +10,4 @@ const Enter: NextPage = () => {
 	return <div></div>
 }
 
-export default WithAuth(Enter, false)
+export default Enter

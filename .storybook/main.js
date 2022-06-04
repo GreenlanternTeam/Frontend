@@ -1,6 +1,9 @@
 const path = require('path')
 module.exports = {
 	stories: ['../**/*.stories.@(js|jsx|ts|tsx)'],
+	features: {
+		babelModeV7: true
+	},
 	addons: [
 		'@storybook/addon-links',
 		'@storybook/addon-essentials',
@@ -24,7 +27,9 @@ module.exports = {
 			styles: path.resolve(__dirname, '../styles'),
 			pages: path.resolve(__dirname, '../pages'),
 			public: path.resolve(__dirname, '../public'),
-			layout: path.resolve(__dirname, '../layout')
+			layout: path.resolve(__dirname, '../layout'),
+			utils: path.resolve(__dirname, '../utils'),
+			hooks: path.resolve(__dirname, '../hooks')
 		}),
 			config.module.rules.unshift({
 				test: /\.svg$/,

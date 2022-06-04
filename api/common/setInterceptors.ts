@@ -1,5 +1,27 @@
 import { AxiosInstance, AxiosError, AxiosRequestConfig } from 'axios'
-import { getAcessToekn } from 'utils/getToken'
+import { getAcessToekn, getRefreshToken } from 'utils/getToken'
+import { customAxios } from 'api'
+import moment from 'moment'
+
+const refresh = async (config: AxiosRequestConfig): Promise<AxiosRequestConfig> => {
+	const refreshToken = getRefreshToken()
+	const expireAt = localStorage.getItem('expireAt')
+	let token = getAcessToekn()
+
+	if (moment(expireAt).diff(moment()) < 0 && refreshToken) {
+		const body = {
+			refreshToken
+		}
+		if (token) {
+			const buff = Buffer.from(token!.split('.')[1], 'base64').toString()
+			const payload = JSON.parse(buff)
+			const id = payload.user_id
+			return await customAxios.get(`/users/${id}`).then((res) => {
+				return res.data
+			})
+		}
+	}
+}
 
 const setInterceptors = (instance: AxiosInstance): AxiosInstance => {
 	const token = getAcessToekn()
@@ -18,4 +40,3 @@ const setInterceptors = (instance: AxiosInstance): AxiosInstance => {
 }
 
 export default setInterceptors
-

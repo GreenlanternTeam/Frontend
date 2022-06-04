@@ -18,11 +18,6 @@ interface Props {
 }
 
 const LoginForm = ({ register, handleSubmit, onSubmit, onFormValid, loginError, setLoginError }: Props) => {
-	const router = useRouter()
-
-	useEffect(() => {
-		router.push('/')
-	}, [])
 	return (
 		<Wrrapper>
 			<Form onSubmit={handleSubmit(onSubmit)}>
