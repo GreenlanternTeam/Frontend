@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import RegisterForm from 'components/RegisterForm'
+import RegisterForm from 'components/Auth/RegisterForm'
 import Layout from 'layout/layout'
 import { FieldError, useForm } from 'react-hook-form'
 import { signUp } from 'api/auth'
@@ -16,7 +16,6 @@ const Register = () => {
 		reValidateMode: 'onChange'
 	})
 	const [isValid, setIsValid] = useState<FormIsValid>({
-		userId: false,
 		password: false,
 		email: false,
 		password_confirm: false,

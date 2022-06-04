@@ -11,16 +11,10 @@ export interface FormValue {
 }
 
 export interface FormIsValid {
-	userId: boolean
 	password: boolean
 	email: boolean
 	password_confirm: boolean
 	nickname: boolean
 }
 
-export interface LoginResponse {
-	success: boolean
-	access_token: string
-	refresh_token: string
-	user: object
-}
+

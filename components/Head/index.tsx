@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Burger from 'public/icons/burger.svg'
 import Image from 'next/image'
 import Logo from 'public/icons/logo.png'
-import { useAppSelector } from 'hooks/reduxHooks'
+import { useAppSelector } from '../../hooks/reduxHooks'
 interface HeadProps {
 	handleClick?: () => void
 }
