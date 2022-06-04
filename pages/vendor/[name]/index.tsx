@@ -23,8 +23,12 @@ const VendorDetail: React.FC<VendorDetailProps> = ({ response }) => {
 	return (
 		<Layout>
 			<div className="py-[50px] px-[25px] w-full">
-				<div className="w-[230px] h-[230px] mx-auto drop-shadow-2xl">
-					<Image unoptimized={true} src={response.vendor.logo_url!} width={230} height={230} objectFit="cover" alt="logo" />
+				<div
+					className={`w-[250px] h-[250px] mx-auto flex justify-center items-center ${
+						response.vendor.logo_url?.includes('png') ? 'drop-shadow-2xl' : 'shadow-2xl'
+					}`}
+				>
+					<Image unoptimized={true} src={response.vendor.logo_url!} width={230} height={230} objectFit="contain" alt="logo" />
 				</div>
 				<h1 className="mx-auto w-fit font-semibold text-[36px] my-[37px]">{response.vendor.brand_en}</h1>
 				<div className="w-full flex justify-end space-x-4">
