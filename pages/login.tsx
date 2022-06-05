@@ -49,4 +49,4 @@ const Login = () => {
 		</Layout>
 	)
 }
-export default WithAuth(Login, true)
+export default Login
