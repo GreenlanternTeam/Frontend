@@ -34,7 +34,7 @@ const Register = () => {
 			router.push('/login')
 		}
 	})
-
+	//
 	const router = useRouter()
 	const { isSuccess: isEmailCheck, setSuccess } = usePopup()
 

@@ -3,8 +3,8 @@ import LoginForm from 'components/Auth/LoginForm'
 import { FieldError, useForm } from 'react-hook-form'
 import { LoginFormIsValid, LoginType } from 'types/LoginType'
 import useLogin from 'hooks/useLogin'
-import usePrivateRoute from 'hooks/usePrivateRoute'
 import { useState } from 'react'
+import WithAuth from 'components/HOC/WithAuth'
 
 const Login = () => {
 	const {

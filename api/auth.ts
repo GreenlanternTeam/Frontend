@@ -64,26 +64,12 @@ export const checkLogin = async () => {
 			const payload = JSON.parse(buff)
 			const id = payload.user_id
 			return await setInterceptors(customAxios)
-				.get(`/users/${id}`)
+				.get(`/users`)
 				.then((res) => {
 					return res.data
 				})
 				.catch((err) => {
-					if (err.response.status === 401) {
-						if (typeof window !== 'undefined') {
-							console.log(err)
-							const refresh_token = localStorage.getItem('refresh_token')
-							customAxios
-								.post('/token/refresh/', { refresh_token })
-								.then((res) => {
-									setAcessToekn(res.data.access_token)
-								})
-								.catch((err) => {
-									localStorage.clear()
-									throw new AuthError('세션이 만료되었습니다.', 401, err)
-								})
-						}
-					}
+					console.log(err)
 				})
 		}
 	}
