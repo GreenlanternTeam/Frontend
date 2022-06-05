@@ -1,11 +1,13 @@
 import SubText from 'components/atoms/SubText'
 import React, { useState } from 'react'
+import { Categories } from 'types/VendorType'
 import * as Icons from './utils'
 export interface CategoryItemProps {
-	type: 'recycled' | 'lowWaste' | 'water' | 'produced' | 'vegan' | 'plastic'
+	type: Categories
+	disabled?: boolean
 }
 
-const CategoryItem: React.FC<CategoryItemProps> = ({ type = 'lowWaste' }) => {
+const CategoryItem: React.FC<CategoryItemProps> = ({ type = 'lowWaste', disabled }) => {
 	const [state, setState] = useState(false)
 	const { href, title, id, blob } = Icons[type]
 	return (
@@ -13,7 +15,7 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ type = 'lowWaste' }) => {
 			className={`w-full h-[110px] aspect-square flex flex-col items-center opacity-[0.6] transition-all duration-300 ${
 				state ? 'bg-[#F6F2DC] opacity-100' : ''
 			}`}
-			onClick={() => setState((prev) => !prev)}
+			onClick={() => !disabled && setState((prev) => !prev)}
 		>
 			<svg
 				width="40"

@@ -18,6 +18,7 @@ const MainBrand = () => {
 	useEffect(() => {
 		return () => console.log('OO')
 	}, [])
+
 	return (
 		<aside>
 			<ContentTitle title="Brand" subTitle="관심있는 브랜드를 찾아보세요!" clickEvent={fetchNextPage} />

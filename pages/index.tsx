@@ -18,7 +18,7 @@ const Home = () => {
 	return (
 		<Layout>
 			<section className="flex flex-col">
-				<div className="pb-[80px] w-full bg-gray-400 flex justify-center items-center aspect-video">
+				<div className="sticky top-[75px] pb-[80px] w-full bg-gray-400 flex justify-center items-center aspect-video">
 					<Image src={SampleImg} alt="text" />
 				</div>
 				<div className="flex flex-col rounded-t-[2rem]  relative -top-[100px] overflow-hidden">
