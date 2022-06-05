@@ -1,4 +1,4 @@
-import { customAxios } from 'api'
+import { commonAxios, customAxios } from 'api'
 import { Vendor } from '../types/VendorType'
 export interface IVendorsResponse {
 	success: boolean
@@ -20,11 +20,11 @@ export interface IVendorDetailResponse {
 }
 
 const getVendors = async ({ pageParam = 1 }, count: number = 9) => {
-	return await customAxios.get<IVendorsResponse>(`/vendors/?page=${pageParam}&count=${count}`).then((res) => res.data)
+	return await commonAxios.get<IVendorsResponse>(`/vendors/?page=${pageParam}&limit=${count}`).then((res) => res.data)
 }
 
 const getVendorDetail = async (name: string) => {
-	return await customAxios.get<IVendorDetailResponse>(`vendors/${name}`).then((res) => res.data)
+	return await commonAxios.get<IVendorDetailResponse>(`vendors/${name}`).then((res) => res.data)
 }
 
 export { getVendors, getVendorDetail }

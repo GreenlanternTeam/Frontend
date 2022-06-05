@@ -89,7 +89,8 @@ export const checkLogin = async () => {
 									})
 									.catch((err) => {
 										localStorage.clear()
-										throw new AuthError('세션이 만료되었습니다.', 401, err)
+										console.log(err)
+										// throw new AuthError('세션이 만료되었습니다.', 401, err)
 									})
 							}
 						}

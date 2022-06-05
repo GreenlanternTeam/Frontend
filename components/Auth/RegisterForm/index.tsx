@@ -235,7 +235,7 @@ const Form = styled.form`
 `
 
 const Button = styled.button`
-	width: 275px;
+	width: 100%;
 	height: 50px;
 	background: #346053;
 	border-radius: 5px;
@@ -247,7 +247,7 @@ const Button = styled.button`
 	margin-bottom: 1px;
 `
 const Line = styled.div`
-	width: 275px;
+	width: 100%;
 	border-bottom: 1px solid rgba(153, 153, 153, 0.6);
 	margin-bottom: 20px;
 	margin-top: 40px;

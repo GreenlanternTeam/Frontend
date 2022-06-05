@@ -10,6 +10,10 @@ import { FormValue, FormIsValid } from 'types/SignUpType'
 import { useRouter } from 'next/router'
 import { usePopup } from 'hooks/usePopup'
 
+interface ErrorType {
+	[key: string]: any
+}
+
 const Register = () => {
 	const formState = useForm<FormValue>({
 		mode: 'onBlur',
@@ -24,6 +28,11 @@ const Register = () => {
 	const { mutate } = useMutation<SignUpResponse, AxiosError, SignUpType>(signUp, {
 		onSuccess: () => {
 			router.push('/login')
+		},
+		onError: (err) => {
+			if (err.response?.data) {
+				console.log(err.response.data)
+			}
 		}
 	})
 
@@ -33,7 +42,6 @@ const Register = () => {
 	const onSubmit = (formData: SignUpType) => {
 		if (isEmailCheck) {
 			mutate(formData)
-			router.push('/login')
 		} else {
 			formState.setError('email', { message: '이메일 미인증' })
 		}

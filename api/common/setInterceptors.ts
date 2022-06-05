@@ -18,4 +18,3 @@ const setInterceptors = (instance: AxiosInstance): AxiosInstance => {
 }
 
 export default setInterceptors
-
