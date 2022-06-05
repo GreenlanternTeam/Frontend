@@ -1,57 +1,48 @@
 import styled from 'styled-components'
 import Kakao from 'public/icons/kakao.svg'
 import Google from 'public/icons/google.svg'
-import { FieldError, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
+import { FieldError, FieldErrors, useForm, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
 import { LoginType } from 'types/LoginType'
 import Link from 'next/link'
 import { Dispatch, SetStateAction } from 'react'
-
+import InputAtom from 'components/atoms/Input'
+import useLogin from 'hooks/useLogin'
 interface Props {
-	register: UseFormRegister<LoginType>
-	handleSubmit: UseFormHandleSubmit<LoginType>
 	onSubmit: (data: LoginType) => void
-	onFormValid: (inputName: string, error: FieldError | undefined) => void
-	loginError: LoginType
-	setLoginError: Dispatch<SetStateAction<LoginType>>
 }
 
-const LoginForm = ({ register, handleSubmit, onSubmit, onFormValid, loginError, setLoginError }: Props) => {
+const LoginForm = ({ onSubmit }: Props) => {
+	const {
+		register,
+		handleSubmit,
+		formState: { errors }
+	} = useForm<LoginType>()
+
 	return (
 		<Wrrapper>
 			<Form onSubmit={handleSubmit(onSubmit)}>
 				<h2>로그인</h2>
-				<Input
-					error={loginError.email}
-					placeholder="이메일"
-					{...register('email', {
-						required: true,
-						onChange: () => {
-							if (loginError.email)
-								setLoginError({
-									...loginError,
-									email: ''
-								})
-						}
-					})}
-				/>
-				<Input
-					placeholder="비밀번호 "
-					error={loginError.password}
-					type="password"
-					{...register('password', {
-						required: true,
-						onChange: () => {
-							if (loginError.password)
-								setLoginError({
-									...loginError,
-									password: ''
-								})
-						}
-					})}
-				/>
+				<div className="w-full space-y-4">
+					<InputAtom
+						error={errors.email}
+						placeholder="이메일"
+						{...register('email', {
+							required: true
+						})}
+					/>
+					<InputAtom
+						placeholder="비밀번호 "
+						error={errors.password}
+						type="password"
+						{...register('password', {
+							required: true
+						})}
+					/>
+				</div>
 				<Button type="submit">로그인</Button>
 				<p>
-					비밀번호 찾기 | <Link href="register">회원가입</Link>
+					비밀번호 찾기<span className="px-[20px]">|</span>
+					<Link href="register">회원가입</Link>
 				</p>
 				<LineGroup>
 					<Line />
@@ -106,7 +97,7 @@ const Form = styled.form`
 		margin-bottom: 40px;
 	}
 `
-const Input = styled.input<{ error: string | undefined }>`
+const Input = styled(InputAtom)<{ error: string | undefined }>`
 	width: 275px;
 	height: 50px;
 	background: #ffffff;
