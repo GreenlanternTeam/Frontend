@@ -1,4 +1,4 @@
-import Document, { DocumentContext, DocumentInitialProps } from 'next/document'
+import Document, { DocumentContext, DocumentInitialProps, Html, Main, NextScript, Head } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
 import { uuid } from 'utils/fn'
 
@@ -25,5 +25,21 @@ export default class MyDocument extends Document {
 		} finally {
 			sheet.seal()
 		}
+	}
+	render() {
+		return (
+			<Html lang="ko">
+				<Head>
+					<meta charSet="utf-8" />
+					<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+					<meta name="description" content="My First Static Website" />
+					<meta name="keywords" content="nextjs,static,website" />
+				</Head>
+				<body>
+					<Main />
+					<NextScript />
+				</body>
+			</Html>
+		)
 	}
 }

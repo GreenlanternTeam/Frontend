@@ -16,7 +16,7 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ title, subTitle, link }) =>
 			<a className="flex w-full px-[30px] flex-col space-y-[5px] text-sm">
 				<div className="flex justify-between items-center w-1/3">
 					<BoldText text={title} />
-					<ChevronRight />
+					{/* <ChevronRight /> */}
 				</div>
 				<SubText text={subTitle} />
 			</a>
@@ -25,7 +25,7 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ title, subTitle, link }) =>
 		<div className="flex w-full px-[30px] flex-col space-y-[5px] text-sm">
 			<div className="flex justify-between items-center w-1/3">
 				<BoldText text={title} />
-				<ChevronRight />
+				{/* <ChevronRight /> */}
 			</div>
 			<SubText text={subTitle} />
 		</div>

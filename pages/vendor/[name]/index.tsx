@@ -47,7 +47,6 @@ const VendorDetail: NextPage<VendorDetailProps> = ({ response, imageUrl }) => {
 		}
 	}
 
-	console.log(response)
 	return (
 		<Layout>
 			<div className=" w-full space-y-[10px] bg-[#F6F6F6] -z-10">

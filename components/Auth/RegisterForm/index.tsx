@@ -27,7 +27,6 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 	} = formState
 	const { setPopupShow, isSuccess } = usePopup()
 	const allCheck = watch('allcheck', false)
-	console.log(isSuccess)
 	const [valid, setValid] = useState(false)
 	return (
 		<Wrrapper>
@@ -43,10 +42,10 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 						placeholder="이메일 입력"
 						error={errors.email}
 						register={register('email', {
-							required: { value: true, message: '필수항목 입니다' },
+							required: { value: true, message: '필수항목 입니다.' },
 							pattern: {
 								value: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
-								message: '올바른 이메일 형식이 아닙니다'
+								message: '올바른 이메일 형식이 아닙니다.'
 							},
 							validate: (value) => {
 								// debounce(ok, 5000)
@@ -96,8 +95,8 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 					type="password"
 					name="password"
 					register={register('password', {
-						required: { value: true, message: '필수항목 입니다' },
-						minLength: { value: 10, message: '10자 이상 입력해주세요' },
+						required: { value: true, message: '필수항목 입니다.' },
+						minLength: { value: 10, message: '10자 이상 입력해주세요.' },
 						pattern: {
 							value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{10,}$/,
 							message: '올바른 비밀번호 형식이 아닙니다'
@@ -117,7 +116,7 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 					type="password"
 					name="password_confirm"
 					register={register('password_confirm', {
-						required: { value: true, message: '필수항목 입니다' },
+						required: { value: true, message: '필수항목 입니다.' },
 						validate: (value) => {
 							onFormValid('password_confirm', errors.password_confirm)
 							return value === getValues().password
@@ -136,7 +135,7 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 					label="닉네임"
 					name="nickname"
 					register={register('nickname', {
-						required: { value: true, message: '필수항목 입니다' },
+						required: { value: true, message: '필수항목 입니다.' },
 						validate: (value) => {
 							onFormValid('nickname', errors.nickname)
 							return true
@@ -167,7 +166,7 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 							<AgreeCheck
 								type="checkbox"
 								{...register('agree_14plus', {
-									required: { value: true, message: '필수항목 입니다' }
+									required: { value: true, message: '필수항목 입니다.' }
 								})}
 							/>
 							[필수] 만 14세 이상
@@ -176,7 +175,7 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 							<AgreeCheck
 								type="checkbox"
 								{...register('agree_terms', {
-									required: { value: true, message: '필수항목 입니다' }
+									required: { value: true, message: '필수항목 입니다.' }
 								})}
 							/>
 							<span>[필수] 이용약관</span>
@@ -185,7 +184,7 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 							<AgreeCheck
 								type="checkbox"
 								{...register('agree_info', {
-									required: { value: true, message: '필수항목 입니다' }
+									required: { value: true, message: '필수항목 입니다.' }
 								})}
 							/>
 							<span>[필수] 개인정보 수집 및 이용동의</span>
