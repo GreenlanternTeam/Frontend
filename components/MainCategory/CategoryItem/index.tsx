@@ -37,7 +37,7 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ type = 'lowWaste', disabled
 					<image id={href} width="60" height="60" xlinkHref={blob} />
 				</defs>
 			</svg>
-			<SubText className="text-sm leading-4 h-[65px] w-[50px] text-center" text={title} />
+			<SubText className="text-sm leading-4 h-[65px] w-[50px] text-center font-medium" text={title} />
 		</div>
 	)
 }
