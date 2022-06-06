@@ -8,7 +8,7 @@ import MainLogo from 'public/icons/mainLogo.svg'
 import React from 'react'
 
 import { Vendor } from 'types/VendorType'
-import Union from 'public/icons/union.svg'
+
 import Share from 'public/icons/share.svg'
 import Instagram from 'public/icons/instagram.svg'
 import Facebook from 'public/icons/facebook.svg'
@@ -27,12 +27,12 @@ interface VendorDetailProps {
 }
 
 const caterories = {
-	['Plastic Free']: 'plastic',
-	['Vegan']: 'vegan',
-	['Locally Produced']: 'produced',
-	['Saving Water']: 'water',
-	['Low Waste']: 'lowWaste',
-	['Recycled Materials']: 'recycled'
+	Plastic_Free: 'plastic',
+	Vegan: 'vegan',
+	Locally_Produced: 'produced',
+	Saving_Water: 'water',
+	Low_Waste: 'lowWaste',
+	Recycled_Materials: 'recycled'
 }
 
 const VendorDetail: NextPage<VendorDetailProps> = ({ response }) => {
@@ -79,11 +79,13 @@ const VendorDetail: NextPage<VendorDetailProps> = ({ response }) => {
 				</div>
 
 				<div className="w-full bg-white flex px-[25px] py-[40px] flex-wrap">
-					{response.vendor.category.map((category) => (
-						<div key={category} className="w-1/3">
-							<CategoryItem type={caterories[category]} disabled />
-						</div>
-					))}
+					{response.vendor.category.map((category) => {
+						return (
+							<div key={category} className="w-1/3">
+								<CategoryItem disabled api={category} />
+							</div>
+						)
+					})}
 				</div>
 
 				<div className="sticky w-full flex justify-around items-center bottom-0 h-[71px] bg-white">

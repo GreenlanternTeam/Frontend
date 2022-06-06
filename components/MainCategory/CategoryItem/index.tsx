@@ -1,15 +1,18 @@
 import SubText from 'components/atoms/SubText'
 import React, { useState } from 'react'
-import { Categories } from 'types/VendorType'
+import { Categories, CategoryKey } from 'types/VendorType'
 import * as Icons from './utils'
+
 export interface CategoryItemProps {
-	type: Categories
+	type?: Categories
 	disabled?: boolean
+	api?: CategoryKey
 }
 
-const CategoryItem: React.FC<CategoryItemProps> = ({ type = 'lowWaste', disabled }) => {
+const CategoryItem: React.FC<CategoryItemProps> = ({ type = 'lowWaste', disabled, api = false }) => {
 	const [state, setState] = useState(false)
-	const { href, title, id, blob } = Icons[type]
+	const category = api ? Icons.CategoryData.find((c) => c.title === api) ?? Icons.CategoryData[0] : Icons.noneApiCategory[type]
+	const { href, title, id, blob } = category
 	return (
 		<div
 			className={`w-full h-[110px] aspect-square flex flex-col items-center opacity-[0.6] transition-all duration-300 ${

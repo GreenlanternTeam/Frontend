@@ -7,8 +7,9 @@ export interface Vendor {
 	facebook_url: string | null
 	country_code: string
 	description: string
-	category: Categories[]
+	category: CategoryKey[]
 	range: string[]
 }
 
+export type CategoryKey = 'Plastic Free' | 'Vegan' | 'Locally Produced' | 'Saving Water' | 'Low Waste' | 'Recycled Materials'
 export type Categories = 'recycled' | 'lowWaste' | 'water' | 'produced' | 'vegan' | 'plastic'
