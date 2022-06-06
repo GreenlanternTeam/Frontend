@@ -115,7 +115,8 @@ const Input = styled(InputAtom)<{ error: string | undefined }>`
 `
 
 const Button = styled.button`
-	width: 275px;
+	/* width: 275px; */
+	width: 100%;
 	height: 50px;
 	background: #346053;
 	border-radius: 5px;

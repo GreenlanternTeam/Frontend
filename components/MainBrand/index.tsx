@@ -14,7 +14,7 @@ const MainBrand = () => {
 		getNextPageParam: (lastPage, _) => (lastPage.page_total_number !== lastPage.page_number ? lastPage.page_number + 1 : undefined)
 	})
 	useEffect(() => {
-		return () => console.log('OO')
+		return () => console.log('MainBrand Component Unmount')
 	}, [])
 
 	return (

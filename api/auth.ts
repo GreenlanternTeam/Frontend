@@ -1,10 +1,8 @@
 import { setAcessToekn } from './../utils/getToken'
-import { useDispatch } from 'react-redux'
 import { LoginType } from 'types/LoginType'
 import { customAxios } from 'api'
 import { LoginResponse } from 'types/LoginType'
 import setInterceptors from './common/setInterceptors'
-import AuthError from './common/customAuthError'
 import { decodeJWT } from 'utils/fn'
 
 export interface SignUpType {
@@ -31,6 +29,11 @@ export interface SignUpResponse extends AxiosResponse {
 		email: string
 		nickname?: string
 	}
+}
+
+export interface SignUpError extends AxiosResponse {
+	email?: string
+	nickname?: string
 }
 
 export const signUp = async (data: SignUpType): Promise<SignUpResponse> => {

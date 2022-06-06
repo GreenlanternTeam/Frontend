@@ -2,17 +2,13 @@ import React, { useEffect, useState } from 'react'
 import RegisterForm from 'components/Auth/RegisterForm'
 import Layout from 'layout/layout'
 import { FieldError, useForm } from 'react-hook-form'
-import { signUp } from 'api/auth'
+import { signUp, SignUpError } from 'api/auth'
 import { useMutation } from 'react-query'
 import { SignUpType, SignUpResponse } from 'api/auth'
 import { AxiosError } from 'axios'
 import { FormValue, FormIsValid } from 'types/SignUpType'
 import { useRouter } from 'next/router'
 import { usePopup } from 'hooks/usePopup'
-
-interface ErrorType {
-	[key: string]: any
-}
 
 const Register = () => {
 	const formState = useForm<FormValue>({
@@ -25,13 +21,20 @@ const Register = () => {
 		password_confirm: false,
 		nickname: false
 	})
-	const { mutate } = useMutation<SignUpResponse, AxiosError, SignUpType>(signUp, {
+	const { mutate } = useMutation<SignUpResponse, AxiosError<SignUpError>, SignUpType>(signUp, {
 		onSuccess: () => {
 			router.push('/login')
 		},
 		onError: (err) => {
 			if (err.response?.data) {
-				console.log(err.response.data)
+				const error = err.response?.data
+				console.log(error)
+				if (error.email) {
+					formState.setError('email', { message: error.email })
+				}
+				if (error.nickname) {
+					formState.setError('nickname', { message: error.nickname })
+				}
 			}
 		}
 	})

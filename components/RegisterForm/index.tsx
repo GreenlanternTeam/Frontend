@@ -19,7 +19,7 @@ interface Props extends UseFormReturn<FormValue> {
 const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props) => {
 	const {
 		register,
-		formState: { errors, isValidating },
+		formState: { errors },
 		watch,
 		onSubmit,
 		handleSubmit,
@@ -30,14 +30,15 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 	console.log(isSuccess)
 	const [valid, setValid] = useState(false)
 	return (
-		<Wrrapper>
+		<Wrrapper className="py-[50px]">
 			<GreenPopUp>
 				<SendEmailPopup email={getValues().email} />
 			</GreenPopUp>
-			<h2>회원가입</h2>
-			<Form onSubmit={handleSubmit(onSubmit)}>
+			<Form className="w-full" onSubmit={handleSubmit(onSubmit)}>
+				<h2>회원가입</h2>
 				{/* 이메일 유효성 검사 로직 재구현 필요 */}
-				<div className="relative">
+
+				<div className="relative w-full">
 					<InputContainer
 						label="이메일"
 						placeholder="이메일 입력"
@@ -196,7 +197,9 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 						</AgreeCheckLabel>
 					</AgreeCheckGroup>
 				</Agree>
-				<Button type="submit">회원가입</Button>
+				<Button className="w-full" type="submit">
+					회원가입
+				</Button>
 			</Form>
 		</Wrrapper>
 	)
@@ -235,7 +238,6 @@ const Form = styled.form`
 `
 
 const Button = styled.button`
-	width: 275px;
 	height: 50px;
 	background: #346053;
 	border-radius: 5px;

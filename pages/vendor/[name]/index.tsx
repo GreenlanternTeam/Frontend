@@ -4,11 +4,8 @@ import Layout from 'layout/layout'
 import { GetServerSideProps, NextPage } from 'next'
 import Image from 'next/image'
 import MainLogo from 'public/icons/mainLogo.svg'
-
 import React from 'react'
-
 import { Vendor } from 'types/VendorType'
-
 import Share from 'public/icons/share.svg'
 import Instagram from 'public/icons/instagram.svg'
 import Facebook from 'public/icons/facebook.svg'
@@ -18,12 +15,14 @@ import VendorLogo from 'components/atoms/VendorLogo'
 import SampleImage from 'public/icons/sampleImg.jpeg'
 import CategoryItem from 'components/MainCategory/CategoryItem'
 import Heart from 'components/atoms/Heart'
-
+import axios from 'axios'
+import cheerio from 'cheerio'
 interface VendorDetailProps {
 	response: {
 		vendor: Vendor
 		relative: Vendor[]
 	}
+	imageUrl: string | null
 }
 
 const caterories = {
@@ -35,8 +34,7 @@ const caterories = {
 	Recycled_Materials: 'recycled'
 }
 
-const VendorDetail: NextPage<VendorDetailProps> = ({ response }) => {
-	// console.log(response.vendor)
+const VendorDetail: NextPage<VendorDetailProps> = ({ response, imageUrl }) => {
 	const isWindow = typeof window !== 'undefined'
 
 	const shareMobile = () => {
@@ -48,20 +46,35 @@ const VendorDetail: NextPage<VendorDetailProps> = ({ response }) => {
 			})
 		}
 	}
-
-	console.log(response.vendor)
 	return (
 		<Layout>
 			<div className=" w-full space-y-[10px] bg-[#F6F6F6] -z-10">
 				<div className="w-full h-[300px]  px-[25px] py-[20px] flex items-end relative">
-					<Image src={SampleImage} layout="fill" className="absolute" alt="logo" />
+					{imageUrl ? (
+						<Image src={imageUrl} unoptimized={true} layout="fill" className="absolute" alt="logo" />
+					) : (
+						<Image src={SampleImage} layout="fill" className="absolute" alt="logo" />
+					)}
+
 					<div className="flex items-end space-x-2 z-10">
-						<div
-							className=" bg-white w-[75px] h-[75px] p-3 rounded-full overflow-hidden flex justify-center items-center"
-							style={{ overflow: 'hidden' }}
+						<Link
+							href={
+								response.vendor.site_url.includes('https')
+									? response.vendor.site_url
+									: response.vendor.site_url.includes('http')
+									? response.vendor.site_url
+									: `https://${response.vendor.site_url}`
+							}
 						>
-							{response.vendor.logo_url ? <VendorLogo url={response.vendor.logo_url} /> : <MainLogo />}
-						</div>
+							<a target="_blank">
+								<div
+									className=" bg-white w-[75px] h-[75px] p-3 rounded-full overflow-hidden flex justify-center items-center"
+									style={{ overflow: 'hidden' }}
+								>
+									{response.vendor.logo_url ? <VendorLogo url={response.vendor.logo_url} /> : <MainLogo />}
+								</div>
+							</a>
+						</Link>
 						<div className="flex flex-col h-4/5 leading-tight">
 							{response.vendor.range.includes('Womenwear') ? (
 								<span className=" w-fit  text-[14px]">womenwear</span>
@@ -114,11 +127,6 @@ const VendorDetail: NextPage<VendorDetailProps> = ({ response }) => {
 							<Facebook />
 						</div>
 					)}
-					{/* {isMobile && (
-						<div className="cursor-pointer" onClick={() => shareMobile()}>
-							<Share />
-						</div>
-					)} */}
 					<div className="cursor-pointer" onClick={() => shareMobile()}>
 						<Share />
 					</div>
@@ -138,9 +146,15 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 			}
 		}
 	}
-
 	const response = (await vendorApi.getVendorDetail(encodeURI(name))).data
-	return { props: { response } }
+	const imageUrl = await axios
+		.get(response.vendor.site_url)
+		.then((res) => {
+			const $ = cheerio.load(res.data)
+			return $('meta[property="og:image"]').attr('content') ?? null
+		})
+		.catch((err) => null)
+	return { props: { response, imageUrl } }
 }
 
 export default VendorDetail
