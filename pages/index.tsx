@@ -73,7 +73,8 @@ const Home = () => {
 						</div>
 						<MainCategory />
 						<MainBrand />
-						<div className="w-[calc(100%-2rem)] h-[200px] bg-gray-400 rounded-md mx-auto">sdfsdfsdfsdfsdf</div>
+						{/* <div className="w-[calc(100%-2rem)] h-[200px] bg-gray-400 mx-auto">sdfsdfsdfsdfsdf</div> */}
+						<div className="w-full h-[200px] bg-gray-400 mx-auto flex justify-center items-center">이게진짜 배너인가요?</div>
 						<HSlider />
 					</BottomSection>
 				</div>
