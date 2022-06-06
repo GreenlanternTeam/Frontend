@@ -46,6 +46,8 @@ const VendorDetail: NextPage<VendorDetailProps> = ({ response, imageUrl }) => {
 			})
 		}
 	}
+
+	console.log(response)
 	return (
 		<Layout>
 			<div className=" w-full space-y-[10px] bg-[#F6F6F6] -z-10">
@@ -101,6 +103,26 @@ const VendorDetail: NextPage<VendorDetailProps> = ({ response, imageUrl }) => {
 					})}
 				</div>
 
+				{response.relative.length && (
+					<div className="w-full bg-white flex px-[25px] py-[40px] flex-wrap gap-4">
+						{response.relative.map(
+							(vendor) =>
+								vendor.logo_url && (
+									<Link key={vendor.brand_en} href={`/vendor/${vendor.brand_ko}`}>
+										<a target="_blank" className="w-[75px] text-center">
+											<div
+												className="border border-black bg-white w-[75px] h-[75px] p-3 rounded-full overflow-hidden flex justify-center items-center"
+												style={{ overflow: 'hidden' }}
+											>
+												<VendorLogo url={vendor.logo_url!} />
+											</div>
+											<p>{vendor.brand_en}</p>
+										</a>
+									</Link>
+								)
+						)}
+					</div>
+				)}
 				<div className="sticky w-full flex justify-around items-center bottom-0 h-[71px] bg-white">
 					{/* <Union /> */}
 					<Heart />
