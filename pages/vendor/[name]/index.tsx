@@ -53,7 +53,10 @@ const VendorDetail: NextPage<VendorDetailProps> = ({ response, imageUrl }) => {
 			<div className=" w-full space-y-[10px] bg-[#F6F6F6] -z-10">
 				<div className="w-full h-[300px]  px-[25px] py-[20px] flex items-end relative">
 					{imageUrl ? (
-						<Image src={imageUrl} unoptimized={true} layout="fill" className="absolute" alt="logo" />
+						<>
+							<Image src={imageUrl} unoptimized={true} layout="fill" className="absolute" alt="logo" />
+							<div className="absolute bg-black top-0 bottom-0 left-0 right-0 opacity-20" />
+						</>
 					) : (
 						<Image src={SampleImage} layout="fill" className="absolute" alt="logo" />
 					)}
