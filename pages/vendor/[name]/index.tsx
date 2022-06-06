@@ -109,7 +109,7 @@ const VendorDetail: NextPage<VendorDetailProps> = ({ response, imageUrl }) => {
 							(vendor) =>
 								vendor.logo_url && (
 									<Link key={vendor.brand_en} href={`/vendor/${vendor.brand_ko}`}>
-										<a target="_blank" className="w-[75px] text-center">
+										<a className="w-[75px] text-center">
 											<div
 												className="border border-black bg-white w-[75px] h-[75px] p-3 rounded-full overflow-hidden flex justify-center items-center"
 												style={{ overflow: 'hidden' }}
