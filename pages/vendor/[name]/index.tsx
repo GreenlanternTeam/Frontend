@@ -92,19 +92,27 @@ const VendorDetail: NextPage<VendorDetailProps> = ({ response }) => {
 					{/* <Union /> */}
 					<Heart />
 
-					{response.vendor.instagram_url && (
+					{response.vendor.instagram_url ? (
 						<Link href={response.vendor.instagram_url}>
 							<a target="_blank">
 								<Instagram />
 							</a>
 						</Link>
+					) : (
+						<div className="opacity-60">
+							<Instagram />
+						</div>
 					)}
-					{response.vendor.facebook_url && (
+					{response.vendor.facebook_url ? (
 						<Link href={response.vendor.facebook_url}>
 							<a target="_blank">
 								<Facebook />
 							</a>
 						</Link>
+					) : (
+						<div className="opacity-60">
+							<Facebook />
+						</div>
 					)}
 					{/* {isMobile && (
 						<div className="cursor-pointer" onClick={() => shareMobile()}>
