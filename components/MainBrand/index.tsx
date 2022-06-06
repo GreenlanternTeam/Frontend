@@ -8,12 +8,10 @@ import BrandItem from './BrandItem'
 const MainBrand = () => {
 	const {
 		data: response,
-		isLoading,
-		refetch,
 		hasNextPage,
 		fetchNextPage
 	} = useInfiniteQuery<IVendorsResponse>(['vender', 'all'], vendorApi.getVendors, {
-		getNextPageParam: (lastPage, pages) => (lastPage.page_total_number !== lastPage.page_number ? lastPage.page_number + 1 : undefined)
+		getNextPageParam: (lastPage, _) => (lastPage.page_total_number !== lastPage.page_number ? lastPage.page_number + 1 : undefined)
 	})
 	useEffect(() => {
 		return () => console.log('OO')
