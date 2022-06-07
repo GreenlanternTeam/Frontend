@@ -12,24 +12,6 @@ const UserValid = () => {
 	const dispatch = useDispatch()
 	const router = useRouter()
 
-	useEffect(() => {
-		const refreshToken = getRefreshToken()
-		const body = {
-			refreshToken
-		}
-
-		customAxios
-			.post('/token/refresh/', body)
-			.then((res) => {
-				setAcessToekn(res.data.access_token)
-				localStorage.setItem('expiresAt', moment().add(5, 'minutes').format('yyyy-MM-DD HH:mm:ss'))
-			})
-			.catch((err) => {
-				localStorage.clear()
-				throw new AuthError('세션이 만료되었습니다.', 401, err)
-			})
-	})
-
 	const checkUser = async () => {
 		try {
 			const res = await checkLogin()

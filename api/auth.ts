@@ -1,7 +1,7 @@
 import { setAcessToekn } from './../utils/getToken'
 import { useDispatch } from 'react-redux'
 import { LoginType } from 'types/LoginType'
-import { customAxios } from 'api'
+import { customAxios, loginCheckAxios } from 'api'
 import { LoginResponse } from 'types/LoginType'
 import setInterceptors from './common/setInterceptors'
 import AuthError from './common/customAuthError'
@@ -63,7 +63,7 @@ export const checkLogin = async () => {
 			const buff = Buffer.from(token!.split('.')[1], 'base64').toString()
 			const payload = JSON.parse(buff)
 			const id = payload.user_id
-			return await setInterceptors(customAxios)
+			return await setInterceptors(loginCheckAxios)
 				.get(`/users/${id}`)
 				.then((res) => {
 					return res.data

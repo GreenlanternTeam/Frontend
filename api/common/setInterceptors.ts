@@ -1,31 +1,27 @@
 import { AxiosInstance, AxiosError, AxiosRequestConfig } from 'axios'
-import { getAcessToekn, getRefreshToken, setAcessToekn } from 'utils/getToken'
+import { getAcessToken, getRefreshToken, setAcessToekn } from 'utils/getToken'
 import { customAxios } from 'api'
 import moment from 'moment'
-import AuthError from './customAuthError'
 
 const refresh = async (config: AxiosRequestConfig): Promise<AxiosRequestConfig> => {
-	const refreshToken = getRefreshToken()
+	const refresh_token = getRefreshToken()
 	const expiresAt = localStorage.getItem('expiresAt')
-	let token = getAcessToekn()
+	let token = getAcessToken()
+	const body = {
+		refresh_token
+	}
 
-	if (moment(expiresAt).diff(moment()) < 0 && refreshToken) {
-		console.log('d')
-		const body = {
-			refreshToken
-		}
-		/*
-		await customAxios
-			.post('/token/refresh/', body)
-			.then((res) => {
+	console.log(moment(expiresAt).diff(moment()))
+
+	if (moment(expiresAt).diff(moment()) < 0 && refresh_token) {
+		try {
+			await customAxios.post('/token/refresh/', body).then((res) => {
 				setAcessToekn(res.data.access_token)
 				localStorage.setItem('expiresAt', moment().add(5, 'minutes').format('yyyy-MM-DD HH:mm:ss'))
 			})
-			.catch((err) => {
-				localStorage.clear()
-				throw new AuthError('세션이 만료되었습니다.', 401, err)
-			})
-		*/
+		} catch (err) {
+			console.log(err)
+		}
 	}
 
 	if (token && config.headers) {
