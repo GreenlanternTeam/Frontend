@@ -8,14 +8,14 @@ const refresh = async (config: AxiosRequestConfig): Promise<AxiosRequestConfig> 
 	const refreshToken = getRefreshToken()
 	const expiresAt = localStorage.getItem('expiresAt')
 	let token = getAcessToekn()
-	/*
+
 	if (moment(expiresAt).diff(moment()) < 0 && refreshToken) {
 		console.log('d')
 		const body = {
 			refreshToken
 		}
-
-		customAxios
+		/*
+		await customAxios
 			.post('/token/refresh/', body)
 			.then((res) => {
 				setAcessToekn(res.data.access_token)
@@ -25,8 +25,9 @@ const refresh = async (config: AxiosRequestConfig): Promise<AxiosRequestConfig> 
 				localStorage.clear()
 				throw new AuthError('세션이 만료되었습니다.', 401, err)
 			})
+		*/
 	}
-	*/
+
 	if (token && config.headers) {
 		config.headers['Authorization'] = `Bearer ${token}`
 		return config
@@ -34,7 +35,6 @@ const refresh = async (config: AxiosRequestConfig): Promise<AxiosRequestConfig> 
 }
 
 const setInterceptors = (instance: AxiosInstance): AxiosInstance => {
-	const token = getAcessToekn()
 	instance.interceptors.request.use(refresh, function (error: AxiosError) {
 		return Promise.reject(error)
 	})

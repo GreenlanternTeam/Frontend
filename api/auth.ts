@@ -64,7 +64,7 @@ export const checkLogin = async () => {
 			const payload = JSON.parse(buff)
 			const id = payload.user_id
 			return await setInterceptors(customAxios)
-				.get(`/users`)
+				.get(`/users/${id}`)
 				.then((res) => {
 					return res.data
 				})
