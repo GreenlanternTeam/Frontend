@@ -106,19 +106,19 @@ const VendorDetail: NextPage<VendorDetailProps> = ({ response, imageUrl }) => {
 				</div>
 
 				{response.relative.length && (
-					<div className="w-full bg-white flex px-[25px] py-[40px] flex-wrap gap-4">
+					<div className="w-full bg-white flex px-[25px] py-[40px] flex-wrap gap-4 justify-center">
 						{response.relative.map(
 							(vendor) =>
 								vendor.logo_url && (
 									<Link key={vendor.brand_en} href={`/vendor/${vendor.brand_ko}`}>
-										<a className="w-[75px] text-center">
+										<a className="w-[75px] text-center text-sm flex flex-col space-y-2">
 											<div
 												className="border border-black bg-white w-[75px] h-[75px] p-3 rounded-full overflow-hidden flex justify-center items-center"
 												style={{ overflow: 'hidden' }}
 											>
 												<VendorLogo url={vendor.logo_url!} />
 											</div>
-											<p>{vendor.brand_en}</p>
+											<span className="break-all">{vendor.brand_en}</span>
 										</a>
 									</Link>
 								)
@@ -178,13 +178,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		const result = newRelated
 		response.relative = result as Vendor[]
 	}
-	const imageUrl = await axios
-		.get(response.vendor.site_url)
-		.then((res) => {
-			const $ = cheerio.load(res.data)
-			return $('meta[property="og:image"]').attr('content') ?? null
-		})
-		.catch((err) => console.log(err))
+	const imageUrl = null
+	// const imageUrl = await axios
+	// 	.get(response.vendor.site_url)
+	// 	.then((res) => {
+	// 		const $ = cheerio.load(res.data)
+	// 		return $('meta[property="og:image"]').attr('content') ?? null
+	// 	})
+	// 	.catch((err) => console.log(err))
 	return { props: { response, imageUrl } }
 }
 
