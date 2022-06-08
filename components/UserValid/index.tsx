@@ -1,12 +1,10 @@
-import { customAxios } from 'api'
 import { checkLogin } from 'api/auth'
 import AuthError from 'api/common/customAuthError'
-import moment from 'moment'
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { setUsers } from 'redux/slices/login'
-import { getRefreshToken, setAcessToekn } from 'utils/getToken'
+
 
 const UserValid = () => {
 	const dispatch = useDispatch()

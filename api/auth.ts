@@ -60,16 +60,14 @@ export const checkLogin = async () => {
 	if (typeof window !== 'undefined') {
 		const token = localStorage.getItem('access_token')
 		if (token) {
-			const buff = Buffer.from(token!.split('.')[1], 'base64').toString()
-			const payload = JSON.parse(buff)
-			const id = payload.user_id
 			return await setInterceptors(loginCheckAxios)
-				.get(`/users/${id}`)
+				.post('/token/verify/', { token })
 				.then((res) => {
 					return res.data
 				})
 				.catch((err) => {
-					console.log(err)
+					localStorage.clear()
+					throw new AuthError('세션이 만료되었습니다.', 401, err)
 				})
 		}
 	}
