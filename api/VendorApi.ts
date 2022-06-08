@@ -15,7 +15,7 @@ export interface IVendorDetailResponse {
 	status_message: string
 	data: {
 		vendor: Vendor
-		relative: Vendor[]
+		relative: Vendor[] | []
 	}
 }
 

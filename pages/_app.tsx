@@ -9,6 +9,7 @@ import { useState } from 'react'
 import GlobalStyle from 'styles/globalStyle'
 import 'assets/index.css'
 import UserValid from 'components/UserValid'
+import Head from 'next/head'
 
 function MyApp({ Component, pageProps }: AppProps) {
 	const [queryClient] = useState(() => new QueryClient())
@@ -20,6 +21,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 					<Hydrate state={pageProps.dehydratedState}>
 						<GlobalStyle />
 						<UserValid />
+						<Head>
+							<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+						</Head>
 						<div className="w-full min-w-[250px] max-w-lg mx-auto relative">
 							<Component {...pageProps} />
 							<div id="pop-up" />

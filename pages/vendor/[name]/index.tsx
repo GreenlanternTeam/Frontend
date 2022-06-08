@@ -171,13 +171,20 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		}
 	}
 	const response = (await vendorApi.getVendorDetail(encodeURI(name))).data
+	const brandList = response.relative.map((m) => m.brand_en)
+	const listSet = new Set(brandList)
+	const newRelated = Array.from(listSet).map((br) => response.relative.find((vendor) => vendor.brand_en === br))
+	if (newRelated.length) {
+		const result = newRelated
+		response.relative = result as Vendor[]
+	}
 	const imageUrl = await axios
 		.get(response.vendor.site_url)
 		.then((res) => {
 			const $ = cheerio.load(res.data)
 			return $('meta[property="og:image"]').attr('content') ?? null
 		})
-		.catch((err) => null)
+		.catch((err) => console.log(err))
 	return { props: { response, imageUrl } }
 }
 

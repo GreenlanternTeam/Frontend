@@ -27,7 +27,6 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 	} = formState
 	const { setPopupShow, isSuccess } = usePopup()
 	const allCheck = watch('allcheck', false)
-	console.log(errors)
 	const [valid, setValid] = useState(false)
 	return (
 		<Wrrapper className="py-[50px]">
