@@ -68,7 +68,7 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 						required: { value: true, message: '필수항목 입니다' },
 						pattern: {
 							value: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
-							message: '올바른 이메일 형식이 아닙니다'
+							message: '올바른 이메일 형식이 아닙니다.'
 						},
 						validate: (value) => {
 							// debounce(ok, 5000)
@@ -97,7 +97,7 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 						minLength: { value: 10, message: '10자 이상 입력해주세요' },
 						pattern: {
 							value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{10,}$/,
-							message: '올바른 비밀번호 형식이 아닙니다'
+							message: '올바른 비밀번호 형식이 아닙니다.'
 						},
 						validate: (value) => {
 							onFormValid('password', errors.password)
@@ -116,7 +116,7 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 					error={errors.password_confirm}
 					isValid={isValid.password_confirm}
 					options={{
-						required: { value: true, message: '필수항목 입니다' },
+						required: { value: true, message: '필수항목 입니다.' },
 						validate: (value) => {
 							onFormValid('password_confirm', errors.password_confirm)
 							return value === getValues().password
@@ -128,7 +128,7 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 					(errors.password_confirm.type === 'required' ? (
 						<ErrorMsg>{errors.password_confirm.message}</ErrorMsg>
 					) : (
-						<ErrorMsg>비밀번호가 다릅니다</ErrorMsg>
+						<ErrorMsg>비밀번호가 다릅니다.</ErrorMsg>
 					))}
 				<InputContainer
 					label="닉네임"
@@ -138,7 +138,7 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 					error={errors.nickname}
 					isValid={isValid.nickname}
 					options={{
-						required: { value: true, message: '필수항목 입니다' },
+						required: { value: true, message: '필수항목 입니다.' },
 						validate: (value) => {
 							onFormValid('nickname', errors.nickname)
 							return true
@@ -146,7 +146,7 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 						// onBlur: () => onFormValid('nickname', errors.nickname)
 					}}
 				/>
-				{errors.nickname && <ErrorMsg>{errors.nickname.message}</ErrorMsg>}
+				{errors.nickname && <ErrorMsg>{`${errors.nickname.message}.`}</ErrorMsg>}
 				<Line />
 				<Agree>
 					<h3>

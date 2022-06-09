@@ -8,7 +8,7 @@ import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
 import { useState, useEffect } from 'react'
 import GlobalStyle from 'styles/globalStyle'
 import 'assets/index.css'
-import UserValid from 'components/UserValid'
+import UserValid from 'components/Auth/UserValid'
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
 	const [queryClient] = useState(() => new QueryClient())
