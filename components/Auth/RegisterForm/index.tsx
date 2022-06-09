@@ -1,54 +1,33 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import {
-	FieldError,
-	UseFormGetValues,
-	UseFormHandleSubmit,
-	UseFormRegister,
-	UseFormSetError,
-	UseFormSetValue,
-	UseFormWatch
-} from 'react-hook-form'
+import { FieldError, UseFormReturn } from 'react-hook-form'
 import { FormValue, FormIsValid } from 'types/SignUpType'
 import { SignUpType } from 'api/auth'
-import InputContainer from './Input'
+import InputContainer from 'components/atoms/Input'
 import GreenPopUp from 'components/GreenPopUp'
 import { usePopup } from 'hooks/usePopup'
 import SendEmailPopup from './SendEmailPopup'
-interface Props {
-	register: UseFormRegister<FormValue>
-	errors: {
-		userId?: FieldError | undefined
-		password?: FieldError | undefined
-		email?: FieldError | undefined
-		password_confirm?: FieldError | undefined
-		nickname?: FieldError | undefined
-	}
-	watch: UseFormWatch<FormValue>
+import { classNames } from 'utils/fn'
+interface Props extends UseFormReturn<FormValue> {
 	onSubmit: (data: SignUpType) => void
-	handleSubmit: UseFormHandleSubmit<FormValue>
 	setIsValid: React.Dispatch<React.SetStateAction<FormIsValid>>
 	isValid: FormIsValid
 	onFormValid: (inputName: string, error: FieldError | undefined) => void
-	setValue: UseFormSetValue<FormValue>
 	onAllCheck: () => void
-
-	setError: UseFormSetError<FormValue>
-	getValues: UseFormGetValues<FormValue>
 }
 
-const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid, onFormValid, onAllCheck, getValues }: Props) => {
-	// const [state, setState] = useState(null)
-	// const emailCheck = async (value: any) => {
-	// 	const res = (await customAxios.post('/api/check/email', value)) || '이미 존재하는 이메일 입니다.'
-	// 	setState(res)
-	// }
-
+const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props) => {
+	const {
+		register,
+		formState: { errors, isValidating },
+		watch,
+		onSubmit,
+		handleSubmit,
+		getValues
+	} = formState
 	const { setPopupShow, isSuccess } = usePopup()
 	const allCheck = watch('allcheck', false)
-
 	const [valid, setValid] = useState(false)
-
 	return (
 		<Wrrapper>
 			<GreenPopUp>
@@ -56,44 +35,68 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 			</GreenPopUp>
 			<h2>회원가입</h2>
 			<Form onSubmit={handleSubmit(onSubmit)}>
-				<InputContainer
-					label="이메일"
-					placeholder="이메일 입력"
-					error={errors.email}
-					isValid={isValid.email}
-					register={register}
-					name="email"
-					options={{
-						required: { value: true, message: '필수항목 입니다' },
-						pattern: {
-							value: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
-							message: '올바른 이메일 형식이 아닙니다'
-						},
-						validate: (value) => {
-							// debounce(ok, 5000)
-							onFormValid('email', errors.email)
-							if (!errors.email) {
-								setValid(true)
+				{/* 이메일 유효성 검사 로직 재구현 필요 */}
+				<div className="relative">
+					<InputContainer
+						label="이메일"
+						placeholder="이메일 입력"
+						error={errors.email}
+						register={register('email', {
+							required: { value: true, message: '필수항목 입니다.' },
+							pattern: {
+								value: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
+								message: '올바른 이메일 형식이 아닙니다.'
+							},
+							validate: (value) => {
+								// debounce(ok, 5000)
+								onFormValid('email', errors.email)
+								if (!errors.email) {
+									setValid(true)
+								}
+								return true
 							}
-							return true
-						},
-						onBlur: () => {
-							valid && setPopupShow(true)
+						})}
+						name="email"
+						effectNode={
+							!isSuccess && (
+								<div
+									onClick={() => setPopupShow(true)}
+									className={classNames(
+										'flex h-4 w-4 absolute transition-all cursor-pointer top-[50%] left-[calc(100%_-_1rem)] -translate-y-1/2 -translate-x-1/2',
+										valid ? 'scale-100' : 'scale-0'
+									)}
+								>
+									<span className="relative inline-flex rounded-full h-full w-full">
+										<svg
+											className="absolute w-full h-full  stroke-sky-500"
+											fill="none"
+											stroke="currentColor"
+											viewBox="0 0 24 24"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												strokeWidth="2"
+												d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
+											></path>
+										</svg>
+										<span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+									</span>
+								</div>
+							)
 						}
-					}}
-				/>
+					/>
+				</div>
 				{errors.email && <ErrorMsg>{errors.email.message}</ErrorMsg>}
 				<InputContainer
 					label="비밀번호"
 					placeholder="10자 이상의 영문/숫자/특수문자를 조합"
 					type="password"
 					name="password"
-					register={register}
-					error={errors.password}
-					isValid={isValid.password}
-					options={{
-						required: { value: true, message: '필수항목 입니다' },
-						minLength: { value: 10, message: '10자 이상 입력해주세요' },
+					register={register('password', {
+						required: { value: true, message: '필수항목 입니다.' },
+						minLength: { value: 10, message: '10자 이상 입력해주세요.' },
 						pattern: {
 							value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{10,}$/,
 							message: '올바른 비밀번호 형식이 아닙니다'
@@ -103,7 +106,8 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 							return true
 						}
 						// onBlur: () => onFormValid('password', errors.password)
-					}}
+					})}
+					error={errors.password}
 				/>
 				{errors.password && <ErrorMsg>{errors.password.message}</ErrorMsg>}
 				<InputContainer
@@ -111,17 +115,15 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 					placeholder="비밀번호 재입력"
 					type="password"
 					name="password_confirm"
-					register={register}
-					error={errors.password_confirm}
-					isValid={isValid.password_confirm}
-					options={{
-						required: { value: true, message: '필수항목 입니다' },
+					register={register('password_confirm', {
+						required: { value: true, message: '필수항목 입니다.' },
 						validate: (value) => {
 							onFormValid('password_confirm', errors.password_confirm)
 							return value === getValues().password
 						}
 						// onBlur: () => onFormValid('password_confirm', errors.password_confirm)
-					}}
+					})}
+					error={errors.password_confirm}
 				/>
 				{errors.password_confirm &&
 					(errors.password_confirm.type === 'required' ? (
@@ -132,18 +134,16 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 				<InputContainer
 					label="닉네임"
 					name="nickname"
-					register={register}
-					placeholder="닉네임 입력"
-					error={errors.nickname}
-					isValid={isValid.nickname}
-					options={{
-						required: { value: true, message: '필수항목 입니다' },
+					register={register('nickname', {
+						required: { value: true, message: '필수항목 입니다.' },
 						validate: (value) => {
 							onFormValid('nickname', errors.nickname)
 							return true
 						}
 						// onBlur: () => onFormValid('nickname', errors.nickname)
-					}}
+					})}
+					placeholder="닉네임 입력"
+					error={errors.nickname}
 				/>
 				{errors.nickname && <ErrorMsg>{errors.nickname.message}</ErrorMsg>}
 				<Line />
@@ -166,7 +166,7 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 							<AgreeCheck
 								type="checkbox"
 								{...register('agree_14plus', {
-									required: { value: true, message: '필수항목 입니다' }
+									required: { value: true, message: '필수항목 입니다.' }
 								})}
 							/>
 							[필수] 만 14세 이상
@@ -175,7 +175,7 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 							<AgreeCheck
 								type="checkbox"
 								{...register('agree_terms', {
-									required: { value: true, message: '필수항목 입니다' }
+									required: { value: true, message: '필수항목 입니다.' }
 								})}
 							/>
 							<span>[필수] 이용약관</span>
@@ -184,7 +184,7 @@ const RegisterForm = ({ register, errors, watch, onSubmit, handleSubmit, isValid
 							<AgreeCheck
 								type="checkbox"
 								{...register('agree_info', {
-									required: { value: true, message: '필수항목 입니다' }
+									required: { value: true, message: '필수항목 입니다.' }
 								})}
 							/>
 							<span>[필수] 개인정보 수집 및 이용동의</span>
@@ -232,26 +232,9 @@ const Form = styled.form`
 		}
 	}
 `
-const Input = styled.input<{ error: FieldError | undefined; isValid: boolean }>`
-	width: 275px;
-	height: 50px;
-	background: #ffffff;
-	border: ${(props) => (props.error ? '1px solid #FF0000' : '1px solid rgba(153, 153, 153, 0.6)')};
-	box-sizing: border-box;
-	border-radius: 5px;
-	margin-top: 5px;
-	font-size: 14px;
-	font-weight: 400;
-	padding-left: 10px;
-	outline: ${(props) => (!props.error && props.isValid ? '1px solid #000000' : 'none')};
-
-	&:focus {
-		outline: ${(props) => (props.error ? '1px solid #FF0000' : '1px solid #000000')};
-	}
-`
 
 const Button = styled.button`
-	width: 275px;
+	width: 100%;
 	height: 50px;
 	background: #346053;
 	border-radius: 5px;
@@ -263,7 +246,7 @@ const Button = styled.button`
 	margin-bottom: 1px;
 `
 const Line = styled.div`
-	width: 275px;
+	width: 100%;
 	border-bottom: 1px solid rgba(153, 153, 153, 0.6);
 	margin-bottom: 20px;
 	margin-top: 40px;

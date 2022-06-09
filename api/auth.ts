@@ -1,9 +1,9 @@
 import { setAcessToekn } from './../utils/getToken'
-import { useDispatch } from 'react-redux'
 import { LoginType } from 'types/LoginType'
-import { customAxios } from 'api'
+import { customAxios, loginCheckAxios } from 'api'
 import { LoginResponse } from 'types/LoginType'
 import setInterceptors from './common/setInterceptors'
+import { decodeJWT } from 'utils/fn'
 import AuthError from './common/customAuthError'
 
 export interface SignUpType {
@@ -30,6 +30,11 @@ export interface SignUpResponse extends AxiosResponse {
 		email: string
 		nickname?: string
 	}
+}
+
+export interface SignUpError extends AxiosResponse {
+	email?: string
+	nickname?: string
 }
 
 export const signUp = async (data: SignUpType): Promise<SignUpResponse> => {
@@ -60,30 +65,14 @@ export const checkLogin = async () => {
 	if (typeof window !== 'undefined') {
 		const token = localStorage.getItem('access_token')
 		if (token) {
-			const buff = Buffer.from(token!.split('.')[1], 'base64').toString()
-			const payload = JSON.parse(buff)
-			const id = payload.user_id
-			return await setInterceptors(customAxios)
-				.get(`/users/${id}`)
+			return await setInterceptors(loginCheckAxios)
+				.post('/token/verify/', { token })
 				.then((res) => {
 					return res.data
 				})
 				.catch((err) => {
-					if (err.response.status === 401) {
-						if (typeof window !== 'undefined') {
-							console.log(err)
-							const refresh_token = localStorage.getItem('refresh_token')
-							customAxios
-								.post('/token/refresh/', { refresh_token })
-								.then((res) => {
-									setAcessToekn(res.data.access_token)
-								})
-								.catch((err) => {
-									localStorage.clear()
-									throw new AuthError('세션이 만료되었습니다.', 401, err)
-								})
-						}
-					}
+					localStorage.clear()
+					throw new AuthError('세션이 만료되었습니다.', 401, err)
 				})
 		}
 	}

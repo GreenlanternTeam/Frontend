@@ -1,19 +1,24 @@
 import SubText from 'components/atoms/SubText'
 import React, { useState } from 'react'
+import { Categories, CategoryKey } from 'types/VendorType'
 import * as Icons from './utils'
+
 export interface CategoryItemProps {
-	type: 'recycled' | 'lowWaste' | 'water' | 'produced' | 'vegan' | 'plastic'
+	type?: Categories
+	disabled?: boolean
+	api?: CategoryKey
 }
 
-const CategoryItem: React.FC<CategoryItemProps> = ({ type = 'lowWaste' }) => {
+const CategoryItem: React.FC<CategoryItemProps> = ({ type = 'lowWaste', disabled, api = false }) => {
 	const [state, setState] = useState(false)
-	const { href, title, id, blob } = Icons[type]
+	const category = api ? Icons.CategoryData.find((c) => c.title === api) ?? Icons.CategoryData[0] : Icons.noneApiCategory[type]
+	const { href, title, id, blob } = category
 	return (
 		<div
 			className={`w-full h-[110px] aspect-square flex flex-col items-center opacity-[0.6] transition-all duration-300 ${
 				state ? 'bg-[#F6F2DC] opacity-100' : ''
 			}`}
-			onClick={() => setState((prev) => !prev)}
+			onClick={() => !disabled && setState((prev) => !prev)}
 		>
 			<svg
 				width="40"
@@ -32,7 +37,7 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ type = 'lowWaste' }) => {
 					<image id={href} width="60" height="60" xlinkHref={blob} />
 				</defs>
 			</svg>
-			<SubText className="text-sm leading-4 h-[65px] w-[50px] text-center" text={title} />
+			<SubText className="text-sm leading-4 h-[65px] w-[50px] text-center font-medium" text={title} />
 		</div>
 	)
 }

@@ -1,4 +1,4 @@
-export const getAcessToekn = () => {
+export const getAcessToken = () => {
 	if (typeof window !== 'undefined') return window.localStorage.getItem('access_token')
 	return undefined
 }
