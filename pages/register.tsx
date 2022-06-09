@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import RegisterForm from 'components/Auth/RegisterForm'
 import Layout from 'layout/layout'
 import { FieldError, useForm } from 'react-hook-form'
-import { signUp } from 'api/auth'
+import { signUp, SignUpError } from 'api/auth'
 import { useMutation } from 'react-query'
 import { SignUpType, SignUpResponse } from 'api/auth'
 import { AxiosError } from 'axios'
@@ -11,15 +11,7 @@ import { useRouter } from 'next/router'
 import { usePopup } from 'hooks/usePopup'
 
 const Register = () => {
-	const {
-		register,
-		handleSubmit,
-		watch,
-		formState: { errors },
-		setValue,
-		getValues,
-		setError
-	} = useForm<FormValue>({
+	const formState = useForm<FormValue>({
 		mode: 'onBlur',
 		reValidateMode: 'onChange'
 	})
@@ -29,9 +21,21 @@ const Register = () => {
 		password_confirm: false,
 		nickname: false
 	})
-	const { mutate } = useMutation<SignUpResponse, AxiosError, SignUpType>(signUp, {
+	const { mutate } = useMutation<SignUpResponse, AxiosError<SignUpError>, SignUpType>(signUp, {
 		onSuccess: () => {
 			router.push('/login')
+		},
+		onError: (err) => {
+			if (err.response?.data) {
+				const error = err.response?.data
+				console.log(error)
+				if (error.email) {
+					formState.setError('email', { message: error.email })
+				}
+				if (error.nickname) {
+					formState.setError('nickname', { message: error.nickname })
+				}
+			}
 		}
 	})
 	//
@@ -40,10 +44,9 @@ const Register = () => {
 
 	const onSubmit = (formData: SignUpType) => {
 		if (isEmailCheck) {
-			// mutate(formData)
-			router.push('/login')
+			mutate(formData)
 		} else {
-			setError('email', { message: '이메일 미인증' })
+			formState.setError('email', { message: '이메일 미인증' })
 		}
 	}
 
@@ -66,28 +69,22 @@ const Register = () => {
 		}
 	}, [])
 	const onAllCheck = () => {
-		const { agree_14plus, agree_terms, agree_info, agree_recinfo } = getValues()
-		setValue('agree_14plus', !agree_14plus)
-		setValue('agree_terms', !agree_terms)
-		setValue('agree_info', !agree_info)
-		setValue('agree_recinfo', !agree_recinfo)
+		const { agree_14plus, agree_terms, agree_info, agree_recinfo } = formState.getValues()
+		formState.setValue('agree_14plus', !agree_14plus)
+		formState.setValue('agree_terms', !agree_terms)
+		formState.setValue('agree_info', !agree_info)
+		formState.setValue('agree_recinfo', !agree_recinfo)
 	}
 
 	return (
 		<Layout>
 			<RegisterForm
-				register={register}
-				errors={errors}
-				watch={watch}
 				onSubmit={onSubmit}
-				handleSubmit={handleSubmit}
 				isValid={isValid}
 				setIsValid={setIsValid}
-				setValue={setValue}
-				setError={setError}
 				onFormValid={onFormValid}
 				onAllCheck={onAllCheck}
-				getValues={getValues}
+				{...formState}
 			/>
 		</Layout>
 	)

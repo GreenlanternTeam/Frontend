@@ -23,6 +23,7 @@ const useLogin = () => {
 		},
 
 		onError: (error: any) => {
+			console.log(error)
 			const errorType = error.response.data
 
 			if (errorType.email)

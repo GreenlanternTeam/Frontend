@@ -1,36 +1,44 @@
-import Timer from 'components/Timer/Timer'
-import React from 'react'
+import React, { InputHTMLAttributes, ReactNode } from 'react'
+import { FieldError, UseFormRegisterReturn } from 'react-hook-form'
+import { classNames } from 'utils/fn'
 
-interface InputProps {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 	type?: 'text' | 'password' | 'email' | 'number'
 	placeholder?: string
 	label?: string
-	size?: 'sm' | 'md' | 'lg' | 'full'
-	cls?: string
-	[key: string]: any
+	sizeType?: 'sm' | 'md' | 'lg' | 'full'
+	register?: UseFormRegisterReturn
+	effectNode?: ReactNode
+	error?: FieldError | undefined
+	addClass?: string
 }
 
-const Input: React.FC<InputProps> = ({ type = 'text', placeholder, label, size = 'full', cls, ...props }) => {
-	const sizes = {
-		sm: 200,
-		md: 275,
-		lg: 325,
-		full: '100%'
+const Input: React.FC<InputProps> = React.forwardRef(
+	({ type = 'text', placeholder, label, sizeType = 'full', register, error, effectNode, addClass, ...inputState }, ref) => {
+		const cl = sizeType === 'full' ? 'w-full' : sizeType === 'lg' ? 'w-[325px]' : sizeType === 'md' ? 'w-[275px]' : 'w-[200px]'
+		const border = error
+			? 'focus:border-[##ff0000] border-[1px] border-[#ff0000] '
+			: 'focus:border-[#000000] border-[1px] border-[#000000] placeholder-shown:border-[rgba(153,153,153,0.6)] '
+		return (
+			<>
+				{label && <label>{label}</label>}
+				<div className={cl + ' h-fit relative'}>
+					<input
+						className={classNames(
+							border,
+							'placeholder:text-[#999999] placeholder:font-light placeholder:opacity-60  h-[50px] px-[20px] focus:outline-none focus:border-[1px]  rounded-[5px] transition-all w-full',
+							addClass!
+						)}
+						type={type}
+						placeholder={placeholder}
+						{...register}
+						{...inputState}
+					/>
+					{effectNode}
+				</div>
+			</>
+		)
 	}
-	const w = sizes[size]
-	const cl =
-		`placeholder-shown:border-[rgba(153,153,153,0.6)] placeholder:text-[#999999] placeholder:font-light placeholder:opacity-60  w-[${w}] h-[50px] px-[20px] focus:outline-none focus:border-[1px] focus:border-[#000000] rounded-[5px] border-[1px] border-[#000000] transition-all ` +
-		cls
-	// const ForwardInput = React.forwardRef<HTMLInputElement>((prop, ref) => (
-	// 	<input ref={ref} className={cl} type={type} placeholder={placeholder} {...prop} {...props} />
-	// ))
-	// ForwardInput.displayName = 'ForwardInput'
-	return (
-		<>
-			{label && <label>{label}</label>}
-			<input className={cl} type={type} placeholder={placeholder} {...props.props} />
-		</>
-	)
-}
-
+)
+Input.displayName = 'InputComponent'
 export default Input

@@ -19,7 +19,6 @@ const Google = () => {
 			}
 			const url = 'https://oauth2.googleapis.com/token'
 			customAxios.post(url, {}, { params }).then((res) => {
-				console.log(res.data)
 				customAxios
 					.post('/oauth/google/login/finish/', res.data)
 					.then((res) => {

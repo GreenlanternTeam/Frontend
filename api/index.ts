@@ -6,5 +6,11 @@ const customAxios = axios.create({
 		'Content-type': 'application/json'
 	}
 })
+const commonAxios = axios.create({
+	baseURL: process.env.NEXT_PUBLIC_API_URL,
+	headers: {
+		'Content-type': 'application/json'
+	}
+})
 
-export { customAxios }
+export { customAxios, commonAxios }

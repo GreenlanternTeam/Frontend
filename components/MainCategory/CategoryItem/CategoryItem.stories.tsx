@@ -48,16 +48,16 @@ Plastic.args = {
 	type: 'plastic'
 }
 
-export const Test = () => {
-	const options = {
-		recycled: 'recycled',
-		lowWaste: 'lowWaste',
-		water: 'water',
-		produced: 'produced',
-		vegan: 'vegan',
-		plastic: 'plastic'
-	}
-	// const type = text('type', 'recycled')
-	const value = radios<typeof options>('type', options, 'recycled')
-	return <CategoryItem type={value} />
-}
+// export const Test = () => {
+// 	const options = {
+// 		recycled: 'recycled',
+// 		lowWaste: 'lowWaste',
+// 		water: 'water',
+// 		produced: 'produced',
+// 		vegan: 'vegan',
+// 		plastic: 'plastic'
+// 	}
+// 	// const type = text('type', 'recycled')
+// 	const value = radios<typeof options>('type', options, 'recycled')
+// 	return <CategoryItem type={value} />
+// }

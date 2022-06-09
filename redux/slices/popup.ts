@@ -8,6 +8,7 @@ interface Popupstate {
 	result: boolean
 	timer: number | null
 	isTimerDone: boolean
+	isReset: boolean
 }
 
 const initialState: Popupstate = {
@@ -15,7 +16,8 @@ const initialState: Popupstate = {
 	content: null,
 	result: false,
 	timer: null,
-	isTimerDone: false
+	isTimerDone: false,
+	isReset: false
 }
 
 const popup = createSlice({
@@ -33,14 +35,18 @@ const popup = createSlice({
 		},
 		setisTimerDone: (state, { payload }) => {
 			state.isTimerDone = payload
+		},
+		setIsReset: (state, { payload }) => {
+			state.isReset = payload
 		}
 	}
 })
 
-export const { togglePopup, setContent, setResult, setisTimerDone } = popup.actions
+export const { togglePopup, setContent, setResult, setisTimerDone, setIsReset } = popup.actions
 export const popUpSelector = (state: RootState) => state.popup.showPopUp
 export const popupContentSelector = (state: RootState) => state.popup.showPopUp
 export const popupResultSelector = (state: RootState) => state.popup.result
 export const popupTimerSelector = (state: RootState) => state.popup.timer
 export const popupisTimerDoneSelector = (state: RootState) => state.popup.isTimerDone
+export const popupIsResetSelector = (state: RootState) => state.popup.isReset
 export default popup.reducer

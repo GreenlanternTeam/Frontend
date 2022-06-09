@@ -1,67 +1,37 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { FieldError, FieldPath, RegisterOptions, UseFormRegister } from 'react-hook-form'
+import { FieldError, FieldPath, RegisterOptions, UseFormRegisterReturn } from 'react-hook-form'
 import { FormValue } from 'types/SignUpType'
-import { getValidate } from 'utils/fn'
 
+type sizeType = 'sm' | 'md' | 'lg' | 'full'
 interface Props {
 	label?: string
-	register: UseFormRegister<FormValue>
+	register: UseFormRegisterReturn
 	error: FieldError | undefined
 	isValid: boolean
 	placeholder: string
 	name: FieldPath<FormValue>
-	options?: RegisterOptions
-	validateTarget?: any
+	sizetype?: sizeType
 	[key: string]: any
 }
 
-const InputContainer: React.FC<Props> = ({ label, register, error, isValid, placeholder, validateTarget, name, options, ...rest }) => {
+const InputContainer: React.FC<Props> = ({ label, register, error, isValid, placeholder, sizetype = 'full', ...rest }) => {
 	const [ok, setOk] = useState(false)
 	useEffect(() => {
 		setOk(isValid && !error)
 	}, [isValid, error])
-	return validateTarget ? (
+	return (
 		<>
 			{label && <label>{label}</label>}
-			<TextInput
-				placeholder={placeholder}
-				error={error}
-				isValid={isValid}
-				{...register(name, {
-					...options,
-					validate: (value) => {
-						if (getValidate(value, validateTarget)) {
-							return true
-						}
-						return false
-					}
-				})}
-				{...rest}
-			/>
-		</>
-	) : (
-		<>
-			{label && <label>{label}</label>}
-			<TextInput
-				placeholder={placeholder}
-				error={error}
-				isValid={isValid}
-				{...register(name, {
-					...options
-					// validate: (_) => {
-					// 	return true
-					// }
-				})}
-				{...rest}
-			/>
+			<TextInput placeholder={placeholder} error={error} isValid={isValid} sizetype={sizetype} {...register} {...rest} />
 		</>
 	)
 }
 
 export default InputContainer
-const TextInput = styled.input<{ error: FieldError | undefined; isValid: boolean }>`
-	width: 275px;
+const TextInput = styled.input<{ error: FieldError | undefined; isValid: boolean; sizetype: sizeType }>`
+	width: ${(props) =>
+		props.sizetype === 'full' ? '100%' : props.sizetype === 'lg' ? '325px' : props.sizetype === 'md' ? '275px' : '200px'};
 	height: 50px;
 	background: #ffffff;
 	border: ${(props) => (props.error ? '1px solid #FF0000' : '1px solid rgba(153, 153, 153, 0.6)')};
