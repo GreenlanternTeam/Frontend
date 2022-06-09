@@ -1,4 +1,4 @@
-import { commonAxios, customAxios } from 'api'
+import { commonAxios } from 'api'
 import { Vendor } from '../types/VendorType'
 export interface IVendorsResponse {
 	success: boolean

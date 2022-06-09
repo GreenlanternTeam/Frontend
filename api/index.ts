@@ -13,4 +13,13 @@ const commonAxios = axios.create({
 	}
 })
 
-export { customAxios, commonAxios }
+const loginCheckAxios = axios.create({
+	baseURL: process.env.NEXT_PUBLIC_API_URL,
+	headers: {
+		'Content-type': 'application/json'
+	},
+	timeout: 10000,
+	params: {}
+})
+
+export { customAxios, loginCheckAxios, commonAxios }

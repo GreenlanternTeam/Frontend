@@ -1,13 +1,12 @@
 import styled from 'styled-components'
 import Kakao from 'public/icons/kakao.svg'
 import Google from 'public/icons/google.svg'
-import { FieldError, FieldErrors, useForm, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { LoginType } from 'types/LoginType'
 import Link from 'next/link'
-import { Dispatch, SetStateAction, useEffect } from 'react'
+import { useEffect } from 'react'
 import InputAtom from 'components/atoms/Input'
 import useLogin from 'hooks/useLogin'
-
 const LoginForm = () => {
 	const {
 		register,

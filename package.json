@@ -21,6 +21,7 @@
     "cheerio": "^1.0.0-rc.11",
     "framer-motion": "^6.3.3",
     "mobile-detect": "^1.4.5",
+    "moment": "^2.29.3",
     "next": "12.1.5",
     "nodemailer": "^6.7.5",
     "react": "18.1.0",
