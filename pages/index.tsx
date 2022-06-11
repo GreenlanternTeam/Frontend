@@ -46,7 +46,7 @@ const Home = () => {
 
 								<input
 									type="text"
-									className="w-full h-[34px] rounded-[10px] bg-[#ffffff] group border pl-[50px] font-normal focus:outline-none placeholder-shown:bg-[#F6F6F6] transition-all"
+									className="w-full h-[34px] rounded-[10px] bg-[#ffffff] group border pl-[50px] pr-[36px] font-normal focus:outline-none placeholder-shown:bg-[#F6F6F6] transition-all"
 									placeholder="브랜드, 환경 키워드 등"
 									value={value}
 									onChange={handleChange}

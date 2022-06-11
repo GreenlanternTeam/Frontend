@@ -20,6 +20,9 @@ import ShareImg from 'public/Share.png'
 import Button from 'components/Auth/Button/Button'
 import { classNames } from 'utils/fn'
 import * as Categories from 'components/MainCategory/CategoryItem/utils'
+import { useRouter } from 'next/router'
+import { useSelector } from 'react-redux'
+import { getUser } from 'redux/slices/login'
 
 interface VendorDetailProps {
 	response: {
@@ -27,15 +30,6 @@ interface VendorDetailProps {
 		relative: Vendor[]
 	}
 	imageUrl: string | null
-}
-
-const caterories = {
-	Plastic_Free: 'plastic',
-	Vegan: 'vegan',
-	Locally_Produced: 'produced',
-	Saving_Water: 'water',
-	Low_Waste: 'lowWaste',
-	Recycled_Materials: 'recycled'
 }
 
 const VendorDetail: NextPage<VendorDetailProps> = ({ response, imageUrl }) => {
@@ -51,7 +45,8 @@ const VendorDetail: NextPage<VendorDetailProps> = ({ response, imageUrl }) => {
 		}
 	}
 
-	console.log(response)
+	const router = useRouter()
+	const user = useSelector(getUser)
 
 	return (
 		<Layout>
@@ -100,7 +95,13 @@ const VendorDetail: NextPage<VendorDetailProps> = ({ response, imageUrl }) => {
 				<div className="w-full bg-white flex flex-col justify-center items-center divide-y-[1px] px-[25px] py-[42px] text-[rgba(0,0,0,0.8)] text-lg space-y-[25px]">
 					<span>{response.vendor.description}</span>
 					<div className="w-full">
-						<Button text="+ 팔로우" style={{ width: '100%' }}></Button>
+						<Button
+							text="+ 팔로우"
+							onClick={() => {
+								!user && router.push('/login')
+							}}
+							style={{ width: '100%' }}
+						></Button>
 					</div>
 				</div>
 

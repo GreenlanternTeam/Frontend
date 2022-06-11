@@ -29,14 +29,14 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 	const allCheck = watch('allcheck', false)
 	const [valid, setValid] = useState(false)
 	return (
-		<Wrrapper>
+		<Wrrapper className="px-[15%] w-full">
 			<GreenPopUp>
 				<SendEmailPopup email={getValues().email} />
 			</GreenPopUp>
 			<h2>회원가입</h2>
 			<Form onSubmit={handleSubmit(onSubmit)}>
 				{/* 이메일 유효성 검사 로직 재구현 필요 */}
-				<div className="relative">
+				<div className="relative w-full">
 					<InputContainer
 						label="이메일"
 						placeholder="이메일 입력"
@@ -87,114 +87,122 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 							)
 						}
 					/>
+					{errors.email && <ErrorMsg>{errors.email.message}</ErrorMsg>}
 				</div>
-				{errors.email && <ErrorMsg>{errors.email.message}</ErrorMsg>}
-				<InputContainer
-					label="비밀번호"
-					placeholder="10자 이상의 영문/숫자/특수문자를 조합"
-					type="password"
-					name="password"
-					register={register('password', {
-						required: { value: true, message: '필수항목 입니다.' },
-						minLength: { value: 10, message: '10자 이상 입력해주세요.' },
-						pattern: {
-							value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{10,}$/,
-							message: '올바른 비밀번호 형식이 아닙니다'
-						},
-						validate: (value) => {
-							onFormValid('password', errors.password)
-							return true
-						}
-						// onBlur: () => onFormValid('password', errors.password)
-					})}
-					error={errors.password}
-				/>
-				{errors.password && <ErrorMsg>{errors.password.message}</ErrorMsg>}
-				<InputContainer
-					label="비밀번호 확인"
-					placeholder="비밀번호 재입력"
-					type="password"
-					name="password_confirm"
-					register={register('password_confirm', {
-						required: { value: true, message: '필수항목 입니다.' },
-						validate: (value) => {
-							onFormValid('password_confirm', errors.password_confirm)
-							return value === getValues().password
-						}
-						// onBlur: () => onFormValid('password_confirm', errors.password_confirm)
-					})}
-					error={errors.password_confirm}
-				/>
-				{errors.password_confirm &&
-					(errors.password_confirm.type === 'required' ? (
-						<ErrorMsg>{errors.password_confirm.message}</ErrorMsg>
-					) : (
-						<ErrorMsg>비밀번호가 다릅니다</ErrorMsg>
-					))}
-				<InputContainer
-					label="닉네임"
-					name="nickname"
-					register={register('nickname', {
-						required: { value: true, message: '필수항목 입니다.' },
-						validate: (value) => {
-							onFormValid('nickname', errors.nickname)
-							return true
-						}
-						// onBlur: () => onFormValid('nickname', errors.nickname)
-					})}
-					placeholder="닉네임 입력"
-					error={errors.nickname}
-				/>
-				{errors.nickname && <ErrorMsg>{errors.nickname.message}</ErrorMsg>}
+				<div className="w-full">
+					<InputContainer
+						label="비밀번호"
+						placeholder="10자 이상의 영문/숫자/특수문자를 조합"
+						type="password"
+						name="password"
+						register={register('password', {
+							required: { value: true, message: '필수항목 입니다.' },
+							minLength: { value: 10, message: '10자 이상 입력해주세요.' },
+							pattern: {
+								value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{10,}$/,
+								message: '올바른 비밀번호 형식이 아닙니다'
+							},
+							validate: (value) => {
+								onFormValid('password', errors.password)
+								return true
+							}
+							// onBlur: () => onFormValid('password', errors.password)
+						})}
+						error={errors.password}
+					/>
+					{errors.password && <ErrorMsg>{errors.password.message}</ErrorMsg>}
+				</div>
+				<div className="w-full">
+					<InputContainer
+						label="비밀번호 확인"
+						placeholder="비밀번호 재입력"
+						type="password"
+						name="password_confirm"
+						register={register('password_confirm', {
+							required: { value: true, message: '필수항목 입니다.' },
+							validate: (value) => {
+								onFormValid('password_confirm', errors.password_confirm)
+								return value === getValues().password
+							}
+							// onBlur: () => onFormValid('password_confirm', errors.password_confirm)
+						})}
+						error={errors.password_confirm}
+					/>
+					{errors.password_confirm &&
+						(errors.password_confirm.type === 'required' ? (
+							<ErrorMsg>{errors.password_confirm.message}</ErrorMsg>
+						) : (
+							<ErrorMsg>비밀번호가 다릅니다</ErrorMsg>
+						))}
+				</div>
+				<div className="w-full">
+					<InputContainer
+						label="닉네임"
+						name="nickname"
+						register={register('nickname', {
+							required: { value: true, message: '필수항목 입니다.' },
+							validate: (value) => {
+								onFormValid('nickname', errors.nickname)
+								return true
+							}
+							// onBlur: () => onFormValid('nickname', errors.nickname)
+						})}
+						placeholder="닉네임 입력"
+						error={errors.nickname}
+					/>
+					{errors.nickname && <ErrorMsg>{errors.nickname.message}</ErrorMsg>}
+				</div>
 				<Line />
-				<Agree>
-					<h3>
-						약관동의<p>*</p>
-					</h3>
-					<AllCheckLabel>
-						<AgreeCheck
-							type="checkbox"
-							{...(register('allcheck'),
-							{
-								onChange: () => onAllCheck()
-							})}
-						/>
-						<span>전체 동의</span>
-					</AllCheckLabel>
-					<AgreeCheckGroup>
-						<AgreeCheckLabel>
+				<div className="w-full">
+					<Agree>
+						<h3>
+							약관동의<p>*</p>
+						</h3>
+						<AllCheckLabel>
 							<AgreeCheck
 								type="checkbox"
-								{...register('agree_14plus', {
-									required: { value: true, message: '필수항목 입니다.' }
+								{...(register('allcheck'),
+								{
+									onChange: () => onAllCheck()
 								})}
 							/>
-							[필수] 만 14세 이상
-						</AgreeCheckLabel>
-						<AgreeCheckLabel>
-							<AgreeCheck
-								type="checkbox"
-								{...register('agree_terms', {
-									required: { value: true, message: '필수항목 입니다.' }
-								})}
-							/>
-							<span>[필수] 이용약관</span>
-						</AgreeCheckLabel>
-						<AgreeCheckLabel>
-							<AgreeCheck
-								type="checkbox"
-								{...register('agree_info', {
-									required: { value: true, message: '필수항목 입니다.' }
-								})}
-							/>
-							<span>[필수] 개인정보 수집 및 이용동의</span>
-						</AgreeCheckLabel>
-						<AgreeCheckLabel>
-							<AgreeCheck type="checkbox" checked={allCheck || watch('agree_recinfo')} {...register('agree_recinfo')} />
-							[선택] 정보 수신 동의
-						</AgreeCheckLabel>
-					</AgreeCheckGroup>
-				</Agree>
+							<span>전체 동의</span>
+						</AllCheckLabel>
+						<AgreeCheckGroup>
+							<AgreeCheckLabel>
+								<AgreeCheck
+									type="checkbox"
+									{...register('agree_14plus', {
+										required: { value: true, message: '필수항목 입니다.' }
+									})}
+								/>
+								[필수] 만 14세 이상
+							</AgreeCheckLabel>
+							<AgreeCheckLabel>
+								<AgreeCheck
+									type="checkbox"
+									{...register('agree_terms', {
+										required: { value: true, message: '필수항목 입니다.' }
+									})}
+								/>
+								<span>[필수] 이용약관</span>
+							</AgreeCheckLabel>
+							<AgreeCheckLabel>
+								<AgreeCheck
+									type="checkbox"
+									{...register('agree_info', {
+										required: { value: true, message: '필수항목 입니다.' }
+									})}
+								/>
+								<span>[필수] 개인정보 수집 및 이용동의</span>
+							</AgreeCheckLabel>
+							<AgreeCheckLabel>
+								<AgreeCheck type="checkbox" checked={allCheck || watch('agree_recinfo')} {...register('agree_recinfo')} />
+								[선택] 정보 수신 동의
+							</AgreeCheckLabel>
+						</AgreeCheckGroup>
+					</Agree>
+				</div>
 				<Button type="submit">회원가입</Button>
 			</Form>
 		</Wrrapper>
@@ -220,6 +228,8 @@ const Wrrapper = styled.div`
 const Form = styled.form`
 	display: flex;
 	flex-direction: column;
+	align-items: center;
+	width: 100%;
 
 	label {
 		display: flex;

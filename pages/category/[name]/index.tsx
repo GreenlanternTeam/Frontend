@@ -15,7 +15,7 @@ const CategoryDetail: NextPage<CategoryDetailProps> = ({ type }) => {
 	return (
 		<Layout>
 			<section className="flex flex-col space-y-6">
-				<div className="bg-[#F7F2DC] aspect-[16/11] flex justify-center items-center">
+				<div className="bg-[#F7F2DC] aspect-[16/11] min-h-[245px] flex justify-center items-center">
 					<div>
 						<CategoryItem type={type} disabled lgIcon />
 					</div>

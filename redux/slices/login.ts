@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { login } from 'api/auth'
+import { RootState } from 'redux/store'
 import { LoginType } from 'types/LoginType'
 
 const loginUser = createAsyncThunk('users/check', async (user: LoginType) => {
@@ -28,5 +29,6 @@ const userSlice = createSlice({
 })
 
 export { loginUser }
+export const getUser = (state: RootState) => state.user.user
 export const { getUsers, setUsers } = userSlice.actions
 export default userSlice.reducer

@@ -31,7 +31,7 @@ const LoginForm = () => {
 	}, [loginError, setError])
 
 	return (
-		<Wrrapper>
+		<Wrrapper className="px-[15%] w-full">
 			<Form onSubmit={handleSubmit(onSubmit)}>
 				<h2>로그인</h2>
 				<div className="w-full space-y-4">
@@ -62,9 +62,9 @@ const LoginForm = () => {
 					비밀번호 찾기<span className="px-[20px]">|</span>
 					<Link href="register">회원가입</Link>
 				</p>
-				<LineGroup>
+				<LineGroup className="relative">
 					<Line />
-					<span>간편 로그인 or 회원가입</span>
+					<LoginSpan>간편 로그인 or 회원가입</LoginSpan>
 					<Line />
 				</LineGroup>
 			</Form>
@@ -102,6 +102,8 @@ const Form = styled.form`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	width: 100%;
+
 	h2 {
 		display: block;
 		font-weight: 600;
@@ -114,6 +116,14 @@ const Form = styled.form`
 		margin-top: 20px;
 		margin-bottom: 40px;
 	}
+`
+
+const LoginSpan = styled.span`
+	width: 100%;
+	display: block;
+	word-wrap: keep-all;
+	white-space: nowrap;
+	text-align: center;
 `
 
 const Button = styled.button`
@@ -130,15 +140,17 @@ const Button = styled.button`
 	margin-bottom: 1px;
 `
 const Line = styled.div`
-	width: 61px;
+	width: 100%;
 	border-bottom: 1px solid rgba(153, 153, 153, 0.6);
-	line-height: 0.1em;
-	margin: 20px 0 20px;
-	text-align: center;
+	z-index: -1;
+	/* line-height: 0.1em; */
+	/* margin: 20px 0 20px; */
+	/* text-align: center; */
 `
 const LineGroup = styled.div`
 	display: flex;
 	align-items: center;
+	width: 100%;
 	span {
 		margin-left: 13px;
 		margin-right: 13px;
