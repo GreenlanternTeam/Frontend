@@ -11,7 +11,7 @@ interface HeadProps {
 const Head = ({ handleClick }: HeadProps) => {
 	const user = useAppSelector((state) => state.user.user)
 	return (
-		<header className="w-full min-w-max h-[75px] px-6 flex justify-between items-center sticky top-0 bg-white z-20">
+		<header className="w-full min-w-max h-[75px] px-6 flex justify-between items-center sticky top-0 bg-white z-50">
 			<div onClick={() => handleClick && handleClick()}>
 				<Burger className="w-[42px] h-6 cursor-pointer" />
 			</div>
