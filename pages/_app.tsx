@@ -9,6 +9,8 @@ import { useState, useEffect } from 'react'
 import GlobalStyle from 'styles/globalStyle'
 import 'assets/index.css'
 import UserValid from 'components/UserValid'
+import Head from 'next/head'
+import Favicon from 'components/Favicon'
 
 function MyApp({ Component, pageProps }: AppProps) {
 	const [queryClient] = useState(() => new QueryClient())
@@ -33,6 +35,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 							<GlobalStyle />
 							<UserValid />
 							<div className="w-full max-w-lg mx-auto relative">
+								<Head>
+									<title>GreenLantern</title>
+								</Head>
 								<Component {...pageProps} />
 								<div id="pop-up" />
 							</div>

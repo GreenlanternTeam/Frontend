@@ -6,8 +6,9 @@ import Image from 'next/image'
 import BottomSection from 'layout/MainPage/BottomSection'
 import MainBrand from 'components/MainBrand'
 import { usePopup } from 'hooks/usePopup'
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import { classNames } from 'utils/fn'
 
 export interface IUserResponse {
 	name: string
@@ -17,17 +18,21 @@ export interface IUserResponse {
 const Home = () => {
 	const { setPopupShow, closePopup } = usePopup()
 	const [toggle, setToggle] = useState(false)
+	const [value, setValue] = useState<string>('')
 
+	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+		setValue(event.target.value)
+	}
 	return (
 		<Layout>
 			<section className="flex flex-col relative" style={{ top: '-100px' }}>
 				<div className="sticky top-[75px] pb-[80px] w-full bg-gray-400 flex justify-center items-center aspect-video">
-					<Image src={SampleImg} alt="text" />
+					<Image src={SampleImg} alt="text" className="aspect-video" />
 				</div>
 				<div className="flex flex-col rounded-t-[2rem]  relative overflow-hidden z-30">
 					<BottomSection>
 						<div className="w-full px-[30px] relative space-y-[15px]">
-							<div className="relative">
+							<div className="relative flex items-center">
 								<div className="absolute h-[34px] flex justify-center items-center w-[50px]">
 									<svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 										<path
@@ -43,9 +48,22 @@ const Home = () => {
 									type="text"
 									className="w-full h-[34px] rounded-[10px] bg-[#ffffff] group border pl-[50px] font-normal focus:outline-none placeholder-shown:bg-[#F6F6F6] transition-all"
 									placeholder="브랜드, 환경 키워드 등"
+									value={value}
+									onChange={handleChange}
 									onFocus={() => setToggle(true)}
 									onBlur={() => setToggle(false)}
 								/>
+								<div
+									className={classNames(value !== '' ? 'visible' : 'hidden', 'w-fit flex absolute right-[12px] cursor-pointer')}
+									onClick={() => setValue('')}
+								>
+									<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path
+											d="M16.05 17.25L12 13.2L7.95 17.25L6.75 16.05L10.8 12L6.75 7.95L7.95 6.75L12 10.8L16.05 6.75L17.25 7.95L13.2 12L17.25 16.05L16.05 17.25Z"
+											fill="#999999"
+										/>
+									</svg>
+								</div>
 							</div>
 
 							{toggle && (

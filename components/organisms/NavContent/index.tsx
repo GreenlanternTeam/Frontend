@@ -6,7 +6,7 @@ const NavContents = () => {
 		<div>
 			<NavWrapper title="home" />
 			<NavWrapper title="about" />
-			<NavWrapper title="category" />
+			<NavWrapper title="category" href="category" />
 			<NavWrapper title="brand" />
 			<NavWrapper title="magazine" />
 		</div>

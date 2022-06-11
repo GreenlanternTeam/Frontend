@@ -4,7 +4,7 @@ import React from 'react'
 const HSlider = () => {
 	return (
 		<aside className="w-full space-y-4">
-			<ContentTitle title="Magazine" subTitle="다양한 환경 이슈를 만나보세요!" />
+			<ContentTitle title="MAGAZINE" subTitle="다양한 환경 이슈를 만나보세요!" />
 			<div className="scrollbar-hide overflow-x-scroll px-5">
 				<div className="space-x-[30px] flex w-max">
 					<div className="w-[250px] h-[350px] bg-[#E5E5E5] rounded-[10px] overflow-hidden relative flex flex-col">

@@ -1,16 +1,12 @@
-import React from 'react'
+import React, { ButtonHTMLAttributes } from 'react'
 import styled from 'styled-components'
 
-interface ButonProps {
+interface ButonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	text: string
 }
 
-const Button = ({ text }: ButonProps) => {
-	return (
-		<>
-			<StyledButton type="submit">{text}</StyledButton>
-		</>
-	)
+const Button = ({ text, ...rest }: ButonProps) => {
+	return <StyledButton {...rest}>{text}</StyledButton>
 }
 
 export default Button

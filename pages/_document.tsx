@@ -1,3 +1,4 @@
+import Favicon from 'components/Favicon'
 import Document, { DocumentContext, DocumentInitialProps, Html, Main, NextScript, Head } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
 import { uuid } from 'utils/fn'
@@ -33,6 +34,8 @@ export default class MyDocument extends Document {
 					<meta charSet="utf-8" />
 					<meta name="description" content="My First Static Website" />
 					<meta name="keywords" content="nextjs,static,website" />
+					<link rel="shortcut icon" href="/favicon.ico" />
+					{/* <Favicon /> */}
 				</Head>
 				<body>
 					<Main />
