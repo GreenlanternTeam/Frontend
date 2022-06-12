@@ -28,6 +28,7 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 	const { setPopupShow, isSuccess } = usePopup()
 	const allCheck = watch('allcheck', false)
 	const [valid, setValid] = useState(false)
+	console.log(1)
 	return (
 		<Wrrapper className="py-[50px]">
 			<GreenPopUp>
@@ -150,7 +151,7 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 				<Line />
 				<Agree>
 					<h3>
-						약관동의<p>*</p>
+						s<p>*</p>
 					</h3>
 					<AllCheckLabel>
 						<AgreeCheck

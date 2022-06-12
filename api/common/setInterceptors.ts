@@ -1,8 +1,6 @@
 import { AxiosInstance, AxiosError, AxiosRequestConfig } from 'axios'
 import { getAcessToken, getRefreshToken, setAcessToekn } from 'utils/getToken'
 import { customAxios } from 'api'
-import moment from 'moment'
-import token from 'pages/oauth/token'
 
 const setInterceptors = (instance: AxiosInstance): AxiosInstance => {
 	const accesstoken = getAcessToken()
@@ -26,7 +24,6 @@ const setInterceptors = (instance: AxiosInstance): AxiosInstance => {
 			if (error.response.status === 401) {
 				if (error.response.data.detail === 'Token is invalid or expired') {
 					const originalRequest = config
-					console.log(originalRequest.data)
 					const refresh_token = getRefreshToken()
 					let newToken = ''
 					await customAxios.post('/token/refresh/', { refresh_token }).then((res) => {
