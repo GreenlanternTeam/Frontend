@@ -17,4 +17,10 @@ export interface FormIsValid {
 	nickname: boolean
 }
 
-
+export interface TestStateType {
+	allcheck: boolean
+	agree_14plus: boolean
+	agree_terms: boolean
+	agree_info: boolean
+	agree_recinfo: boolean
+}

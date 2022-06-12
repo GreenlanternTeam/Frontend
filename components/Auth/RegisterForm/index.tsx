@@ -1,33 +1,37 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { FieldError, UseFormReturn } from 'react-hook-form'
-import { FormValue, FormIsValid } from 'types/SignUpType'
+import { FormValue, FormIsValid, TestStateType } from 'types/SignUpType'
 import { SignUpType } from 'api/auth'
 import InputContainer from 'components/atoms/Input'
 import GreenPopUp from 'components/GreenPopUp'
 import { usePopup } from 'hooks/usePopup'
 import SendEmailPopup from './SendEmailPopup'
 import { classNames } from 'utils/fn'
+import Vector from 'public/icons/Vector.svg'
 interface Props extends UseFormReturn<FormValue> {
 	onSubmit: (data: SignUpType) => void
 	setIsValid: React.Dispatch<React.SetStateAction<FormIsValid>>
 	isValid: FormIsValid
 	onFormValid: (inputName: string, error: FieldError | undefined) => void
 	onAllCheck: () => void
+	testState: TestStateType
 }
 
-const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props) => {
+const RegisterForm = ({ isValid, onFormValid, onAllCheck, testState, ...formState }: Props) => {
 	const {
 		register,
 		formState: { errors, isValidating },
-		watch,
 		onSubmit,
 		handleSubmit,
 		getValues
 	} = formState
 	const { setPopupShow, isSuccess } = usePopup()
-	const allCheck = watch('allcheck', false)
 	const [valid, setValid] = useState(false)
+	const checkBoxState = getValues()
+
+	console.log(testState.allcheck)
+
 	return (
 		<Wrrapper>
 			<GreenPopUp>
@@ -158,43 +162,77 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 							onChange: () => onAllCheck()
 						})}
 					/>
-					<CheckGroup>
-						<AllCheckLabel />
+					<AllCheckGroup>
+						{testState.allcheck ? (
+							<AgreeCheckedLabel onClick={() => onAllCheck()}>
+								<Vector />
+							</AgreeCheckedLabel>
+						) : (
+							<AllCheckLabel onClick={() => onAllCheck()} />
+						)}
 						<span>전체 동의</span>
-					</CheckGroup>
+					</AllCheckGroup>
 
 					<AgreeCheckGroup>
-						<AgreeCheckLabel>
-							<AgreeCheck
-								type="checkbox"
-								{...register('agree_14plus', {
-									required: { value: true, message: '필수항목 입니다.' }
-								})}
-							/>
-							[필수] 만 14세 이상
-						</AgreeCheckLabel>
-						<AgreeCheckLabel>
-							<AgreeCheck
-								type="checkbox"
-								{...register('agree_terms', {
-									required: { value: true, message: '필수항목 입니다.' }
-								})}
-							/>
+						<AgreeCheck
+							type="checkbox"
+							{...register('agree_14plus', {
+								required: { value: true, message: '필수항목 입니다.' }
+							})}
+						/>
+						<CheckGroup>
+							{testState.agree_14plus ? (
+								<AgreeCheckedLabel onClick={() => onAllCheck()}>
+									<Vector />
+								</AgreeCheckedLabel>
+							) : (
+								<AgreeCheckLabel onClick={() => onAllCheck()} />
+							)}
+							<span>[필수] 만 14세 이상</span>
+						</CheckGroup>
+						<AgreeCheck
+							type="checkbox"
+							{...register('agree_terms', {
+								required: { value: true, message: '필수항목 입니다.' }
+							})}
+						/>
+						<CheckGroup>
+							{testState.agree_terms ? (
+								<AgreeCheckedLabel onClick={() => onAllCheck()}>
+									<Vector />
+								</AgreeCheckedLabel>
+							) : (
+								<AgreeCheckLabel onClick={() => onAllCheck()} />
+							)}
 							<span>[필수] 이용약관</span>
-						</AgreeCheckLabel>
-						<AgreeCheckLabel>
-							<AgreeCheck
-								type="checkbox"
-								{...register('agree_info', {
-									required: { value: true, message: '필수항목 입니다.' }
-								})}
-							/>
+						</CheckGroup>
+						<AgreeCheck
+							type="checkbox"
+							{...register('agree_info', {
+								required: { value: true, message: '필수항목 입니다.' }
+							})}
+						/>
+						<CheckGroup>
+							{testState.agree_info ? (
+								<AgreeCheckedLabel onClick={() => onAllCheck()}>
+									<Vector />
+								</AgreeCheckedLabel>
+							) : (
+								<AgreeCheckLabel onClick={() => onAllCheck()} />
+							)}
 							<span>[필수] 개인정보 수집 및 이용동의</span>
-						</AgreeCheckLabel>
-						<AgreeCheckLabel>
-							<AgreeCheck type="checkbox" checked={allCheck || watch('agree_recinfo')} {...register('agree_recinfo')} />
-							[선택] 정보 수신 동의
-						</AgreeCheckLabel>
+						</CheckGroup>
+						<AgreeCheck type="checkbox" {...register('agree_recinfo')} />
+						<CheckGroup>
+							{testState.agree_recinfo ? (
+								<AgreeCheckedLabel onClick={() => onAllCheck()}>
+									<Vector />
+								</AgreeCheckedLabel>
+							) : (
+								<AgreeCheckLabel onClick={() => onAllCheck()} />
+							)}
+							<span>[선택] 정보 수신 동의</span>
+						</CheckGroup>
 					</AgreeCheckGroup>
 				</Agree>
 				<Button type="submit">회원가입</Button>
@@ -287,15 +325,36 @@ const Agree = styled.div`
 const AgreeCheck = styled.input`
 	display: none;
 `
-const AgreeCheckLabel = styled.label``
-const AllCheckLabel = styled.label`
-	display: inline;
+const AgreeCheckLabel = styled.label`
 	width: 24px;
 	height: 23.04px;
 	border-radius: 5px;
 	margin-right: 10px;
-	background-color: white;
-	border: 1px #000000;
+	background-color: #ffffff;
+	border: 1px solid #999999;
+`
+const AllCheckLabel = styled.label`
+	width: 24px;
+	height: 23.04px;
+	border-radius: 5px;
+	margin-right: 10px;
+	background-color: #ffffff;
+	border: 1px solid #999999;
+`
+const AgreeCheckedLabel = styled.label`
+	width: 24px;
+	height: 23.04px;
+	border-radius: 5px;
+	margin-right: 10px;
+	background-color: #f7f2dc;
+	border: 1px solid #000000;
+	display: flex;
+	justify-content: center;
+
+	svg {
+		width: 12.23px;
+		height: 9.34px;
+	}
 `
 
 const ErrorMsg = styled.span`
@@ -314,6 +373,17 @@ const AgreeCheckGroup = styled.div`
 	}
 `
 const CheckGroup = styled.div`
+	display: flex;
+	align-items: center;
+
+	span {
+		margin-top: 21px;
+		font-weight: 300;
+		font-size: 16px;
+	}
+`
+
+const AllCheckGroup = styled.div`
 	display: flex;
 	align-items: center;
 
