@@ -1,7 +1,7 @@
 import { checkLogin } from 'api/auth'
 import AuthError from 'api/common/customAuthError'
 import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { setUsers } from 'redux/slices/login'
 
@@ -10,7 +10,7 @@ const UserValid = () => {
 	const dispatch = useDispatch()
 	const router = useRouter()
 
-	const checkUser = async () => {
+	const checkUser = useCallback(async () => {
 		try {
 			const res = await checkLogin()
 			if (res) {
@@ -26,10 +26,10 @@ const UserValid = () => {
 				router.push('login')
 			}
 		}
-	}
+	}, [dispatch, router])
 	useEffect(() => {
 		checkUser()
-	}, [router])
+	}, [router, checkUser])
 	return null
 }
 

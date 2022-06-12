@@ -1,6 +1,9 @@
 const path = require('path')
 module.exports = {
 	stories: ['../**/*.stories.@(js|jsx|ts|tsx)'],
+	features: {
+		babelModeV7: true
+	},
 	addons: [
 		'@storybook/addon-links',
 		'@storybook/addon-essentials',
@@ -36,20 +39,3 @@ module.exports = {
 		return config
 	}
 }
-
-// module.exports = {
-// 	stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
-// 	addons: [
-// 		'@storybook/addon-links',
-// 		'@storybook/addon-essentials',
-// 		'storybook-addon-designs',
-// 		{
-// 			name: '@storybook/addon-postcss',
-// 			options: {
-// 				postcssLoaderOptions: {
-// 					implementation: require('postcss')
-// 				}
-// 			}
-// 		}
-// 	]
-// }

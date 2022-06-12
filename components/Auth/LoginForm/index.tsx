@@ -1,59 +1,66 @@
 import styled from 'styled-components'
 import Kakao from 'public/icons/kakao.svg'
 import Google from 'public/icons/google.svg'
-import { FieldError, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { LoginType } from 'types/LoginType'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { Dispatch, SetStateAction, useEffect } from 'react'
-import SubmitButton from '../Button/Button'
+import { useEffect } from 'react'
+import InputAtom from 'components/atoms/Input'
+import useLogin from 'hooks/useLogin'
+const LoginForm = () => {
+	const {
+		register,
+		handleSubmit,
+		setError,
+		formState: { errors }
+	} = useForm<LoginType>()
 
-interface Props {
-	register: UseFormRegister<LoginType>
-	handleSubmit: UseFormHandleSubmit<LoginType>
-	onSubmit: (data: LoginType) => void
-	onFormValid: (inputName: string, error: FieldError | undefined) => void
-	loginError: LoginType
-	setLoginError: Dispatch<SetStateAction<LoginType>>
-}
+	const { mutate, loginError, setLoginError } = useLogin()
 
-const LoginForm = ({ register, handleSubmit, onSubmit, onFormValid, loginError, setLoginError }: Props) => {
+	const onSubmit = (loginFormData: LoginType) => {
+		mutate(loginFormData)
+	}
+
+	useEffect(() => {
+		if (loginError.email) {
+			setError('email', { type: 'validate', message: '이메일이 다릅니다.' })
+		}
+		if (loginError.password) {
+			setError('password', { type: 'validate', message: '비밀번호가 다릅니다.' })
+		}
+	}, [loginError, setError])
+
 	return (
 		<Wrrapper>
 			<Form onSubmit={handleSubmit(onSubmit)}>
 				<h2>로그인</h2>
-				<Input
-					error={loginError.email}
-					placeholder="이메일"
-					{...register('email', {
-						required: true,
-						onChange: () => {
-							if (loginError.email)
-								setLoginError({
-									...loginError,
-									email: ''
-								})
-						}
-					})}
-				/>
-				<Input
-					placeholder="비밀번호 "
-					error={loginError.password}
-					type="password"
-					{...register('password', {
-						required: true,
-						onChange: () => {
-							if (loginError.password)
-								setLoginError({
-									...loginError,
-									password: ''
-								})
-						}
-					})}
-				/>
-				<SubmitButton text="로그인" />
+				<div className="w-full space-y-4">
+					<InputAtom
+						error={errors.email}
+						placeholder="이메일"
+						register={register('email', {
+							required: { value: true, message: '필수항목 입니다.' },
+							pattern: {
+								value: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
+								message: '올바른 이메일 형식이 아닙니다.'
+							}
+						})}
+					/>
+					{errors.email && <ErrorMsg>{errors.email.message}</ErrorMsg>}
+					<InputAtom
+						placeholder="비밀번호 "
+						error={errors.password}
+						type="password"
+						register={register('password', {
+							required: '필수항목 입니다.'
+						})}
+					/>
+					{errors.password && <ErrorMsg>{errors.password.message}</ErrorMsg>}
+				</div>
+				<Button type="submit">로그인</Button>
 				<p>
-					비밀번호 찾기 | <Link href="register">회원가입</Link>
+					비밀번호 찾기<span className="px-[20px]">|</span>
+					<Link href="register">회원가입</Link>
 				</p>
 				<LineGroup>
 					<Line />
@@ -108,23 +115,20 @@ const Form = styled.form`
 		margin-bottom: 40px;
 	}
 `
-const Input = styled.input<{ error: string | undefined }>`
-	width: 275px;
-	height: 50px;
-	background: #ffffff;
-	border: ${(props) => (props.error ? '1px solid #FF0000' : '1px solid rgba(153, 153, 153, 0.6)')};
-	color: ${(props) => (props.error ? '#FF0000' : '')};
-	box-sizing: border-box;
-	border-radius: 5px;
-	margin-top: 5px;
-	padding-left: 20px;
-	font-weight: 400;
-	font-size: 18px;
-	&:focus {
-		outline: ${(props) => (props.error ? '1px solid #FF0000' : '1px solid #000000')};
-	}
-`
 
+const Button = styled.button`
+	/* width: 275px; */
+	width: 100%;
+	height: 50px;
+	background: #346053;
+	border-radius: 5px;
+	margin-top: 30px;
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 22px;
+	color: #ffffff;
+	margin-bottom: 1px;
+`
 const Line = styled.div`
 	width: 61px;
 	border-bottom: 1px solid rgba(153, 153, 153, 0.6);
@@ -152,4 +156,10 @@ const Oauth = styled.div`
 	svg {
 		margin: 0px 20px 0px 20px;
 	}
+`
+const ErrorMsg = styled.span`
+	font-weight: 400;
+	font-size: 16px;
+	color: #ff0707;
+	margin-top: 10px;
 `

@@ -2,7 +2,7 @@ import { popupResultSelector, setResult } from './../redux/slices/popup'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { togglePopup } from 'redux/slices/popup'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 type stateType<T> = T | null
 
