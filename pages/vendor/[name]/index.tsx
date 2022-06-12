@@ -47,7 +47,6 @@ const VendorDetail: NextPage<VendorDetailProps> = ({ response, imageUrl }) => {
 
 	const router = useRouter()
 	const user = useSelector(getUser)
-
 	return (
 		<Layout>
 			<div className=" w-full space-y-[10px] bg-[#F6F6F6] -z-10">
@@ -84,7 +83,7 @@ const VendorDetail: NextPage<VendorDetailProps> = ({ response, imageUrl }) => {
 							{response.vendor.range.includes('Womenwear') ? (
 								<span className=" w-fit  text-[14px]">womenwear</span>
 							) : (
-								<span className=" w-fit  text-[14px]">memwear</span>
+								<span className=" w-fit  text-[14px]">menswear</span>
 							)}
 							<span className=" w-fit font-semibold text-[18px]">{response.vendor.brand_en}</span>
 							<span className=" w-fit font-semibold text-[18px]">{response.vendor.brand_ko}</span>
@@ -129,16 +128,17 @@ const VendorDetail: NextPage<VendorDetailProps> = ({ response, imageUrl }) => {
 						</li>
 					</ul>
 
-					<div className="grid grid-cols-3 w-full h-max">
-						{clicked &&
-							Categories.CategoryData.map((category) => {
+					{clicked && (
+						<div className="grid grid-cols-3 w-full h-max">
+							{Categories.CategoryData.map((category) => {
 								return (
 									<div key={category.id} className="h-[110px]">
 										<CategoryItem type={category.key} api={response.vendor.category.includes(category.title)} disabled />
 									</div>
 								)
 							})}
-					</div>
+						</div>
+					)}
 				</div>
 
 				{response.relative.length && (

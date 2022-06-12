@@ -2,15 +2,15 @@ export const getValidate = (a: any, b: any) => a === b
 
 let timer: NodeJS.Timeout | null = null
 
-const debounce = async (fn: any, ms = 500) => {
+const debounce = (fn: any, ms = 500) => {
 	function exec() {
-		fn.apply()
+		return fn()
 	}
 	if (timer) {
 		clearTimeout(timer)
 	}
 	if (typeof fn === 'function' && typeof ms === 'number') {
-		timer = setTimeout(exec, ms)
+		timer = setTimeout(() => exec(), ms)
 	}
 }
 

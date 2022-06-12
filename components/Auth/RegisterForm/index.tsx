@@ -7,7 +7,8 @@ import InputContainer from 'components/atoms/Input'
 import GreenPopUp from 'components/GreenPopUp'
 import { usePopup } from 'hooks/usePopup'
 import SendEmailPopup from './SendEmailPopup'
-import { classNames } from 'utils/fn'
+import { classNames, debounce } from 'utils/fn'
+import { commonAxios } from 'api'
 interface Props extends UseFormReturn<FormValue> {
 	onSubmit: (data: SignUpType) => void
 	setIsValid: React.Dispatch<React.SetStateAction<FormIsValid>>
@@ -20,6 +21,7 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 	const {
 		register,
 		formState: { errors, isValidating },
+		setError,
 		watch,
 		onSubmit,
 		handleSubmit,
@@ -56,7 +58,6 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 								return true
 							}
 						})}
-						name="email"
 						effectNode={
 							!isSuccess && (
 								<div
@@ -141,11 +142,17 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 						name="nickname"
 						register={register('nickname', {
 							required: { value: true, message: '필수항목 입니다.' },
-							validate: (value) => {
-								onFormValid('nickname', errors.nickname)
-								return true
+							// validate: async (value) => {
+							// 	// onFormValid('nickname', errors.nickname)
+							// 	const valid = await commonAxios.get<{ success: boolean }>(`/nickname/?nickname=${value}`).then((res) => res.data.success)
+							// 	return valid || '이미 존재하는 닉네임 입니다.'
+							// },
+							onBlur: async (event) => {
+								const valid = await commonAxios.get(`/nickname/?nickname=${event.target.value}`).then((res) => res.data.success)
+								if (!valid) {
+									setError('nickname', { type: 'nickname exist', message: '이미 존재하는 닉네임 입니다.' })
+								}
 							}
-							// onBlur: () => onFormValid('nickname', errors.nickname)
 						})}
 						placeholder="닉네임 입력"
 						error={errors.nickname}

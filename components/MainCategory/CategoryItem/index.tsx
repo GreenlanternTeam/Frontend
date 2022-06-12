@@ -10,9 +10,10 @@ export interface CategoryItemProps {
 	api?: boolean
 	xs?: boolean
 	lgIcon?: boolean
+	hover?: boolean
 }
 
-const CategoryItem: React.FC<CategoryItemProps> = ({ type = 'lowWaste', disabled, api = false, xs, lgIcon }) => {
+const CategoryItem: React.FC<CategoryItemProps> = ({ type = 'lowWaste', disabled, api = false, xs, lgIcon, hover }) => {
 	const [state, setState] = useState(false)
 	// const category = api ? Icons.CategoryData.find((c) => c.title === api) ?? Icons.CategoryData[0] : Icons.noneApiCategory[type]
 	const category = Icons.noneApiCategory[type]
@@ -26,7 +27,8 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ type = 'lowWaste', disabled
 				state ? 'bg-[#F6F2DC] opacity-100' : '',
 				api ? 'bg-[#F6F2DC] opacity-100' : '',
 				// xs ? 'space-y-[5px]' : ''
-				'space-y-[5px]'
+				'space-y-[5px]',
+				hover ? 'hover:bg-[#F6F2DC] hover:opacity-100' : ''
 			)}
 			onClick={() => !disabled && setState((prev) => !prev)}
 		>

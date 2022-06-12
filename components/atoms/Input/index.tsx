@@ -13,7 +13,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 	addClass?: string
 }
 
-const Input: React.FC<InputProps> = React.forwardRef(
+const Input: React.FC<InputProps> = React.forwardRef<HTMLInputElement, InputProps>(
 	({ type = 'text', placeholder, label, sizeType = 'full', register, error, effectNode, addClass, ...inputState }, ref) => {
 		const cl = sizeType === 'full' ? 'w-full' : sizeType === 'lg' ? 'w-[325px]' : sizeType === 'md' ? 'w-[275px]' : 'w-[200px]'
 		const border = error

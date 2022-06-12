@@ -8,6 +8,7 @@ import GreenPopUp from 'components/GreenPopUp'
 import { usePopup } from 'hooks/usePopup'
 import SendEmailPopup from './SendEmailPopup'
 import { classNames } from 'utils/fn'
+import { commonAxios } from 'api'
 interface Props extends UseFormReturn<FormValue> {
 	onSubmit: (data: SignUpType) => void
 	setIsValid: React.Dispatch<React.SetStateAction<FormIsValid>>
@@ -39,10 +40,10 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 
 				<div className="relative w-full">
 					<InputContainer
-						label="이메일"
+						// label="이메일"
 						placeholder="이메일 입력"
 						error={errors.email}
-						register={register('email', {
+						{...register('email', {
 							required: { value: true, message: '필수항목 입니다.' },
 							pattern: {
 								value: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
@@ -57,7 +58,6 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 								return true
 							}
 						})}
-						name="email"
 						effectNode={
 							!isSuccess && (
 								<div
@@ -91,11 +91,10 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 				</div>
 				{errors.email && <ErrorMsg>{errors.email.message}</ErrorMsg>}
 				<InputContainer
-					label="비밀번호"
+					// label="비밀번호"
 					placeholder="10자 이상의 영문/숫자/특수문자를 조합"
 					type="password"
-					name="password"
-					register={register('password', {
+					{...register('password', {
 						required: { value: true, message: '필수항목 입니다.' },
 						minLength: { value: 10, message: '10자 이상 입력해주세요.' },
 						pattern: {
@@ -104,7 +103,7 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 						},
 						validate: (value) => {
 							onFormValid('password', errors.password)
-							return true
+							return false
 						}
 						// onBlur: () => onFormValid('password', errors.password)
 					})}
@@ -115,8 +114,7 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 					label="비밀번호 확인"
 					placeholder="비밀번호 재입력"
 					type="password"
-					name="password_confirm"
-					register={register('password_confirm', {
+					{...register('password_confirm', {
 						required: { value: true, message: '필수항목 입니다.' },
 						validate: (value) => {
 							onFormValid('password_confirm', errors.password_confirm)
@@ -134,11 +132,11 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 					))}
 				<InputContainer
 					label="닉네임"
-					name="nickname"
-					register={register('nickname', {
+					{...register('nickname', {
 						required: { value: true, message: '필수항목 입니다.' },
 						validate: (value) => {
-							onFormValid('nickname', errors.nickname)
+							// console.log(commonAxios.get(`/nickname/?nickname=${value}`).then((res) => res.data.success))
+							// onFormValid('nickname', errors.nickname)
 							return true
 						}
 						// onBlur: () => onFormValid('nickname', errors.nickname)
