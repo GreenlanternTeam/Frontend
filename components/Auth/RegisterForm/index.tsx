@@ -35,17 +35,16 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 			</GreenPopUp>
 			<h2>회원가입</h2>
 			<Form onSubmit={handleSubmit(onSubmit)}>
-				{/* 이메일 유효성 검사 로직 재구현 필요 */}
 				<div className="relative">
 					<InputContainer
 						label="이메일"
-						placeholder="이메일 입력"
+						placeholder="이메일 주소"
 						error={errors.email}
 						register={register('email', {
 							required: { value: true, message: '필수항목 입니다.' },
 							pattern: {
 								value: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
-								message: '올바른 이메일 형식이 아닙니다.'
+								message: '올바른 이메일 형식이 아닙니다'
 							},
 							validate: (value) => {
 								// debounce(ok, 5000)
@@ -91,15 +90,15 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 				{errors.email && <ErrorMsg>{errors.email.message}</ErrorMsg>}
 				<InputContainer
 					label="비밀번호"
-					placeholder="10자 이상의 영문/숫자/특수문자를 조합"
+					placeholder="영문, 숫자 포함 8자 이상"
 					type="password"
 					name="password"
 					register={register('password', {
 						required: { value: true, message: '필수항목 입니다.' },
-						minLength: { value: 10, message: '10자 이상 입력해주세요.' },
+						minLength: { value: 10, message: '8자 이상 입력해주세요.' },
 						pattern: {
-							value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{10,}$/,
-							message: '올바른 비밀번호 형식이 아닙니다'
+							value: /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/,
+							message: '올바른 비밀번호 형식이 아닙니다.'
 						},
 						validate: (value) => {
 							onFormValid('password', errors.password)
@@ -129,7 +128,7 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 					(errors.password_confirm.type === 'required' ? (
 						<ErrorMsg>{errors.password_confirm.message}</ErrorMsg>
 					) : (
-						<ErrorMsg>비밀번호가 다릅니다</ErrorMsg>
+						<ErrorMsg>비밀번호가 다릅니다.</ErrorMsg>
 					))}
 				<InputContainer
 					label="닉네임"
@@ -142,25 +141,28 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 						}
 						// onBlur: () => onFormValid('nickname', errors.nickname)
 					})}
-					placeholder="닉네임 입력"
+					placeholder="한글 2~8자,영문 4~16자"
 					error={errors.nickname}
 				/>
-				{errors.nickname && <ErrorMsg>{errors.nickname.message}</ErrorMsg>}
+				{errors.nickname && <ErrorMsg>{`${errors.nickname.message}.`}</ErrorMsg>}
 				<Line />
 				<Agree>
 					<h3>
 						약관동의<p>*</p>
 					</h3>
-					<AllCheckLabel>
-						<AgreeCheck
-							type="checkbox"
-							{...(register('allcheck'),
-							{
-								onChange: () => onAllCheck()
-							})}
-						/>
+					<AgreeCheck
+						type="checkbox"
+						id="checkbox"
+						{...(register('allcheck'),
+						{
+							onChange: () => onAllCheck()
+						})}
+					/>
+					<CheckGroup>
+						<AllCheckLabel />
 						<span>전체 동의</span>
-					</AllCheckLabel>
+					</CheckGroup>
+
 					<AgreeCheckGroup>
 						<AgreeCheckLabel>
 							<AgreeCheck
@@ -254,6 +256,7 @@ const Line = styled.div`
 const Agree = styled.div`
 	display: flex;
 	flex-direction: column;
+	margin-bottom: 35px;
 
 	label {
 		font-size: 16px;
@@ -282,30 +285,17 @@ const Agree = styled.div`
 `
 
 const AgreeCheck = styled.input`
+	display: none;
+`
+const AgreeCheckLabel = styled.label``
+const AllCheckLabel = styled.label`
+	display: inline;
 	width: 24px;
 	height: 23.04px;
 	border-radius: 5px;
 	margin-right: 10px;
-	background-color: #f7f2dc;
-`
-const AgreeCheckLabel = styled.label`
-	font-size: 16px;
-	font-weight: 300;
-	display: flex;
-	align-items: center;
-	margin-top: 20px;
-
-	span {
-		text-decoration: underline;
-	}
-`
-const AllCheckLabel = styled.label`
-	font-size: 16px;
-	font-weight: 500;
-	line-height: 100%;
-	display: flex;
-	align-items: center;
-	margin-top: 20px;
+	background-color: white;
+	border: 1px #000000;
 `
 
 const ErrorMsg = styled.span`
@@ -321,5 +311,15 @@ const AgreeCheckGroup = styled.div`
 		font-size: 16px;
 		font-weight: 300;
 		line-height: 100%;
+	}
+`
+const CheckGroup = styled.div`
+	display: flex;
+	align-items: center;
+
+	span {
+		margin-top: 21px;
+		font-weight: 500;
+		font-size: 16px;
 	}
 `
