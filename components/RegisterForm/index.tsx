@@ -1,54 +1,56 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { FieldError, UseFormReturn } from 'react-hook-form'
-import { FormValue, FormIsValid } from 'types/SignUpType'
+import { FormValue, FormIsValid, TestStateType } from 'types/SignUpType'
 import { SignUpType } from 'api/auth'
 import InputContainer from 'components/atoms/Input'
 import GreenPopUp from 'components/GreenPopUp'
 import { usePopup } from 'hooks/usePopup'
 import SendEmailPopup from './SendEmailPopup'
 import { classNames } from 'utils/fn'
+import Vector from 'public/icons/Vector.svg'
 interface Props extends UseFormReturn<FormValue> {
 	onSubmit: (data: SignUpType) => void
 	setIsValid: React.Dispatch<React.SetStateAction<FormIsValid>>
 	isValid: FormIsValid
 	onFormValid: (inputName: string, error: FieldError | undefined) => void
 	onAllCheck: () => void
+	testState: TestStateType
 }
 
-const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props) => {
+const RegisterForm = ({ isValid, onFormValid, onAllCheck, testState, ...formState }: Props) => {
 	const {
 		register,
-		formState: { errors },
-		watch,
+		formState: { errors, isValidating },
 		onSubmit,
 		handleSubmit,
 		getValues
 	} = formState
 	const { setPopupShow, isSuccess } = usePopup()
-	const allCheck = watch('allcheck', false)
 	const [valid, setValid] = useState(false)
+	const checkBoxState = getValues()
+
+	console.log(testState.allcheck)
+
 	return (
-		<Wrrapper className="py-[50px]">
+		<Wrrapper>
 			<GreenPopUp>
 				<SendEmailPopup email={getValues().email} />
 			</GreenPopUp>
-			<Form className="w-full" onSubmit={handleSubmit(onSubmit)}>
-				<h2>회원가입</h2>
-				{/* 이메일 유효성 검사 로직 재구현 필요 */}
-
-				<div className="relative w-full">
+			<h2>회원가입</h2>
+			<Form onSubmit={handleSubmit(onSubmit)}>
+				<div className="relative">
 					<InputContainer
 						label="이메일"
-						placeholder="이메일 입력"
+						placeholder="이메일 주소"
 						error={errors.email}
 						register={register('email', {
 							required: { value: true, message: '필수항목 입니다.' },
 							pattern: {
 								value: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
-								message: '올바른 이메일 형식이 아닙니다.'
+								message: '올바른 이메일 형식이 아닙니다'
 							},
-							validate: (value) => {
+							validate: () => {
 								// debounce(ok, 5000)
 								onFormValid('email', errors.email)
 								if (!errors.email) {
@@ -92,17 +94,17 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 				{errors.email && <ErrorMsg>{errors.email.message}</ErrorMsg>}
 				<InputContainer
 					label="비밀번호"
-					placeholder="10자 이상의 영문/숫자/특수문자를 조합"
+					placeholder="영문, 숫자 포함 8자 이상"
 					type="password"
 					name="password"
 					register={register('password', {
 						required: { value: true, message: '필수항목 입니다.' },
-						minLength: { value: 10, message: '10자 이상 입력해주세요.' },
+						minLength: { value: 10, message: '8자 이상 입력해주세요.' },
 						pattern: {
-							value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{10,}$/,
-							message: '올바른 비밀번호 형식이 아닙니다'
+							value: /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/,
+							message: '올바른 비밀번호 형식이 아닙니다.'
 						},
-						validate: (value) => {
+						validate: () => {
 							onFormValid('password', errors.password)
 							return true
 						}
@@ -130,7 +132,7 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 					(errors.password_confirm.type === 'required' ? (
 						<ErrorMsg>{errors.password_confirm.message}</ErrorMsg>
 					) : (
-						<ErrorMsg>비밀번호가 다릅니다</ErrorMsg>
+						<ErrorMsg>비밀번호가 다릅니다.</ErrorMsg>
 					))}
 				<InputContainer
 					label="닉네임"
@@ -143,62 +145,97 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, ...formState }: Props)
 						}
 						// onBlur: () => onFormValid('nickname', errors.nickname)
 					})}
-					placeholder="닉네임 입력"
+					placeholder="한글 2~8자,영문 4~16자"
 					error={errors.nickname}
 				/>
-				{errors.nickname && <ErrorMsg>{errors.nickname.message}</ErrorMsg>}
+				{errors.nickname && <ErrorMsg>{`${errors.nickname.message}.`}</ErrorMsg>}
 				<Line />
 				<Agree>
 					<h3>
 						약관동의<p>*</p>
 					</h3>
-					<AllCheckLabel>
+					<AgreeCheck
+						type="checkbox"
+						id="checkbox"
+						{...(register('allcheck'),
+						{
+							onChange: () => onAllCheck()
+						})}
+					/>
+					<AllCheckGroup>
+						{testState.allcheck ? (
+							<AgreeCheckedLabel onClick={() => onAllCheck()}>
+								<Vector />
+							</AgreeCheckedLabel>
+						) : (
+							<AllCheckLabel onClick={() => onAllCheck()} />
+						)}
+						<span>전체 동의</span>
+					</AllCheckGroup>
+
+					<AgreeCheckGroup>
 						<AgreeCheck
 							type="checkbox"
-							{...(register('allcheck'),
-							{
-								onChange: () => onAllCheck()
+							{...register('agree_14plus', {
+								required: { value: true, message: '필수항목 입니다.' }
 							})}
 						/>
-						<span>전체 동의</span>
-					</AllCheckLabel>
-					<AgreeCheckGroup>
-						<AgreeCheckLabel>
-							<AgreeCheck
-								type="checkbox"
-								{...register('agree_14plus', {
-									required: { value: true, message: '필수항목 입니다.' }
-								})}
-							/>
-							[필수] 만 14세 이상
-						</AgreeCheckLabel>
-						<AgreeCheckLabel>
-							<AgreeCheck
-								type="checkbox"
-								{...register('agree_terms', {
-									required: { value: true, message: '필수항목 입니다.' }
-								})}
-							/>
+						<CheckGroup>
+							{testState.agree_14plus ? (
+								<AgreeCheckedLabel onClick={() => onAllCheck()}>
+									<Vector />
+								</AgreeCheckedLabel>
+							) : (
+								<AgreeCheckLabel onClick={() => onAllCheck()} />
+							)}
+							<span>[필수] 만 14세 이상</span>
+						</CheckGroup>
+						<AgreeCheck
+							type="checkbox"
+							{...register('agree_terms', {
+								required: { value: true, message: '필수항목 입니다.' }
+							})}
+						/>
+						<CheckGroup>
+							{testState.agree_terms ? (
+								<AgreeCheckedLabel onClick={() => onAllCheck()}>
+									<Vector />
+								</AgreeCheckedLabel>
+							) : (
+								<AgreeCheckLabel onClick={() => onAllCheck()} />
+							)}
 							<span>[필수] 이용약관</span>
-						</AgreeCheckLabel>
-						<AgreeCheckLabel>
-							<AgreeCheck
-								type="checkbox"
-								{...register('agree_info', {
-									required: { value: true, message: '필수항목 입니다.' }
-								})}
-							/>
+						</CheckGroup>
+						<AgreeCheck
+							type="checkbox"
+							{...register('agree_info', {
+								required: { value: true, message: '필수항목 입니다.' }
+							})}
+						/>
+						<CheckGroup>
+							{testState.agree_info ? (
+								<AgreeCheckedLabel onClick={() => onAllCheck()}>
+									<Vector />
+								</AgreeCheckedLabel>
+							) : (
+								<AgreeCheckLabel onClick={() => onAllCheck()} />
+							)}
 							<span>[필수] 개인정보 수집 및 이용동의</span>
-						</AgreeCheckLabel>
-						<AgreeCheckLabel>
-							<AgreeCheck type="checkbox" checked={allCheck || watch('agree_recinfo')} {...register('agree_recinfo')} />
-							[선택] 정보 수신 동의
-						</AgreeCheckLabel>
+						</CheckGroup>
+						<AgreeCheck type="checkbox" {...register('agree_recinfo')} />
+						<CheckGroup>
+							{testState.agree_recinfo ? (
+								<AgreeCheckedLabel onClick={() => onAllCheck()}>
+									<Vector />
+								</AgreeCheckedLabel>
+							) : (
+								<AgreeCheckLabel onClick={() => onAllCheck()} />
+							)}
+							<span>[선택] 정보 수신 동의</span>
+						</CheckGroup>
 					</AgreeCheckGroup>
 				</Agree>
-				<Button className="w-full" type="submit">
-					회원가입
-				</Button>
+				<Button type="submit">회원가입</Button>
 			</Form>
 		</Wrrapper>
 	)
@@ -211,7 +248,6 @@ const Wrrapper = styled.div`
 	align-items: center;
 	flex-direction: column;
 	padding-bottom: 60px;
-
 	h2 {
 		font-weight: 600;
 		font-size: 20px;
@@ -223,13 +259,11 @@ const Wrrapper = styled.div`
 const Form = styled.form`
 	display: flex;
 	flex-direction: column;
-
 	label {
 		display: flex;
 		font-weight: 500;
 		font-size: 18px;
 		margin-top: 20px;
-
 		p {
 			color: red;
 		}
@@ -237,6 +271,7 @@ const Form = styled.form`
 `
 
 const Button = styled.button`
+	width: 100%;
 	height: 50px;
 	background: #346053;
 	border-radius: 5px;
@@ -248,7 +283,7 @@ const Button = styled.button`
 	margin-bottom: 1px;
 `
 const Line = styled.div`
-	width: 275px;
+	width: 100%;
 	border-bottom: 1px solid rgba(153, 153, 153, 0.6);
 	margin-bottom: 20px;
 	margin-top: 40px;
@@ -256,7 +291,7 @@ const Line = styled.div`
 const Agree = styled.div`
 	display: flex;
 	flex-direction: column;
-
+	margin-bottom: 35px;
 	label {
 		font-size: 16px;
 		font-weight: 500;
@@ -264,17 +299,14 @@ const Agree = styled.div`
 		align-items: center;
 		margin-top: 20px;
 	}
-
 	h3 {
 		font-size: 18px;
 		line-height: 100%;
 		display: flex;
 		align-items: center;
-
 		p {
 			color: red;
 		}
-
 		span {
 			font-size: 16px;
 			font-weight: 500;
@@ -284,30 +316,37 @@ const Agree = styled.div`
 `
 
 const AgreeCheck = styled.input`
+	display: none;
+`
+const AgreeCheckLabel = styled.label`
+	width: 24px;
+	height: 23.04px;
+	border-radius: 5px;
+	margin-right: 10px;
+	background-color: #ffffff;
+	border: 1px solid #999999;
+`
+const AllCheckLabel = styled.label`
+	width: 24px;
+	height: 23.04px;
+	border-radius: 5px;
+	margin-right: 10px;
+	background-color: #ffffff;
+	border: 1px solid #999999;
+`
+const AgreeCheckedLabel = styled.label`
 	width: 24px;
 	height: 23.04px;
 	border-radius: 5px;
 	margin-right: 10px;
 	background-color: #f7f2dc;
-`
-const AgreeCheckLabel = styled.label`
-	font-size: 16px;
-	font-weight: 300;
+	border: 1px solid #000000;
 	display: flex;
-	align-items: center;
-	margin-top: 20px;
-
-	span {
-		text-decoration: underline;
+	justify-content: center;
+	svg {
+		width: 12.23px;
+		height: 9.34px;
 	}
-`
-const AllCheckLabel = styled.label`
-	font-size: 16px;
-	font-weight: 500;
-	line-height: 100%;
-	display: flex;
-	align-items: center;
-	margin-top: 20px;
 `
 
 const ErrorMsg = styled.span`
@@ -323,5 +362,24 @@ const AgreeCheckGroup = styled.div`
 		font-size: 16px;
 		font-weight: 300;
 		line-height: 100%;
+	}
+`
+const CheckGroup = styled.div`
+	display: flex;
+	align-items: center;
+	span {
+		margin-top: 21px;
+		font-weight: 300;
+		font-size: 16px;
+	}
+`
+
+const AllCheckGroup = styled.div`
+	display: flex;
+	align-items: center;
+	span {
+		margin-top: 21px;
+		font-weight: 500;
+		font-size: 16px;
 	}
 `
