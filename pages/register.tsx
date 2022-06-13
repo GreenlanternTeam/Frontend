@@ -18,7 +18,6 @@ const Register = () => {
 		agree_info: false,
 		agree_recinfo: false
 	})
-	const name = 'sss'
 	const formState = useForm<FormValue>({
 		mode: 'onBlur',
 		reValidateMode: 'onChange'
@@ -75,6 +74,8 @@ const Register = () => {
 			setSuccess(false)
 		}
 	}, [])
+
+	const onClick = (id: string) => {}
 	const onAllCheck = () => {
 		const { agree_14plus, agree_terms, agree_info, agree_recinfo, allcheck } = formState.getValues()
 		formState.setValue('allcheck', !allcheck)
@@ -84,6 +85,7 @@ const Register = () => {
 		formState.setValue('agree_recinfo', !agree_recinfo)
 		setTest({
 			...testState,
+			allcheck: !testState.allcheck,
 			agree_14plus: !testState.agree_14plus,
 			agree_terms: !testState.agree_terms,
 			agree_info: !testState.agree_info,
@@ -96,6 +98,7 @@ const Register = () => {
 			<RegisterForm
 				onSubmit={onSubmit}
 				isValid={isValid}
+				onClick={onClick}
 				setIsValid={setIsValid}
 				onFormValid={onFormValid}
 				onAllCheck={onAllCheck}
