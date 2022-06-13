@@ -49,10 +49,17 @@ const Register = () => {
 	const { isSuccess: isEmailCheck, setSuccess } = usePopup()
 
 	const onSubmit = (formData: SignUpType) => {
-		if (isEmailCheck) {
-			mutate(formData)
-		} else {
+		const { agree_14plus, agree_terms, agree_info } = testState
+		const body = {
+			...formData,
+			...testState
+		}
+		if (isEmailCheck && agree_14plus && agree_terms && agree_info) {
+			mutate(body)
+		} else if (!isEmailCheck) {
 			formState.setError('email', { message: '이메일 미인증' })
+		} else {
+			return
 		}
 	}
 
@@ -75,14 +82,7 @@ const Register = () => {
 		}
 	}, [])
 
-	const onClick = (id: string) => {}
 	const onAllCheck = () => {
-		const { agree_14plus, agree_terms, agree_info, agree_recinfo, allcheck } = formState.getValues()
-		formState.setValue('allcheck', !allcheck)
-		formState.setValue('agree_14plus', !agree_14plus)
-		formState.setValue('agree_terms', !agree_terms)
-		formState.setValue('agree_info', !agree_info)
-		formState.setValue('agree_recinfo', !agree_recinfo)
 		setTest({
 			...testState,
 			allcheck: !testState.allcheck,
@@ -98,11 +98,11 @@ const Register = () => {
 			<RegisterForm
 				onSubmit={onSubmit}
 				isValid={isValid}
-				onClick={onClick}
 				setIsValid={setIsValid}
 				onFormValid={onFormValid}
 				onAllCheck={onAllCheck}
 				testState={testState}
+				setTest={setTest}
 				{...formState}
 			/>
 		</Layout>

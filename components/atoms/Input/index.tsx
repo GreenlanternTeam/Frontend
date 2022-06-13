@@ -21,12 +21,12 @@ const Input: React.FC<InputProps> = React.forwardRef(
 			: 'focus:border-[#000000] border-[1px] border-[#000000] placeholder-shown:border-[rgba(153,153,153,0.6)] '
 		return (
 			<>
-				{label && <label>{label}</label>}
+				{label && <label className="mb-30">{label}</label>}
 				<div className={cl + ' h-fit relative'}>
 					<input
 						className={classNames(
 							border,
-							'placeholder:text-[#999999] placeholder:font-light placeholder:opacity-60  h-[50px] px-[20px] focus:outline-none focus:border-[1px]  rounded-[5px] transition-all w-full',
+							'placeholder:text-[#999999] placeholder:font-light placeholder:opacity-60  h-[50px] px-[20px]  focus:outline-none focus:border-[1px]  rounded-[5px] transition-all w-full',
 							addClass!
 						)}
 						type={type}

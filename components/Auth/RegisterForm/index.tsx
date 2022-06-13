@@ -16,9 +16,10 @@ interface Props extends UseFormReturn<FormValue> {
 	onFormValid: (inputName: string, error: FieldError | undefined) => void
 	onAllCheck: () => void
 	testState: TestStateType
+	setTest: React.Dispatch<React.SetStateAction<TestStateType>>
 }
 
-const RegisterForm = ({ isValid, onFormValid, onAllCheck, testState, ...formState }: Props) => {
+const RegisterForm = ({ isValid, onFormValid, onAllCheck, testState, setTest, ...formState }: Props) => {
 	const {
 		register,
 		formState: { errors, isValidating },
@@ -29,8 +30,6 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, testState, ...formStat
 	const { setPopupShow, isSuccess } = usePopup()
 	const [valid, setValid] = useState(false)
 	const checkBoxState = getValues()
-
-	console.log(testState.allcheck)
 
 	return (
 		<Wrrapper>
@@ -154,14 +153,6 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, testState, ...formStat
 					<h3>
 						약관동의<p>*</p>
 					</h3>
-					<AgreeCheck
-						type="checkbox"
-						id="checkbox"
-						{...(register('allcheck'),
-						{
-							onChange: () => onAllCheck()
-						})}
-					/>
 					<AllCheckGroup>
 						{testState.allcheck ? (
 							<AgreeCheckedLabel onClick={() => onAllCheck()}>
@@ -174,62 +165,100 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, testState, ...formStat
 					</AllCheckGroup>
 
 					<AgreeCheckGroup>
-						<AgreeCheck
-							type="checkbox"
-							{...register('agree_14plus', {
-								required: { value: true, message: '필수항목 입니다.' }
-							})}
-						/>
 						<CheckGroup>
 							{testState.agree_14plus ? (
-								<AgreeCheckedLabel onClick={() => onAllCheck()}>
+								<AgreeCheckedLabel
+									onClick={() =>
+										setTest({
+											...testState,
+											agree_14plus: !testState.agree_14plus
+										})
+									}
+								>
 									<Vector />
 								</AgreeCheckedLabel>
 							) : (
-								<AgreeCheckLabel onClick={() => onAllCheck()} />
+								<AgreeCheckLabel
+									onClick={() =>
+										setTest({
+											...testState,
+											agree_14plus: !testState.agree_14plus
+										})
+									}
+								/>
 							)}
 							<span>[필수] 만 14세 이상</span>
 						</CheckGroup>
-						<AgreeCheck
-							type="checkbox"
-							{...register('agree_terms', {
-								required: { value: true, message: '필수항목 입니다.' }
-							})}
-						/>
 						<CheckGroup>
 							{testState.agree_terms ? (
-								<AgreeCheckedLabel onClick={() => onAllCheck()}>
+								<AgreeCheckedLabel
+									onClick={() =>
+										setTest({
+											...testState,
+											agree_terms: !testState.agree_terms
+										})
+									}
+								>
 									<Vector />
 								</AgreeCheckedLabel>
 							) : (
-								<AgreeCheckLabel onClick={() => onAllCheck()} />
+								<AgreeCheckLabel
+									onClick={() =>
+										setTest({
+											...testState,
+											agree_terms: !testState.agree_terms
+										})
+									}
+								/>
 							)}
 							<span>[필수] 이용약관</span>
 						</CheckGroup>
-						<AgreeCheck
-							type="checkbox"
-							{...register('agree_info', {
-								required: { value: true, message: '필수항목 입니다.' }
-							})}
-						/>
 						<CheckGroup>
 							{testState.agree_info ? (
-								<AgreeCheckedLabel onClick={() => onAllCheck()}>
+								<AgreeCheckedLabel
+									onClick={() =>
+										setTest({
+											...testState,
+											agree_info: !testState.agree_info
+										})
+									}
+								>
 									<Vector />
 								</AgreeCheckedLabel>
 							) : (
-								<AgreeCheckLabel onClick={() => onAllCheck()} />
+								<AgreeCheckLabel
+									onClick={() =>
+										setTest({
+											...testState,
+											agree_info: !testState.agree_info
+										})
+									}
+								/>
 							)}
 							<span>[필수] 개인정보 수집 및 이용동의</span>
 						</CheckGroup>
 						<AgreeCheck type="checkbox" {...register('agree_recinfo')} />
 						<CheckGroup>
 							{testState.agree_recinfo ? (
-								<AgreeCheckedLabel onClick={() => onAllCheck()}>
+								<AgreeCheckedLabel
+									onClick={() =>
+										setTest({
+											...testState,
+											agree_recinfo: !testState.agree_recinfo
+										})
+									}
+								>
 									<Vector />
 								</AgreeCheckedLabel>
 							) : (
-								<AgreeCheckLabel onClick={() => onAllCheck()} />
+								<AgreeCheckLabel
+									onClick={() =>
+										setTest({
+											...testState,
+											agree_recinfo: !testState.agree_recinfo
+										})
+									}
+								/>
 							)}
 							<span>[선택] 정보 수신 동의</span>
 						</CheckGroup>

@@ -37,7 +37,7 @@ const TextInput = styled.input<{ error: FieldError | undefined; isValid: boolean
 	border: ${(props) => (props.error ? '1px solid #FF0000' : '1px solid rgba(153, 153, 153, 0.6)')};
 	box-sizing: border-box;
 	border-radius: 5px;
-	margin-top: 5px;
+	margin-top: 100px;
 	font-size: 14px;
 	font-weight: 400;
 	padding-left: 10px;
