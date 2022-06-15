@@ -17,7 +17,7 @@ const Input: React.FC<InputProps> = React.forwardRef<HTMLInputElement, InputProp
 			: 'focus:border-[#000000] border-[1px] border-[#000000] placeholder-shown:border-[rgba(153,153,153,0.6)] '
 		return (
 			<>
-				{label && <label>{label}</label>}
+				{label && <label className="mb-30">{label}</label>}
 				<div className={cl + ' h-fit relative'}>
 					<input
 						className={classNames(
