@@ -3,19 +3,15 @@ import { FieldError, UseFormRegisterReturn } from 'react-hook-form'
 import { classNames } from 'utils/fn'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-	type?: 'text' | 'password' | 'email' | 'number'
-	placeholder?: string
 	label?: string
-	sizeType?: 'sm' | 'md' | 'lg' | 'full'
-	register?: UseFormRegisterReturn
+	sizeType?: 'primary' | 'secondary' | 'full'
 	effectNode?: ReactNode
 	error?: FieldError | undefined
-	addClass?: string
 }
 
 const Input: React.FC<InputProps> = React.forwardRef<HTMLInputElement, InputProps>(
-	({ type = 'text', placeholder, label, sizeType = 'full', register, error, effectNode, addClass, ...inputState }, ref) => {
-		const cl = sizeType === 'full' ? 'w-full' : sizeType === 'lg' ? 'w-[325px]' : sizeType === 'md' ? 'w-[275px]' : 'w-[200px]'
+	({ label, sizeType = 'full', error, effectNode, className, ...inputState }, ref) => {
+		const cl = sizeType === 'full' ? 'w-full' : sizeType === 'secondary' ? 'w-[325px]' : 'w-[275px]'
 		const border = error
 			? 'focus:border-[##ff0000] border-[1px] border-[#ff0000] '
 			: 'focus:border-[#000000] border-[1px] border-[#000000] placeholder-shown:border-[rgba(153,153,153,0.6)] '
@@ -27,11 +23,8 @@ const Input: React.FC<InputProps> = React.forwardRef<HTMLInputElement, InputProp
 						className={classNames(
 							border,
 							'placeholder:text-[#999999] placeholder:font-light placeholder:opacity-60  h-[50px] px-[20px] focus:outline-none focus:border-[1px]  rounded-[5px] transition-all w-full',
-							addClass!
+							className ?? ''
 						)}
-						type={type}
-						placeholder={placeholder}
-						{...register}
 						{...inputState}
 					/>
 					{effectNode}

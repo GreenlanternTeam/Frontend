@@ -1,9 +1,7 @@
-import { setAcessToekn } from './../utils/getToken'
 import { LoginType } from 'types/LoginType'
 import { customAxios, loginCheckAxios } from 'api'
 import { LoginResponse } from 'types/LoginType'
 import setInterceptors from './common/setInterceptors'
-import { decodeJWT } from 'utils/fn'
 import AuthError from './common/customAuthError'
 
 export interface SignUpType {

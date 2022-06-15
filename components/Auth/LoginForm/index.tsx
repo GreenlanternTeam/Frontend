@@ -38,7 +38,7 @@ const LoginForm = () => {
 					<InputAtom
 						error={errors.email}
 						placeholder="이메일"
-						register={register('email', {
+						{...register('email', {
 							required: { value: true, message: '필수항목 입니다.' },
 							pattern: {
 								value: /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
@@ -55,7 +55,7 @@ const LoginForm = () => {
 						placeholder="비밀번호 "
 						error={errors.password}
 						type="password"
-						register={register('password', {
+						{...register('password', {
 							required: '필수항목 입니다.'
 						})}
 					/>

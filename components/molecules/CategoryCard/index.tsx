@@ -1,5 +1,5 @@
 import GrayDescription from 'components/atoms/GrayDescription'
-import CategoryItem from 'components/MainCategory/CategoryItem'
+import CategoryItem from 'components/molecules/MainCategory/CategoryItem'
 import Link from 'next/link'
 import React from 'react'
 import { Categories } from 'types/VendorType'
