@@ -1,10 +1,9 @@
-import CategoryItem from 'components/molecules/MainCategory/CategoryItem'
+import React from 'react'
+import CategoryItem from 'components/Category/CategoryItem'
 import Layout from 'layout/layout'
 import { GetServerSideProps, NextPage } from 'next'
-
-import React from 'react'
 import { Categories } from 'types/VendorType'
-import * as CategoriData from 'components/molecules/MainCategory/CategoryItem/utils'
+import * as CategoriData from 'components/Category/utils'
 interface CategoryDetailProps {
 	type: Categories
 }

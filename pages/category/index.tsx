@@ -1,5 +1,5 @@
-import ContentTitle from 'components/ContentTitle'
-import CategoryCard from 'components/molecules/CategoryCard'
+import ContentTitle from 'components/modules/ContentTitle'
+import CategoryCard from 'components/Category/CategoryCard'
 import Layout from 'layout/layout'
 import React from 'react'
 

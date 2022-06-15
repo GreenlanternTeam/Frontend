@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { FieldError, SubmitHandler, UseFormReturn } from 'react-hook-form'
+import { FieldError, UseFormReturn } from 'react-hook-form'
 import { FormValue, FormIsValid, TestStateType } from 'types/SignUpType'
-import { SignUpType } from 'api/auth'
-import InputContainer from 'components/atoms/Input'
-import GreenPopUp from 'components/GreenPopUp'
+import InputContainer from 'components/Common/Input'
+import GreenPopUp from 'components/modules/GreenPopUp'
 import { usePopup } from 'hooks/usePopup'
 import SendEmailPopup from './SendEmailPopup'
 import { classNames } from 'utils/fn'
@@ -27,12 +26,12 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, testState, setTest, ..
 		setError,
 		onSubmit,
 		handleSubmit,
-		getValues
+		getValues,
+		watch
 	} = formState
 	const { setPopupShow, isSuccess } = usePopup()
 	const [valid, setValid] = useState(false)
-	const checkBoxState = getValues()
-
+	// console.log(watch())
 	return (
 		<Wrrapper className="px-[15%] w-full">
 			<GreenPopUp>
@@ -40,7 +39,7 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, testState, setTest, ..
 			</GreenPopUp>
 			<h2>회원가입</h2>
 			<Form onSubmit={handleSubmit(onSubmit)}>
-				<div className="relative">
+				<div className="relative w-full">
 					<InputContainer
 						label="이메일"
 						placeholder="이메일 주소"
@@ -52,11 +51,8 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, testState, setTest, ..
 								message: '올바른 이메일 형식이 아닙니다'
 							},
 							validate: (value) => {
-								// debounce(ok, 5000)
-								onFormValid('email', errors.email)
-								if (!errors.email) {
-									setValid(true)
-								}
+								setValid(true)
+
 								return true
 							}
 						})}
@@ -159,60 +155,6 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, testState, setTest, ..
 					{errors.nickname && <ErrorMsg>{errors.nickname.message}</ErrorMsg>}
 				</div>
 				{errors.email && <ErrorMsg>{errors.email.message}</ErrorMsg>}
-				<InputContainer
-					label="비밀번호"
-					placeholder="영문, 숫자 포함 8자 이상"
-					type="password"
-					{...register('password', {
-						required: { value: true, message: '필수항목 입니다.' },
-						minLength: { value: 10, message: '8자 이상 입력해주세요.' },
-						pattern: {
-							value: /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/,
-							message: '올바른 비밀번호 형식이 아닙니다.'
-						},
-						validate: (value) => {
-							onFormValid('password', errors.password)
-							return true
-						}
-						// onBlur: () => onFormValid('password', errors.password)
-					})}
-					error={errors.password}
-				/>
-				{errors.password && <ErrorMsg>{errors.password.message}</ErrorMsg>}
-				<InputContainer
-					label="비밀번호 확인"
-					placeholder="비밀번호 재입력"
-					type="password"
-					{...register('password_confirm', {
-						required: { value: true, message: '필수항목 입니다.' },
-						validate: (value) => {
-							onFormValid('password_confirm', errors.password_confirm)
-							return value === getValues().password
-						}
-						// onBlur: () => onFormValid('password_confirm', errors.password_confirm)
-					})}
-					error={errors.password_confirm}
-				/>
-				{errors.password_confirm &&
-					(errors.password_confirm.type === 'required' ? (
-						<ErrorMsg>{errors.password_confirm.message}</ErrorMsg>
-					) : (
-						<ErrorMsg>비밀번호가 다릅니다.</ErrorMsg>
-					))}
-				<InputContainer
-					label="닉네임"
-					{...register('nickname', {
-						required: { value: true, message: '필수항목 입니다.' },
-						validate: (value) => {
-							onFormValid('nickname', errors.nickname)
-							return true
-						}
-						// onBlur: () => onFormValid('nickname', errors.nickname)
-					})}
-					placeholder="한글 2~8자,영문 4~16자"
-					error={errors.nickname}
-				/>
-				{errors.nickname && <ErrorMsg>{`${errors.nickname.message}.`}</ErrorMsg>}
 				<Line />
 				<Agree>
 					<h3>

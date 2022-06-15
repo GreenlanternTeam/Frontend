@@ -1,8 +1,8 @@
-import Head from '../../components/Head'
+import Head from '../../components/Common/Head'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { ChildProps } from 'types/LayoutType'
-import Navigation from 'components/Navbar'
+import Navigation from 'components/nav/Navbar'
 
 const NavWrapper = styled.div`
 	position: absolute;

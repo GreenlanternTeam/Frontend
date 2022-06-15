@@ -10,7 +10,7 @@ import GlobalStyle from 'styles/globalStyle'
 import 'assets/index.css'
 import UserValid from 'components/Auth/UserValid'
 import Head from 'next/head'
-import Favicon from 'components/Favicon'
+import Favicon from 'components/Common/Favicon'
 
 function MyApp({ Component, pageProps }: AppProps) {
 	const [queryClient] = useState(() => new QueryClient())

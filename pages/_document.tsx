@@ -1,4 +1,4 @@
-import Favicon from 'components/Favicon'
+import Favicon from 'components/Common/Favicon'
 import Document, { DocumentContext, DocumentInitialProps, Html, Main, NextScript, Head } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
 import { uuid } from 'utils/fn'

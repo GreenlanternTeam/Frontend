@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import Head from 'components/Head'
+import Head from 'components/Common/Head'
 import { IUserResponse } from './index'
 import { useQuery } from 'react-query'
 // import WithAuth from 'components/HOC/WithAuth'
