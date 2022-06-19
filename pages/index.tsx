@@ -6,23 +6,27 @@ import Image from 'next/image'
 import BottomSection from 'layout/MainPage/BottomSection'
 import MainBrand from 'components/Vendor/MainBrand'
 import { usePopup } from 'hooks/usePopup'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { classNames } from 'utils/fn'
+import { useForm, useFormState } from 'react-hook-form'
+import SearchInput from 'components/Common/SearchInput'
 
 export interface IUserResponse {
 	name: string
 	age: number
 }
 
+interface SearchForm {
+	search: string
+}
+
 const Home = () => {
 	const { setPopupShow, closePopup } = usePopup()
 	const [toggle, setToggle] = useState(false)
-	const [value, setValue] = useState<string>('')
-
-	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setValue(event.target.value)
-	}
+	const { register, watch, setValue } = useForm<SearchForm>()
+	const v = useRef<string>()
+	v.current = watch().search
 	return (
 		<Layout>
 			<section className="flex flex-col relative" style={{ top: '-100px' }}>
@@ -32,7 +36,7 @@ const Home = () => {
 				<div className="flex flex-col rounded-t-[2rem]  relative overflow-hidden z-30">
 					<BottomSection>
 						<div className="w-full px-[30px] relative space-y-[15px]">
-							<div className="relative flex items-center">
+							{/* <div className="relative flex items-center">
 								<div className="absolute h-[34px] flex justify-center items-center w-[50px]">
 									<svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 										<path
@@ -46,16 +50,15 @@ const Home = () => {
 
 								<input
 									type="text"
-									className="w-full h-[34px] rounded-[10px] bg-[#ffffff] group border pl-[50px] pr-[36px] font-normal focus:outline-none placeholder-shown:bg-[#F6F6F6] focus:border-[#000000] transition-all"
+									className="w-full h-[34px] rounded-[10px] bg-[#ffffff] group shadow-[0px_4px_10px_rgba(0,0,0,0.15)] pl-[50px] pr-[36px] font-normal focus:outline-none "
 									placeholder="브랜드, 환경 키워드 등"
-									value={value}
-									onChange={handleChange}
+									{...register('search', { required: true })}
 									onFocus={() => setToggle(true)}
 									onBlur={() => setToggle(false)}
 								/>
 								<div
-									className={classNames(value !== '' ? 'visible' : 'hidden', 'w-fit flex absolute right-[12px] cursor-pointer')}
-									onClick={() => setValue('')}
+									className={classNames(watch().search ? 'visible' : 'hidden', 'w-fit flex absolute right-[12px] cursor-pointer')}
+									onClick={() => setValue('search', '')}
 								>
 									<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 										<path
@@ -65,6 +68,13 @@ const Home = () => {
 									</svg>
 								</div>
 							</div>
+						 */}
+							<SearchInput
+								dirtyValue={v.current}
+								onXClick={() => setValue('search', '')}
+								onFocus={() => setToggle(true)}
+								onBlur={() => setToggle(false)}
+							/>
 
 							{toggle && (
 								<div className="w-full  rounded-[10px] bg-[#F6F6F6] py-[25px] px-[20px] space-y-[25px]">
