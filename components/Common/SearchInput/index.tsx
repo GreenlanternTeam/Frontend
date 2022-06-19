@@ -22,7 +22,7 @@ const SearchInput = ({ dirtyValue, onXClick, ...attr }: InputProps) => {
 
 			<input
 				type="text"
-				className="w-full h-[34px] rounded-[10px] bg-[#ffffff] group shadow-[0px_4px_10px_rgba(0,0,0,0.15)] pl-[50px] pr-[36px] font-normal focus:outline-none "
+				className="w-full h-[34px] rounded-[10px] bg-[#ffffff] group shadow-md pl-[50px] pr-[36px] font-normal focus:outline-none "
 				placeholder="브랜드, 환경 키워드 등"
 				{...attr}
 			/>

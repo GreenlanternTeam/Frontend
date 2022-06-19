@@ -57,7 +57,7 @@ const GreenPopUp = ({ children }: GreenPopUpProps) => {
 							initial="initial"
 							animate="start"
 							exit="exit"
-							className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-[#F6F6F6] px-[40px] py-[15px] flex flex-col items-center justify-center space-y-[15px] z-50"
+							className="fixed min-w-[275px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-[#F6F6F6] px-[40px] py-[15px] flex flex-col items-center justify-center space-y-[15px] z-50"
 						>
 							<PopupChild>{children}</PopupChild>
 						</motion.div>

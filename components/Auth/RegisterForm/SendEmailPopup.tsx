@@ -89,16 +89,18 @@ const SendEmailPopup: React.FC<SendEmailPopupProps> = ({ email }) => {
 				<h1>인증번호를 입력해주세요.</h1>
 			</div>
 
-			<form onSubmit={handleSubmit(onValid)}>
+			<form onSubmit={handleSubmit(onValid)} className="space-y-4">
 				<div className="relative flex items-center">
 					<Input type="number" maxLength={4} placeholder="인증번호" className="pr-[60px]" {...register('key', { required: '필수임' })} />
 					<Timer time={180} cls="right-[20px] absolute" />
 				</div>
-				<div className="font-normal text-[11px] text-center">
-					<h3>3분 이내로 인증번호(4자리)를 입력하세요.</h3>
-					<h3>
-						전송되지 않을경우 <u onClick={() => handleClick()}>재전송</u> 버튼을 눌러주세요.
-					</h3>
+				<div className="font-normal text-[11px] text-center space-y-5">
+					<div>
+						<h3>3분 이내로 인증번호(4자리)를 입력하세요.</h3>
+						<h3>
+							전송되지 않을경우 <u onClick={() => handleClick()}>재전송</u> 버튼을 눌러주세요.
+						</h3>
+					</div>
 					{errors.key && <div className="pt-4 text-red-400 font-extrabold text-md">{errors.key.message}</div>}
 					<BButton text="확인" type="submit" />
 				</div>
