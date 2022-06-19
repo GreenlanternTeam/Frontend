@@ -41,7 +41,6 @@ const VendorDetail: NextPage<VendorDetailProps> = ({ response, imageUrl }) => {
 			})
 		}
 	}
-	console.log(response.relative)
 	const router = useRouter()
 	const user = useSelector(getUser)
 	return (
@@ -59,24 +58,6 @@ const VendorDetail: NextPage<VendorDetailProps> = ({ response, imageUrl }) => {
 
 					<div className="flex items-end space-x-2 z-10">
 						<RedirectLogo siteUrl={response.vendor.site_url} logoUrl={response.vendor.logo_url} />
-						{/* <Link
-							href={
-								response.vendor.site_url.includes('https')
-									? response.vendor.site_url
-									: response.vendor.site_url.includes('http')
-									? response.vendor.site_url
-									: `https://${response.vendor.site_url}`
-							}
-						>
-							<a target="_blank">
-								<div
-									className=" bg-white w-[75px] h-[75px] p-3 rounded-full overflow-hidden flex justify-center items-center"
-									style={{ overflow: 'hidden' }}
-								>
-									{response.vendor.logo_url ? <VendorLogo url={response.vendor.logo_url} /> : <MainLogo />}
-								</div>
-							</a>
-						</Link> */}
 						<div className="flex flex-col h-4/5 leading-tight">
 							{response.vendor.range.includes('Womenwear') ? (
 								<span className=" w-fit  text-[14px]">womenwear</span>
@@ -107,7 +88,7 @@ const VendorDetail: NextPage<VendorDetailProps> = ({ response, imageUrl }) => {
 						<li
 							className={classNames(
 								clicked ? 'text-[rgb(0,0,0)]' : 'text-[rgb(156,163,175)]',
-								'text-center flex flex-col items-center transition-all'
+								'text-center flex flex-col items-center transition-all cursor-pointer'
 							)}
 							onClick={() => setClicked(true)}
 						>
@@ -117,7 +98,7 @@ const VendorDetail: NextPage<VendorDetailProps> = ({ response, imageUrl }) => {
 						<li
 							className={classNames(
 								clicked ? 'text-[rgb(156,163,175)]' : 'text-[rgb(0,0,0)]',
-								'text-center flex flex-col items-center transition-all'
+								'text-center flex flex-col items-center transition-all cursor-pointer'
 							)}
 							onClick={() => setClicked(false)}
 						>
