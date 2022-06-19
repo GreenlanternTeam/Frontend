@@ -1,6 +1,6 @@
 import SubText from 'components/Common/SubText'
 import React, { useState } from 'react'
-import { Categories, CategoryKey } from 'types/VendorType'
+import { Categories } from 'types/VendorType'
 import { classNames } from 'utils/fn'
 import * as Icons from '../utils'
 
@@ -15,10 +15,8 @@ export interface CategoryItemProps {
 
 const CategoryItem: React.FC<CategoryItemProps> = ({ type = 'lowWaste', disabled, api = false, xs, lgIcon, hover }) => {
 	const [state, setState] = useState(false)
-	// const category = api ? Icons.CategoryData.find((c) => c.title === api) ?? Icons.CategoryData[0] : Icons.noneApiCategory[type]
 	const category = Icons.noneApiCategory[type]
 	const { href, title, id, blob } = category
-	// xs ? "space-y-[5px]" : ""
 	return (
 		<div
 			className={classNames(
@@ -26,7 +24,6 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ type = 'lowWaste', disabled
 				lgIcon ? 'space-y-[20px]' : 'opacity-[0.6]',
 				state ? 'bg-[#F6F2DC] opacity-100' : '',
 				api ? 'bg-[#F6F2DC] opacity-100' : '',
-				// xs ? 'space-y-[5px]' : ''
 				'space-y-[5px]',
 				hover ? 'hover:bg-[#F6F2DC] hover:opacity-100' : ''
 			)}
@@ -39,7 +36,6 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ type = 'lowWaste', disabled
 				fill="black"
 				xmlns="http://www.w3.org/2000/svg"
 				xmlnsXlink="http://www.w3.org/1999/xlink"
-				// className={classNames(xs ? '' : 'h-full')}
 			>
 				<rect width={lgIcon ? '60' : '40'} height={lgIcon ? '60' : '40'} fill={`url(#pattern${id})`} />
 				<defs>

@@ -19,6 +19,7 @@ import * as Categories from 'components/Category/utils'
 import { useRouter } from 'next/router'
 import { useSelector } from 'react-redux'
 import { getUser } from 'redux/slices/login'
+import RedirectLogo from 'components/Vendor/RedirectLogo'
 
 interface VendorDetailProps {
 	response: {
@@ -40,7 +41,7 @@ const VendorDetail: NextPage<VendorDetailProps> = ({ response, imageUrl }) => {
 			})
 		}
 	}
-
+	console.log(response.relative)
 	const router = useRouter()
 	const user = useSelector(getUser)
 	return (
@@ -57,7 +58,8 @@ const VendorDetail: NextPage<VendorDetailProps> = ({ response, imageUrl }) => {
 					)}
 
 					<div className="flex items-end space-x-2 z-10">
-						<Link
+						<RedirectLogo siteUrl={response.vendor.site_url} logoUrl={response.vendor.logo_url} />
+						{/* <Link
 							href={
 								response.vendor.site_url.includes('https')
 									? response.vendor.site_url
@@ -74,7 +76,7 @@ const VendorDetail: NextPage<VendorDetailProps> = ({ response, imageUrl }) => {
 									{response.vendor.logo_url ? <VendorLogo url={response.vendor.logo_url} /> : <MainLogo />}
 								</div>
 							</a>
-						</Link>
+						</Link> */}
 						<div className="flex flex-col h-4/5 leading-tight">
 							{response.vendor.range.includes('Womenwear') ? (
 								<span className=" w-fit  text-[14px]">womenwear</span>
@@ -124,7 +126,7 @@ const VendorDetail: NextPage<VendorDetailProps> = ({ response, imageUrl }) => {
 						</li>
 					</ul>
 
-					{clicked && (
+					{clicked ? (
 						<div className="grid grid-cols-3 w-full h-max">
 							{Categories.CategoryData.map((category) => {
 								return (
@@ -134,10 +136,42 @@ const VendorDetail: NextPage<VendorDetailProps> = ({ response, imageUrl }) => {
 								)
 							})}
 						</div>
+					) : (
+						<div className="scrollbar-hide overflow-x-scroll px-5 w-full">
+							<div className="space-x-[30px] flex w-max">
+								{response.relative.map((vendor) => (
+									<div key={vendor.brand_en} className="w-[200px] h-[170px] flex justify-center items-center">
+										<Link href={`/vendor/${vendor.brand_ko}`}>
+											<a
+												key={vendor.brand_en}
+												className="w-[180px] overflow-hidden rounded-[10px] border flex flex-col justify-center items-center space-y-2 hover:border-gray-700 transition-all"
+											>
+												<div className="w-full h-[150px] overflow-hidden flex justify-center items-center relative p-3">
+													{vendor.logo_url ? (
+														<div className="w-full h-full relative">
+															<Image
+																src={vendor.logo_url}
+																unoptimized={true}
+																alt="logo"
+																layout="fill"
+																objectFit="contain"
+																width="100%"
+																height="100%"
+															/>
+														</div>
+													) : (
+														<span className="font-bold">{vendor.brand_en}</span>
+													)}
+												</div>
+											</a>
+										</Link>
+									</div>
+								))}
+							</div>
+						</div>
 					)}
 				</div>
-
-				{response.relative.length && (
+				{/* {response.relative.length && (
 					<div className="w-full bg-white flex px-[25px] py-[40px] flex-wrap gap-4 justify-center">
 						{response.relative.map(
 							(vendor) =>
@@ -156,7 +190,7 @@ const VendorDetail: NextPage<VendorDetailProps> = ({ response, imageUrl }) => {
 								)
 						)}
 					</div>
-				)}
+				)} */}
 				<div className="sticky w-full flex justify-around items-center bottom-0 h-[71px] bg-white">
 					{/* <Union /> */}
 					<Heart />
