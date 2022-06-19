@@ -140,16 +140,17 @@ const VendorDetail: NextPage<VendorDetailProps> = ({ response, imageUrl }) => {
 						<div className="scrollbar-hide overflow-x-scroll px-5 w-full">
 							<div className="space-x-[30px] flex w-max">
 								{response.relative.map((vendor) => (
-									<div key={vendor.brand_en} className="w-[200px] h-[170px] flex justify-center items-center">
+									<div key={vendor.brand_en} className="flex flex-col justify-center items-center space-y-4">
 										<Link href={`/vendor/${vendor.brand_ko}`}>
 											<a
 												key={vendor.brand_en}
-												className="w-[180px] overflow-hidden rounded-[10px] border flex flex-col justify-center items-center space-y-2 hover:border-gray-700 transition-all"
+												className="w-[180px] overflow-hidden rounded-[10px] border flex flex-col justify-center items-center space-y-2 hover:border-gray-500 transition-all"
 											>
-												<div className="w-full h-[150px] overflow-hidden flex justify-center items-center relative p-3">
+												<div className="w-full h-[100px] overflow-hidden flex justify-center items-center relative p-3">
 													{vendor.logo_url ? (
 														<div className="w-full h-full relative">
 															<Image
+																style={{ filter: vendor.logo_url.includes('Cossac') ? 'invert(1)' : 'inherit' }}
 																src={vendor.logo_url}
 																unoptimized={true}
 																alt="logo"
@@ -165,6 +166,7 @@ const VendorDetail: NextPage<VendorDetailProps> = ({ response, imageUrl }) => {
 												</div>
 											</a>
 										</Link>
+										<span className="break-all font-medium">{vendor.brand_ko}</span>
 									</div>
 								))}
 							</div>

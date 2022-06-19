@@ -15,7 +15,7 @@ const RedirectLogo: React.FC<RedirectLogoProps> = ({ siteUrl, logoUrl }) => {
 					className=" bg-white w-[75px] h-[75px] p-3 rounded-full overflow-hidden flex justify-center items-center"
 					style={{ overflow: 'hidden' }}
 				>
-					{logoUrl ? <VendorLogo url={siteUrl} /> : <MainLogo />}
+					{logoUrl ? <VendorLogo url={logoUrl} /> : <MainLogo />}
 				</div>
 			</a>
 		</Link>

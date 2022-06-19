@@ -49,7 +49,7 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ type = 'lowWaste', disabled
 				className={classNames(
 					'leading-4 text-center font-medium',
 					xs ? 'text-xs' : 'text-sm',
-					lgIcon ? 'w-fit text-xl font-bold' : 'w-[50px]'
+					lgIcon ? 'w-fit text-xl font-bold' : 'w-[70px]'
 				)}
 				text={title}
 			/>
