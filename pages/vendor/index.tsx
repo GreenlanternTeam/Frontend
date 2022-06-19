@@ -13,30 +13,10 @@ const Vendor = () => {
 	const {
 		data: response,
 		hasNextPage,
-		isLoading,
 		fetchNextPage
 	} = useInfiniteQuery<IVendorsResponse>(['vender', 'all'], vendorApi.getVendors, {
 		getNextPageParam: (lastPage, _) => (lastPage.page_total_number !== lastPage.page_number ? lastPage.page_number + 1 : undefined)
 	})
-
-	// const ref = useRef<HTMLDivElement>(null)
-	// const checkIntersect: IntersectionObserverCallback = async ([entry], observer) => {
-	// 	console.log(entry)
-	// 	if (entry.isIntersecting && ref.current) {
-	// 		observer.unobserve(ref.current)
-	// 		await fetchNextPage()
-	// 		observer.observe(ref.current)
-	// 	}
-	// }
-	// useEffect(() => {
-	// 	let observer: IntersectionObserver
-	// 	if (ref.current) {
-	// 		observer = new IntersectionObserver(checkIntersect, { threshold: 0.3 })
-	// 		observer.observe(ref.current)
-	// 		console.log(ref.current)
-	// 	}
-	// 	return () => observer && observer.disconnect()
-	// }, [ref])
 	return (
 		<Layout>
 			<section className="bg-[#F6F6F6] min-h-[calc(100vh-75px)] min-w-full py-10 space-y-6">
@@ -59,7 +39,7 @@ const Vendor = () => {
 							loader={<div>Loading...</div>}
 							endMessage={<span>Done</span>}
 							scrollThreshold={0.9}
-							className="space-y-2"
+							className="space-y-4"
 						>
 							{response?.pages.map((page) => page.data.map((vendor) => <BrandCard key={vendor.brand_en} vendor={vendor} />))}
 						</InfiniteScroll>

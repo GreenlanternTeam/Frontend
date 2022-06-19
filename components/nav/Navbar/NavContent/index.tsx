@@ -7,7 +7,7 @@ const NavContents = () => {
 			<NavWrapper title="home" />
 			<NavWrapper title="about" />
 			<NavWrapper title="category" href="category" />
-			<NavWrapper title="brand" />
+			<NavWrapper title="brand" href="vendor" />
 			<NavWrapper title="magazine" />
 		</div>
 	)
