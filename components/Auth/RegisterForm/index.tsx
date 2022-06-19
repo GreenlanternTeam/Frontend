@@ -154,123 +154,125 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, testState, setTest, ..
 					/>
 					{errors.nickname && <ErrorMsg>{errors.nickname.message}</ErrorMsg>}
 				</div>
-				{errors.email && <ErrorMsg>{errors.email.message}</ErrorMsg>}
 				<Line />
-				<Agree>
-					<h3>
-						약관동의<p>*</p>
-					</h3>
-					<AllCheckGroup>
-						{testState.allcheck ? (
-							<AgreeCheckedLabel onClick={() => onAllCheck()}>
-								<Vector />
-							</AgreeCheckedLabel>
-						) : (
-							<AllCheckLabel onClick={() => onAllCheck()} />
-						)}
-						<span>전체 동의</span>
-					</AllCheckGroup>
+				<div className="w-full">
+					<Agree>
+						<h3>
+							약관동의<p>*</p>
+						</h3>
+						<AllCheckGroup>
+							{testState.allcheck ? (
+								<AgreeCheckedLabel onClick={() => onAllCheck()}>
+									<Vector />
+								</AgreeCheckedLabel>
+							) : (
+								<AllCheckLabel onClick={() => onAllCheck()} />
+							)}
+							<span>전체 동의</span>
+						</AllCheckGroup>
 
-					<AgreeCheckGroup>
-						<CheckGroup>
-							{testState.agree_14plus ? (
-								<AgreeCheckedLabel
-									onClick={() =>
-										setTest({
-											...testState,
-											agree_14plus: !testState.agree_14plus
-										})
-									}
-								>
-									<Vector />
-								</AgreeCheckedLabel>
-							) : (
-								<AgreeCheckLabel
-									onClick={() =>
-										setTest({
-											...testState,
-											agree_14plus: !testState.agree_14plus
-										})
-									}
-								/>
-							)}
-							<span>[필수] 만 14세 이상</span>
-						</CheckGroup>
-						<CheckGroup>
-							{testState.agree_terms ? (
-								<AgreeCheckedLabel
-									onClick={() =>
-										setTest({
-											...testState,
-											agree_terms: !testState.agree_terms
-										})
-									}
-								>
-									<Vector />
-								</AgreeCheckedLabel>
-							) : (
-								<AgreeCheckLabel
-									onClick={() =>
-										setTest({
-											...testState,
-											agree_terms: !testState.agree_terms
-										})
-									}
-								/>
-							)}
-							<span>[필수] 이용약관</span>
-						</CheckGroup>
-						<CheckGroup>
-							{testState.agree_info ? (
-								<AgreeCheckedLabel
-									onClick={() =>
-										setTest({
-											...testState,
-											agree_info: !testState.agree_info
-										})
-									}
-								>
-									<Vector />
-								</AgreeCheckedLabel>
-							) : (
-								<AgreeCheckLabel
-									onClick={() =>
-										setTest({
-											...testState,
-											agree_info: !testState.agree_info
-										})
-									}
-								/>
-							)}
-							<span>[필수] 개인정보 수집 및 이용동의</span>
-						</CheckGroup>
-						<AgreeCheck type="checkbox" {...register('agree_recinfo')} />
-						<CheckGroup>
-							{testState.agree_recinfo ? (
-								<AgreeCheckedLabel
-									onClick={() =>
-										setTest({
-											...testState,
-											agree_recinfo: !testState.agree_recinfo
-										})
-									}
-								>
-									<Vector />
-								</AgreeCheckedLabel>
-							) : (
-								<AgreeCheckLabel
-									onClick={() =>
-										setTest({
-											...testState,
-											agree_recinfo: !testState.agree_recinfo
-										})
-									}
-								/>
-							)}
-							<span>[선택] 정보 수신 동의</span>
-						</CheckGroup>
-					</AgreeCheckGroup>
-				</Agree>
+						<AgreeCheckGroup>
+							<CheckGroup>
+								{testState.agree_14plus ? (
+									<AgreeCheckedLabel
+										onClick={() =>
+											setTest({
+												...testState,
+												agree_14plus: !testState.agree_14plus
+											})
+										}
+									>
+										<Vector />
+									</AgreeCheckedLabel>
+								) : (
+									<AgreeCheckLabel
+										onClick={() =>
+											setTest({
+												...testState,
+												agree_14plus: !testState.agree_14plus
+											})
+										}
+									/>
+								)}
+								<span>[필수] 만 14세 이상</span>
+							</CheckGroup>
+							<CheckGroup>
+								{testState.agree_terms ? (
+									<AgreeCheckedLabel
+										onClick={() =>
+											setTest({
+												...testState,
+												agree_terms: !testState.agree_terms
+											})
+										}
+									>
+										<Vector />
+									</AgreeCheckedLabel>
+								) : (
+									<AgreeCheckLabel
+										onClick={() =>
+											setTest({
+												...testState,
+												agree_terms: !testState.agree_terms
+											})
+										}
+									/>
+								)}
+								<span>[필수] 이용약관</span>
+							</CheckGroup>
+							<CheckGroup>
+								{testState.agree_info ? (
+									<AgreeCheckedLabel
+										onClick={() =>
+											setTest({
+												...testState,
+												agree_info: !testState.agree_info
+											})
+										}
+									>
+										<Vector />
+									</AgreeCheckedLabel>
+								) : (
+									<AgreeCheckLabel
+										onClick={() =>
+											setTest({
+												...testState,
+												agree_info: !testState.agree_info
+											})
+										}
+									/>
+								)}
+								<span>[필수] 개인정보 수집 및 이용동의</span>
+							</CheckGroup>
+							<AgreeCheck type="checkbox" {...register('agree_recinfo')} />
+							<CheckGroup>
+								{testState.agree_recinfo ? (
+									<AgreeCheckedLabel
+										onClick={() =>
+											setTest({
+												...testState,
+												agree_recinfo: !testState.agree_recinfo
+											})
+										}
+									>
+										<Vector />
+									</AgreeCheckedLabel>
+								) : (
+									<AgreeCheckLabel
+										onClick={() =>
+											setTest({
+												...testState,
+												agree_recinfo: !testState.agree_recinfo
+											})
+										}
+									/>
+								)}
+								<span>[선택] 정보 수신 동의</span>
+							</CheckGroup>
+						</AgreeCheckGroup>
+					</Agree>
+				</div>
+
 				<Button type="submit">회원가입</Button>
 			</Form>
 		</Wrrapper>

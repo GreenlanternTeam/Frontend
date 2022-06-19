@@ -6,7 +6,7 @@ interface GrayDescription {
 
 const GrayDescription: React.FC<GrayDescription> = ({ text }) => {
 	return (
-		<div className="w-fit text-xs text-[#666666] text-center flex justify-center">
+		<div className="w-full text-xs text-[#666666] text-center flex justify-center">
 			<p>{text}</p>
 		</div>
 	)
