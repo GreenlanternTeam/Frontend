@@ -19,7 +19,7 @@ const MainBrand = () => {
 
 	return (
 		<aside>
-			<ContentTitle title="BRAND" subTitle="관심있는 브랜드를 찾아보세요!" />
+			<ContentTitle title="BRAND" subTitle="관심있는 브랜드를 찾아보세요!" link="/vendor" />
 			<div className="grid grid-cols-3 w-full gap-[20px] p-[25px]">
 				{response?.pages.map((page) => page.data.map((vendor) => <BrandItem key={vendor.brand_en} vendor={vendor} />))}
 			</div>
