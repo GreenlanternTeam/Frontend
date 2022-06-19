@@ -30,7 +30,7 @@ const Register = () => {
 	})
 	const { mutate } = useMutation<SignUpResponse, AxiosError<SignUpError>, SignUpType>(signUp, {
 		onSuccess: () => {
-			router.push('/login')
+			router.push('/auth/login')
 		},
 		onError: (err) => {
 			if (err.response?.data) {
