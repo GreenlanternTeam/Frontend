@@ -13,7 +13,7 @@ export interface FormIsValid {
 	nickname: boolean
 }
 
-export interface TestStateType {
+export interface CheckBoxType {
 	allcheck: boolean
 	agree_14plus: boolean
 	agree_terms: boolean
