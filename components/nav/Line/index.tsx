@@ -7,10 +7,10 @@ const Line = () => {
 export default Line
 
 const LineDiv = styled.div`
-	width: 3px;
-	border-bottom: 1px solid rgba(153, 153, 153, 0.6);
+	width: 120px;
+	border-bottom: solid rgba(153, 153, 153, 0.6);
 	z-index: -1;
 	/* line-height: 0.1em; */
-	/* margin: 20px 0 20px; */
+	margin-left: 15px;
 	/* text-align: center; */
 `

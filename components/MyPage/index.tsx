@@ -5,7 +5,14 @@ import { BsCamera } from 'react-icons/bs'
 import { AiOutlineHeart, AiOutlinePlus } from 'react-icons/ai'
 import { BsBookmarkDash } from 'react-icons/bs'
 
-const MyPage = () => {
+interface Props {
+	user: {
+		email: string
+		nickname: string
+	} | null
+}
+
+const MyPage = ({ user }: Props) => {
 	return (
 		<Wrapper>
 			<Profile>
@@ -17,12 +24,15 @@ const MyPage = () => {
 					<CameraContainer>
 						<BsCamera />
 					</CameraContainer>
-					<Pharase>
-						<NickName>
-							<span>랜턴이</span>님,
-						</NickName>
-						환영합니다!
-					</Pharase>
+					<UserOption>
+						<Pharase>
+							<NickName>
+								<span>{user?.nickname}</span>님,
+							</NickName>
+							환영합니다!
+						</Pharase>
+						<LogOut>로그아웃</LogOut>
+					</UserOption>
 				</UserInfo>
 				<Option>
 					<IconContainer>
@@ -86,6 +96,19 @@ const UserInfo = styled.div`
 	position: relative;
 	margin-top: 50px;
 `
+const UserOption = styled.div`
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	margin-top: 30px;
+`
+const LogOut = styled.span`
+	padding-left: 97px;
+	font-weight: 500;
+	font-size: 14px;
+	color: #999999;
+	cursor: pointer;
+`
 
 const Elipse = styled.div`
 	width: 90.33px;
@@ -138,8 +161,8 @@ const CameraContainer = styled.div`
 	justify-content: center;
 	align-items: center;
 	position: absolute;
-	right: 12.9em;
-	top: 4em;
+	right: 13.5em;
+	top: 4.6em;
 	svg {
 		color: white;
 	}

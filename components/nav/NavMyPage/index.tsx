@@ -7,10 +7,13 @@ import MyPageIcon from '../../../utils/svg/Nav/MyPageIcon'
 import Line from '../Line'
 
 interface Props {
-	title: string
+	user: {
+		email: string
+		nickname: string
+	}
 }
 
-const NavMyPage: React.FC<Props> = ({ title }) => {
+const NavMyPage = ({ user }: Props) => {
 	return (
 		<div className="h-[150px]">
 			<Link href="/mypage">
@@ -18,7 +21,7 @@ const NavMyPage: React.FC<Props> = ({ title }) => {
 					<MyPageIcon />
 					<div className="flex justify-center items-center mt-[20px]">
 						<span className="text-[14px] font-[500] text-[#000000] mr-[5px]">
-							<span className="text-[16px] font-[600] text-[#346053]">랜턴이</span>님
+							<span className="text-[16px] font-[600] text-[#346053]">{user.nickname}</span>님
 						</span>
 						<TitleVector />
 					</div>
