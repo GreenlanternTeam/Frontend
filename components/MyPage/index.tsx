@@ -4,15 +4,18 @@ import CopyRight from '../../utils/svg/MyPage/© greenlantern All Rights Reserve
 import { BsCamera } from 'react-icons/bs'
 import { AiOutlineHeart, AiOutlinePlus } from 'react-icons/ai'
 import { BsBookmarkDash } from 'react-icons/bs'
+import { getRefreshToken } from 'utils/getToken'
 
 interface Props {
 	user: {
 		email: string
 		nickname: string
 	} | null
+	onLogOut: (token: string) => void
 }
 
-const MyPage = ({ user }: Props) => {
+const MyPage = ({ user, onLogOut }: Props) => {
+	const refresh = getRefreshToken()!
 	return (
 		<Wrapper>
 			<Profile>
@@ -31,7 +34,7 @@ const MyPage = ({ user }: Props) => {
 							</NickName>
 							환영합니다!
 						</Pharase>
-						<LogOut>로그아웃</LogOut>
+						<LogOut onClick={() => onLogOut(refresh)}>로그아웃</LogOut>
 					</UserOption>
 				</UserInfo>
 				<Option>

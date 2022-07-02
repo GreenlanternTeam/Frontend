@@ -11,3 +11,11 @@ export interface IAuthResponse {
 		user: User
 	}
 }
+
+export interface LogOutType {
+	refresh: string | null
+}
+
+export interface LogOutResponse {
+	refresh?: string
+}
