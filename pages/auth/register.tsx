@@ -6,12 +6,12 @@ import { signUp, SignUpError } from 'api/auth'
 import { useMutation } from 'react-query'
 import { SignUpType, SignUpResponse } from 'api/auth'
 import { AxiosError } from 'axios'
-import { FormValue, FormIsValid, TestStateType } from 'types/SignUpType'
+import { FormValue, FormIsValid, CheckBoxType } from 'types/SignUpType'
 import { useRouter } from 'next/router'
 import { usePopup } from 'hooks/usePopup'
 
 const Register = () => {
-	const [testState, setTest] = useState<TestStateType>({
+	const [checkBox, setChekBox] = useState<CheckBoxType>({
 		allcheck: false,
 		agree_14plus: false,
 		agree_terms: false,
@@ -30,7 +30,7 @@ const Register = () => {
 	})
 	const { mutate } = useMutation<SignUpResponse, AxiosError<SignUpError>, SignUpType>(signUp, {
 		onSuccess: () => {
-			router.push('/login')
+			router.push('/auth/login')
 		},
 		onError: (err) => {
 			if (err.response?.data) {
@@ -49,10 +49,10 @@ const Register = () => {
 	const { isSuccess: isEmailCheck, setSuccess } = usePopup()
 
 	const onSubmit = (formData: FormValue) => {
-		const { agree_14plus, agree_terms, agree_info } = testState
+		const { agree_14plus, agree_terms, agree_info } = checkBox
 		const body = {
 			...formData,
-			...testState
+			...checkBox
 		}
 		if (isEmailCheck && agree_14plus && agree_terms && agree_info) {
 			mutate(body)
@@ -77,20 +77,30 @@ const Register = () => {
 	}
 
 	useEffect(() => {
+		onAllCheck()
 		return () => {
 			setSuccess(false)
 		}
-	}, [])
+	}, [checkBox.allcheck])
 
 	const onAllCheck = () => {
-		setTest({
-			...testState,
-			allcheck: !testState.allcheck,
-			agree_14plus: !testState.agree_14plus,
-			agree_terms: !testState.agree_terms,
-			agree_info: !testState.agree_info,
-			agree_recinfo: !testState.agree_recinfo
-		})
+		if (checkBox.allcheck) {
+			setChekBox({
+				...checkBox,
+				agree_14plus: true,
+				agree_terms: true,
+				agree_info: true,
+				agree_recinfo: true
+			})
+		} else {
+			setChekBox({
+				...checkBox,
+				agree_14plus: false,
+				agree_terms: false,
+				agree_info: false,
+				agree_recinfo: false
+			})
+		}
 	}
 
 	return (
@@ -101,8 +111,8 @@ const Register = () => {
 				setIsValid={setIsValid}
 				onFormValid={onFormValid}
 				onAllCheck={onAllCheck}
-				testState={testState}
-				setTest={setTest}
+				checkBox={checkBox}
+				setCheckBox={setChekBox}
 				{...formState}
 			/>
 		</Layout>
