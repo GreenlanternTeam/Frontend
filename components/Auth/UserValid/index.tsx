@@ -5,7 +5,6 @@ import React, { useCallback, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { setUsers } from 'redux/slices/login'
 
-
 const UserValid = () => {
 	const dispatch = useDispatch()
 	const router = useRouter()
@@ -15,10 +14,9 @@ const UserValid = () => {
 			const res = await checkLogin()
 			if (res) {
 				const user = {
-					email: res.email,
-					nickname: res.nickname
+					email: res.user.email,
+					nickname: res.user.nickname
 				}
-
 				dispatch(setUsers(user))
 			}
 		} catch (err) {

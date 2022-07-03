@@ -64,7 +64,7 @@ const LoginForm = () => {
 				<Button type="submit">로그인</Button>
 				<p>
 					비밀번호 찾기<span className="px-[20px]">|</span>
-					<Link href="register">회원가입</Link>
+					<Link href="/auth/register">회원가입</Link>
 				</p>
 				<LineGroup className="relative">
 					<Line />
