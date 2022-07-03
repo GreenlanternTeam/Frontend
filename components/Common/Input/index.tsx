@@ -1,5 +1,5 @@
 import React, { InputHTMLAttributes, ReactNode } from 'react'
-import { FieldError, UseFormRegisterReturn } from 'react-hook-form'
+import { FieldError } from 'react-hook-form'
 import { classNames } from 'utils/fn'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {

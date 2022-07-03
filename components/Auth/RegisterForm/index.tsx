@@ -37,7 +37,7 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, testState, setTest, ..
 			<GreenPopUp>
 				<SendEmailPopup email={getValues().email} />
 			</GreenPopUp>
-			<h2>회원가입</h2>
+			<h2 className="text-2xl">회원가입</h2>
 			<Form onSubmit={handleSubmit(onSubmit)}>
 				<div className="relative w-full">
 					<InputContainer
@@ -289,7 +289,6 @@ const Wrrapper = styled.div`
 
 	h2 {
 		font-weight: 600;
-		font-size: 20px;
 		line-height: 24px;
 		margin-top: 60px;
 		margin-bottom: 10px;

@@ -50,7 +50,7 @@ const GreenPopUp = ({ children }: GreenPopUpProps) => {
 					<>
 						<div
 							onClick={onToggleClick}
-							className="absolute top-0 h-full w-full transition bg-[rgba(0,0,0,0.68)] z-40 flex justify-center items-center px-[50px]"
+							className="absolute top-0 h-full w-full transition bg-[rgba(0,0,0,0.68)] z-40 flex justify-center items-center px-[50px] backdrop-blur-[1.2px]"
 						/>
 						<motion.div
 							variants={popupVariants}

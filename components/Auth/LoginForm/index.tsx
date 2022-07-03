@@ -33,7 +33,7 @@ const LoginForm = () => {
 	return (
 		<Wrrapper className="px-[15%] w-full">
 			<Form onSubmit={handleSubmit(onSubmit)}>
-				<h2>로그인</h2>
+				<h2 className="text-2xl">로그인</h2>
 				<div className="w-full space-y-4">
 					<InputAtom
 						error={errors.email}
@@ -111,8 +111,6 @@ const Form = styled.form`
 	h2 {
 		display: block;
 		font-weight: 600;
-		font-size: 20px;
-		line-height: 24px;
 		margin-top: 60px;
 		margin-bottom: 50px;
 	}
