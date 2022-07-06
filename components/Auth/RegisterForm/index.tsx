@@ -26,8 +26,7 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, checkBox, setCheckBox,
 		setError,
 		onSubmit,
 		handleSubmit,
-		getValues,
-		watch
+		getValues
 	} = formState
 	const { setPopupShow, isSuccess } = usePopup()
 	const [valid, setValid] = useState(false)

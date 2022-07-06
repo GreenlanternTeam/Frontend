@@ -10,6 +10,7 @@ import { getRefreshToken } from 'utils/getToken'
 import { useRouter } from 'next/router'
 import { useAppDispatch } from 'hooks/reduxHooks'
 import { removeUsers } from 'redux/slices/login'
+import styled from 'styled-components'
 
 const mypage = () => {
 	// eslint-disable-next-line react-hooks/rules-of-hooks

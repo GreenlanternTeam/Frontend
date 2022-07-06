@@ -12,6 +12,12 @@ import UserValid from 'components/Auth/UserValid'
 import Head from 'next/head'
 import Favicon from 'components/Common/Favicon'
 
+declare global {
+	interface Window {
+		Kakao: any
+	}
+}
+
 function MyApp({ Component, pageProps }: AppProps) {
 	const [queryClient] = useState(() => new QueryClient())
 	const [showChild, setShowChild] = useState<boolean>(false)

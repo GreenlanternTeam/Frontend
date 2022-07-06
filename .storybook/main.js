@@ -29,7 +29,9 @@ module.exports = {
 			public: path.resolve(__dirname, '../public'),
 			layout: path.resolve(__dirname, '../layout'),
 			utils: path.resolve(__dirname, '../utils'),
-			hooks: path.resolve(__dirname, '../hooks')
+			hooks: path.resolve(__dirname, '../hooks'),
+			api: path.resolve(__dirname, '../api'),
+			
 		}),
 			config.module.rules.unshift({
 				test: /\.svg$/,

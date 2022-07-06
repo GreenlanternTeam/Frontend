@@ -25,7 +25,7 @@ const userSlice = createSlice({
 			state.user = action.payload
 			state.isLoggedIn = true
 		},
-		removeUsers: (state, action) => {
+		removeUsers: (state) => {
 			state.user = null
 		}
 	}

@@ -1,10 +1,10 @@
 import { vendorApi } from 'api/ajaxApi'
-import { isMobile } from 'react-device-detect'
+import { isMobile, isBrowser } from 'react-device-detect'
 import Layout from 'layout/layout'
 import { GetServerSideProps, NextPage } from 'next'
 import Image from 'next/image'
 import MainLogo from 'public/icons/mainLogo.svg'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Vendor } from 'types/VendorType'
 import Instagram from 'public/icons/instagram.svg'
 import Facebook from 'public/icons/facebook.svg'
@@ -20,6 +20,10 @@ import { useRouter } from 'next/router'
 import { useSelector } from 'react-redux'
 import { getUser } from 'redux/slices/login'
 import RedirectLogo from 'components/Vendor/RedirectLogo'
+import styled from 'styled-components'
+import { usePopup } from 'hooks/usePopup'
+import GreenPopUp from 'components/modules/GreenPopUp'
+import BrandShare from 'components/Vendor/BrandShare'
 
 interface VendorDetailProps {
 	response: {
@@ -32,20 +36,46 @@ interface VendorDetailProps {
 const VendorDetail: NextPage<VendorDetailProps> = ({ response, imageUrl }) => {
 	const isWindow = typeof window !== 'undefined'
 	const [clicked, setClicked] = useState(true)
-	const shareMobile = () => {
+	const [shareContents, setContents] = useState<{ title: string; text: string; img: string | any }>({
+		title: '',
+		text: '',
+		img: ''
+	})
+	const { setPopupShow } = usePopup()
+
+	const shareSocial = () => {
 		if (isMobile && isWindow && window.navigator) {
 			window.navigator.share({
 				title: `GreenLantern | ${response.vendor.brand_ko}`,
 				text: response.vendor.description,
 				url: ''
 			})
+		} else if (isBrowser && !isMobile) {
+			setPopupShow(true)
 		}
 	}
 	const router = useRouter()
 	const user = useSelector(getUser)
+
+	useEffect(() => {
+		if (!window.Kakao.isInitialized()) {
+			window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_KEY)
+		}
+
+		setContents({
+			...shareContents,
+			title: response.vendor.brand_ko,
+			text: response.vendor.description,
+			img: response.vendor.logo_url
+		})
+	}, [])
+
 	return (
 		<Layout>
 			<div className=" w-full space-y-[10px] bg-[#F6F6F6] -z-10">
+				<GreenPopUp>
+					<BrandShare shareContents={shareContents} />
+				</GreenPopUp>
 				<div className="w-full h-[300px]  px-[25px] py-[20px] flex items-end relative">
 					{imageUrl ? (
 						<>
@@ -200,7 +230,7 @@ const VendorDetail: NextPage<VendorDetailProps> = ({ response, imageUrl }) => {
 							<Facebook />
 						</div>
 					)}
-					<div className="cursor-pointer" onClick={() => shareMobile()}>
+					<div className="cursor-pointer" onClick={() => shareSocial()}>
 						{/* <Share /> */}
 
 						<svg
