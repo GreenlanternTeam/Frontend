@@ -25,7 +25,7 @@ const Magazine = () => {
 			<section className="bg-[#F6F6F6] min-h-[calc(100vh-75px)] min-w-full py-10 space-y-6">
 				<ContentTitle title="Magazine" subTitle="다양한 환경 이슈를 찾아보세요!" detail />
 
-				<AnimatePresence></AnimatePresence>
+				{/* <AnimatePresence></AnimatePresence> */}
 
 				<Masonry breakpointCols={2} className="w-full flex gap-2 px-2" columnClassName="flex flex-col gap-2">
 					{/* array of JSX items */}
