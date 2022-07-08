@@ -9,6 +9,7 @@ import SendEmailPopup from './SendEmailPopup'
 import { classNames } from 'utils/fn'
 import Vector from 'public/icons/Vector.svg'
 import { commonAxios } from 'api'
+
 interface Props extends UseFormReturn<FormValue> {
 	onSubmit: (data: FormValue) => void
 	setIsValid: React.Dispatch<React.SetStateAction<FormIsValid>>
@@ -30,7 +31,7 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, checkBox, setCheckBox,
 	} = formState
 	const { setPopupShow, isSuccess } = usePopup()
 	const [valid, setValid] = useState(false)
-	// console.log(watch())
+
 	return (
 		<Wrrapper className="px-[15%] w-full">
 			<GreenPopUp>
@@ -414,7 +415,6 @@ const ErrorMsg = styled.span`
 	font-weight: 400;
 	font-size: 16px;
 	color: #ff0707;
-	margin-top: 10px;
 `
 
 const AgreeCheckGroup = styled.div`

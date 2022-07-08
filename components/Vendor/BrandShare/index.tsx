@@ -10,8 +10,7 @@ interface Props {
 }
 
 const BrandShare = ({ shareContents }: Props) => {
-	const onClick = () => {
-		console.log(shareContents)
+	const onKakaoClick = () => {
 
 		window.Kakao.Share.sendDefault({
 			objectType: 'feed',
@@ -37,7 +36,7 @@ const BrandShare = ({ shareContents }: Props) => {
 	}
 	return (
 		<Wrapper>
-			<span onClick={() => onClick()}>카카오톡</span>
+			<span onClick={() => onKakaoClick()}>카카오톡</span>
 			<span>트위터</span>
 			<span>페이스북</span>
 		</Wrapper>
