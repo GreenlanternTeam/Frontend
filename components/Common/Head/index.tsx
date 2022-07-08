@@ -22,7 +22,7 @@ const Head = ({ handleClick }: HeadProps) => {
 			</Link>
 
 			{!user ? (
-				<Link href="/login">
+				<Link href="/auth/login">
 					<a className="font-semibold">로그인</a>
 				</Link>
 			) : (

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { FieldError, UseFormReturn } from 'react-hook-form'
-import { FormValue, FormIsValid, TestStateType } from 'types/SignUpType'
+import { FormValue, FormIsValid, CheckBoxType } from 'types/SignUpType'
 import InputContainer from 'components/Common/Input'
 import GreenPopUp from 'components/modules/GreenPopUp'
 import { usePopup } from 'hooks/usePopup'
@@ -9,29 +9,29 @@ import SendEmailPopup from './SendEmailPopup'
 import { classNames } from 'utils/fn'
 import Vector from 'public/icons/Vector.svg'
 import { commonAxios } from 'api'
+
 interface Props extends UseFormReturn<FormValue> {
 	onSubmit: (data: FormValue) => void
 	setIsValid: React.Dispatch<React.SetStateAction<FormIsValid>>
 	isValid: FormIsValid
 	onFormValid: (inputName: string, error: FieldError | undefined) => void
 	onAllCheck: () => void
-	testState: TestStateType
-	setTest: React.Dispatch<React.SetStateAction<TestStateType>>
+	checkBox: CheckBoxType
+	setCheckBox: React.Dispatch<React.SetStateAction<CheckBoxType>>
 }
 
-const RegisterForm = ({ isValid, onFormValid, onAllCheck, testState, setTest, ...formState }: Props) => {
+const RegisterForm = ({ isValid, onFormValid, onAllCheck, checkBox, setCheckBox, ...formState }: Props) => {
 	const {
 		register,
 		formState: { errors, isValidating },
 		setError,
 		onSubmit,
 		handleSubmit,
-		getValues,
-		watch
+		getValues
 	} = formState
 	const { setPopupShow, isSuccess } = usePopup()
 	const [valid, setValid] = useState(false)
-	// console.log(watch())
+
 	return (
 		<Wrrapper className="px-[15%] w-full">
 			<GreenPopUp>
@@ -161,24 +161,38 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, testState, setTest, ..
 							약관동의<p>*</p>
 						</h3>
 						<AllCheckGroup>
-							{testState.allcheck ? (
-								<AgreeCheckedLabel onClick={() => onAllCheck()}>
+							{checkBox.allcheck ? (
+								<AgreeCheckedLabel
+									onClick={() =>
+										setCheckBox({
+											...checkBox,
+											allcheck: !checkBox.allcheck
+										})
+									}
+								>
 									<Vector />
 								</AgreeCheckedLabel>
 							) : (
-								<AllCheckLabel onClick={() => onAllCheck()} />
+								<AllCheckLabel
+									onClick={() =>
+										setCheckBox({
+											...checkBox,
+											allcheck: !checkBox.allcheck
+										})
+									}
+								/>
 							)}
 							<span>전체 동의</span>
 						</AllCheckGroup>
 
 						<AgreeCheckGroup>
 							<CheckGroup>
-								{testState.agree_14plus ? (
+								{checkBox.agree_14plus ? (
 									<AgreeCheckedLabel
 										onClick={() =>
-											setTest({
-												...testState,
-												agree_14plus: !testState.agree_14plus
+											setCheckBox({
+												...checkBox,
+												agree_14plus: !checkBox.agree_14plus
 											})
 										}
 									>
@@ -187,9 +201,9 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, testState, setTest, ..
 								) : (
 									<AgreeCheckLabel
 										onClick={() =>
-											setTest({
-												...testState,
-												agree_14plus: !testState.agree_14plus
+											setCheckBox({
+												...checkBox,
+												agree_14plus: !checkBox.agree_14plus
 											})
 										}
 									/>
@@ -197,12 +211,12 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, testState, setTest, ..
 								<span>[필수] 만 14세 이상</span>
 							</CheckGroup>
 							<CheckGroup>
-								{testState.agree_terms ? (
+								{checkBox.agree_terms ? (
 									<AgreeCheckedLabel
 										onClick={() =>
-											setTest({
-												...testState,
-												agree_terms: !testState.agree_terms
+											setCheckBox({
+												...checkBox,
+												agree_terms: !checkBox.agree_terms
 											})
 										}
 									>
@@ -211,9 +225,9 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, testState, setTest, ..
 								) : (
 									<AgreeCheckLabel
 										onClick={() =>
-											setTest({
-												...testState,
-												agree_terms: !testState.agree_terms
+											setCheckBox({
+												...checkBox,
+												agree_terms: !checkBox.agree_terms
 											})
 										}
 									/>
@@ -221,12 +235,12 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, testState, setTest, ..
 								<span>[필수] 이용약관</span>
 							</CheckGroup>
 							<CheckGroup>
-								{testState.agree_info ? (
+								{checkBox.agree_info ? (
 									<AgreeCheckedLabel
 										onClick={() =>
-											setTest({
-												...testState,
-												agree_info: !testState.agree_info
+											setCheckBox({
+												...checkBox,
+												agree_info: !checkBox.agree_info
 											})
 										}
 									>
@@ -235,9 +249,9 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, testState, setTest, ..
 								) : (
 									<AgreeCheckLabel
 										onClick={() =>
-											setTest({
-												...testState,
-												agree_info: !testState.agree_info
+											setCheckBox({
+												...checkBox,
+												agree_info: !checkBox.agree_info
 											})
 										}
 									/>
@@ -246,12 +260,12 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, testState, setTest, ..
 							</CheckGroup>
 							<AgreeCheck type="checkbox" {...register('agree_recinfo')} />
 							<CheckGroup>
-								{testState.agree_recinfo ? (
+								{checkBox.agree_recinfo ? (
 									<AgreeCheckedLabel
 										onClick={() =>
-											setTest({
-												...testState,
-												agree_recinfo: !testState.agree_recinfo
+											setCheckBox({
+												...checkBox,
+												agree_recinfo: !checkBox.agree_recinfo
 											})
 										}
 									>
@@ -260,9 +274,9 @@ const RegisterForm = ({ isValid, onFormValid, onAllCheck, testState, setTest, ..
 								) : (
 									<AgreeCheckLabel
 										onClick={() =>
-											setTest({
-												...testState,
-												agree_recinfo: !testState.agree_recinfo
+											setCheckBox({
+												...checkBox,
+												agree_recinfo: !checkBox.agree_recinfo
 											})
 										}
 									/>
@@ -400,7 +414,6 @@ const ErrorMsg = styled.span`
 	font-weight: 400;
 	font-size: 16px;
 	color: #ff0707;
-	margin-top: 10px;
 `
 
 const AgreeCheckGroup = styled.div`

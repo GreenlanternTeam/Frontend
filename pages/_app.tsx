@@ -12,6 +12,7 @@ import UserValid from 'components/Auth/UserValid'
 import Head from 'next/head'
 import Favicon from 'components/Common/Favicon'
 import 'assets/magazine.css'
+
 function MyApp({ Component, pageProps }: AppProps) {
 	const [queryClient] = useState(() => new QueryClient())
 	const [showChild, setShowChild] = useState<boolean>(false)
