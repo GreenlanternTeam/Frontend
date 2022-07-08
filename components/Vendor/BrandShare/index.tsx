@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FacebookIcon, FacebookShareButton, TwitterIcon, TwitterShareButton } from 'react-share'
 
 interface Props {
 	shareContents: {
@@ -10,8 +11,8 @@ interface Props {
 }
 
 const BrandShare = ({ shareContents }: Props) => {
+	const currentUrl = window.location.href
 	const onKakaoClick = () => {
-
 		window.Kakao.Share.sendDefault({
 			objectType: 'feed',
 			content: {
@@ -37,8 +38,12 @@ const BrandShare = ({ shareContents }: Props) => {
 	return (
 		<Wrapper>
 			<span onClick={() => onKakaoClick()}>카카오톡</span>
-			<span>트위터</span>
-			<span>페이스북</span>
+			<TwitterShareButton url={currentUrl}>
+				<TwitterIcon size={48} round={true} borderRadius={24} />
+			</TwitterShareButton>
+			<FacebookShareButton url={currentUrl}>
+				<FacebookIcon size={48} round={true} borderRadius={24}></FacebookIcon>
+			</FacebookShareButton>
 		</Wrapper>
 	)
 }
