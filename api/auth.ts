@@ -3,6 +3,7 @@ import { customAxios, loginCheckAxios } from 'api'
 import { LoginResponse } from 'types/LoginType'
 import setInterceptors from './common/setInterceptors'
 import AuthError from './common/customAuthError'
+import { LogOutType } from 'types/authType'
 
 export interface SignUpType {
 	nickname: string
@@ -57,6 +58,13 @@ export const login = async (data: LoginType): Promise<LoginResponse> => {
 			password
 		})
 		.then((res) => res.data)
+}
+
+export const logOut = async (): Promise<LogOutType> => {
+	const refresh = localStorage.getItem('refresh_token')
+	return await customAxios.post('/logout/', {
+		refresh
+	})
 }
 
 export const checkLogin = async () => {

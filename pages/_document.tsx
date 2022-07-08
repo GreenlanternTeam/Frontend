@@ -1,7 +1,10 @@
+/* eslint-disable react/jsx-no-comment-textnodes */
 import Favicon from 'components/Common/Favicon'
 import Document, { DocumentContext, DocumentInitialProps, Html, Main, NextScript, Head } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
 import { uuid } from 'utils/fn'
+// eslint-disable-next-line @next/next/no-script-in-document
+import Script from 'next/script'
 
 export default class MyDocument extends Document {
 	static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
@@ -35,6 +38,7 @@ export default class MyDocument extends Document {
 					<meta name="description" content="My First Static Website" />
 					<meta name="keywords" content="nextjs,static,website" />
 					<link rel="shortcut icon" href="/favicon.ico" />
+					<script defer src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 					{/* <Favicon /> */}
 				</Head>
 				<body>

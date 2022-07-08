@@ -22,6 +22,7 @@ const Timer: React.FC<ITimerProps> = ({ time, cls }) => {
 
 	useEffect(() => {
 		const index = setInterval(decreaseTime, 1000)
+
 		return () => {
 			clearInterval(index)
 			dispatch(setisTimerDone(false))
